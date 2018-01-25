@@ -1,8 +1,2 @@
-# social
-
-A new Flutter project.
-
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](http://flutter.io/).
+# Social
+A rewrite of the native iOS version of http://www.thesocialapp.info/ using http://www.flutter.io
