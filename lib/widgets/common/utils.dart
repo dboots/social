@@ -15,7 +15,7 @@ class Utils {
                         color: new Color(0xFFCCCCCC)
                     ), 
                     onPressed: () {
-                        controller.animateToPage(0, duration: new Duration(milliseconds: 250), curve: Curves.easeIn);
+                        controller.animateToPage(1, duration: new Duration(milliseconds: 250), curve: Curves.easeIn);
                     }
                 )
             ]

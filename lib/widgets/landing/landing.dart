@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+
 import 'package:social/widgets/common/utils.dart';
-import 'package:social/widgets/login.dart';
+import 'package:social/widgets/landing/login.dart';
+import 'package:social/widgets/landing/signup.dart';
+
+import 'package:social/services/account.dart';
 
 class LandingPage extends StatefulWidget {
     LandingPage() : super();
@@ -12,11 +16,28 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> with SingleTickerProviderStateMixin {
     BuildContext _buildContext = null;
-    PageController _controller = new PageController();
+    PageController _controller = new PageController(initialPage: 1);
+    AccountService _accountService = new AccountService();
+    bool isLoading = true;
+
+    @override
+    void initState() {
+        super.initState();
+
+        _getAccount().then((val) {
+            setState(() {
+                isLoading = false;
+            });
+        });
+    }
+
+    _getAccount() async {
+        var account = await _accountService.login('don@donboots.com', 'test123');
+    }
 
     @override
     Widget build(BuildContext context) {
-        return new Scaffold(
+        return (this.isLoading) ? new Container() : new Scaffold(
             resizeToAvoidBottomPadding: false,
             body: new Stack(
                 children: <Widget>[
@@ -25,6 +46,17 @@ class _LandingPageState extends State<LandingPage> with SingleTickerProviderStat
                         physics: new NeverScrollableScrollPhysics(),
                         controller: this._controller,
                         children: <Widget>[
+                            new Column(
+                                children: <Widget>[
+                                    Utils.getSpacer(50.0),
+                                    new FractionallySizedBox(
+                                        widthFactor: 0.8,
+                                        child: Utils.getBackButton(this._controller)
+                                    ),
+                                    Utils.getSpacer(100.0),
+                                    new LoginPage()
+                                ]
+                            ),
                             new Column(
                                 children: <Widget>[
                                     Utils.getSpacer(50.0),
@@ -41,7 +73,7 @@ class _LandingPageState extends State<LandingPage> with SingleTickerProviderStat
                                         child: Utils.getBackButton(this._controller)
                                     ),
                                     Utils.getSpacer(100.0),
-                                    new LoginPage()
+                                    new SignupPage()
                                 ]
                             )
                         ]
@@ -76,13 +108,26 @@ class _LandingPageState extends State<LandingPage> with SingleTickerProviderStat
                         )
                     )
                 ),
-                new Text(
-                    'SIGN UP',
-                    style: new TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 12.0,
-                        color: new Color(0xFF525252),
-                        letterSpacing: 2.0
+                new Container(
+                    margin: const EdgeInsets.only(bottom: 10.0),
+                    child: new FractionallySizedBox(
+                        widthFactor: 0.8,
+                        child: new FlatButton(
+                            onPressed: () {
+                                _controller.animateToPage(2, duration: new Duration(milliseconds: 250), curve: Curves.easeIn);
+                            },
+                            color: new Color(0x00000000),
+                            textColor: new Color(0xFF525252),
+                            child: new Text(
+                                'SIGN UP',
+                                style: new TextStyle(
+                                    fontFamily: 'Lato',
+                                    fontSize: 12.0,
+                                    color: new Color(0xFF525252),
+                                    letterSpacing: 2.0
+                                )
+                            )
+                        )
                     )
                 )
             ]

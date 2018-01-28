@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:social/widgets/landing.dart';
+import 'package:social/widgets/landing/landing.dart';
 
 void main() => runApp(new MyApp());
 
