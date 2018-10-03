@@ -2,78 +2,58 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Utils {
-    static Widget getBackButton(PageController controller) {
-        return new Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-                new IconButton(
-                    iconSize: 48.0,
-                    padding: const EdgeInsets.all(0.0),
-                    icon: new Icon(
-                        FontAwesomeIcons.timesCircleO,
-                        color: new Color(0xFFCCCCCC)
-                    ), 
-                    onPressed: () {
-                        controller.animateToPage(1, duration: new Duration(milliseconds: 250), curve: Curves.easeIn);
-                    }
-                )
-            ]
-        );
-    }
+  static Widget getBackButton(Function callback) {
+    return Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          IconButton(
+              iconSize: 48.0,
+              padding: const EdgeInsets.all(0.0),
+              icon:
+                  Icon(FontAwesomeIcons.timesCircle, color: Color(0xFFCCCCCC)),
+              onPressed: callback)
+        ]);
+  }
 
-    static Widget getSpacer(double top) {
-        return new Container(
-            margin: new EdgeInsets.only(top: top),
-            child: null
-        );
-    }
+  static tabBack(PageController controller, num index) {
+    controller.animateToPage(index,
+        duration: Duration(milliseconds: 250), curve: Curves.easeIn);
+  }
 
-    static Widget getBranding() {
-        return new Center(
-            child: new Container(
-                child: new Column(
-                    children: <Widget>[
-                        new Text(
-                            'Social',
-                            style: new TextStyle(
-                                fontFamily: 'Watermelon',
-                                fontSize: 80.0,
-                                color: new Color(0xFF00A0BE)
-                            )
-                        ),
-                        new Text(
-                            'LIFE IS BETTER TOGETHER',
-                            style: new TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 12.0,
-                                color: new Color(0xFF525252),
-                                letterSpacing: 2.0
-                            )
-                        )
-                    ]
-                )
-            )
-        );
-    }
+  static Widget getSpacer(double top) {
+    return Container(margin: EdgeInsets.only(top: top), child: null);
+  }
 
-    static Widget getBackground() {
-        return new Container(
-            alignment: Alignment.bottomCenter,
-            child: new AspectRatio(
-                aspectRatio: (2/3),
-                child: new Opacity(
-                    opacity: 0.8,
-                    child: new Container(
-                        decoration: new BoxDecoration(
-                            image: new DecorationImage(
-                                image: new AssetImage('images/social-marketing-2.png'),
-                                fit: BoxFit.cover
-                            )
-                        )
-                    )
-                )
-            )
-        );
-    }
+  static Widget getBranding() {
+    return Center(
+        child: Container(
+            child: Column(children: <Widget>[
+      Text('Social',
+          style: TextStyle(
+              fontFamily: 'Watermelon',
+              fontSize: 80.0,
+              color: Color(0xFF00A0BE))),
+      Text('LIFE IS BETTER TOGETHER',
+          style: TextStyle(
+              fontFamily: 'Lato',
+              fontSize: 12.0,
+              color: Color(0xFF525252),
+              letterSpacing: 2.0))
+    ])));
+  }
+
+  static Widget getBackground() {
+    return Container(
+        alignment: Alignment.bottomCenter,
+        child: AspectRatio(
+            aspectRatio: (2 / 3),
+            child: Opacity(
+                opacity: 1.0,
+                child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('images/social-marketing-2.png'),
+                            fit: BoxFit.cover))))));
+  }
 }

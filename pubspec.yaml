@@ -1,4 +1,4 @@
-name: social
+name: Social
 description: A new Flutter project.
 
 dependencies:
@@ -7,7 +7,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  font_awesome_flutter: 6.0.0
+  font_awesome_flutter: 8.0.1
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +28,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/social-marketing-2.png
+    - images/icon_cliques.png
 
   fonts:
     - family: Watermelon

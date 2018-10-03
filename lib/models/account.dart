@@ -1,17 +1,17 @@
-import 'package:social/models/base.dart';
+import 'package:Social/models/base.dart';
 
 class Account extends Base {
-    String id;
-    String email;
-    String full_name;
-    List<String> cliques;
+  String id;
+  String email;
+  String fullName;
+  List<String> cliques;
 
-    Account(body, String key) {
-        Map data = decode(body, 'account');
+  Account(body, String key) {
+    Map data = decode(body, 'account');
 
-        id = data['_id'];
-        email = data['email'];
-        full_name = data['full_name'];
-        cliques = data['cliques'];
-    }
+    id = data['_id'];
+    email = data['email'];
+    fullName = data['full_name'];
+    cliques = data['cliques'];
+  }
 }

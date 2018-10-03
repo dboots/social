@@ -1,30 +1,29 @@
-import 'package:social/services/api.dart';
-import 'package:social/models/account.dart';
+import 'package:Social/services/api.dart';
+import 'package:Social/models/account.dart';
 import 'dart:async';
 
 class AccountService extends API {
-    String _endpoint;
+  String _endpoint;
+  Account account;
 
-    AccountService() {
-        this._endpoint = this.url;
+  AccountService() {
+    this._endpoint = this.url;
+  }
+
+  Future<bool> login(String username, String password) async {
+    var resource = '/mobile/auth';
+
+    var body = {'username': username, 'password': password};
+
+    var response =
+        await this.httpClient.post(this._endpoint + resource, body: body);
+
+    if (response.statusCode < 300) {
+      this.account = Account(response.body, 'account');
+      return true;
+    } else {
+      print('Error in account services: ' + response.statusCode.toString());
+      return false;
     }
-
-    Future<Account> login(String username, String password) async {
-        var resource = '/mobile/auth';
-
-        var body = {
-            'username': username,
-            'password': password
-        };
-        
-        var response = await this.httpClient.post(this._endpoint + resource, body: body);
-
-        if (response.statusCode < 300) {
-            return new Account(response.body, 'account');
-        } else {
-            // TODO: Use an error logger, return better error
-            print('Error in account services: ' + response.statusCode);
-        }
-
-    }
+  }
 }

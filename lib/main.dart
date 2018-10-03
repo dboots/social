@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:social/widgets/landing/landing.dart';
+import 'package:Social/widgets/landing/landing.dart';
+import 'package:Social/widgets/dashboard/dashboard.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
-final ThemeData socialTheme = new ThemeData(
+final ThemeData socialTheme = ThemeData(
     fontFamily: 'Lato'
 );
 
 class MyApp extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
-        return new MaterialApp(
-            title: 'Flutter Demo',
+        return MaterialApp(
             theme: socialTheme,
             routes: _routes()
         );
@@ -19,7 +19,8 @@ class MyApp extends StatelessWidget {
 
     _routes() {
         return <String, WidgetBuilder>{
-            '/'         : (BuildContext context) => new LandingPage()
+            '/'         : (BuildContext context) => LandingPage(),
+						'dashboard': (BuildContext context) => DashboardPage()
         };
     }
 }

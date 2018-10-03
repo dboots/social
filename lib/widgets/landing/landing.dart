@@ -1,136 +1,97 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
-import 'package:social/widgets/common/utils.dart';
-import 'package:social/widgets/landing/login.dart';
-import 'package:social/widgets/landing/signup.dart';
-
-import 'package:social/services/account.dart';
+import 'package:Social/widgets/common/utils.dart';
+import 'package:Social/widgets/landing/login.dart';
+import 'package:Social/widgets/landing/signup.dart';
 
 class LandingPage extends StatefulWidget {
-    LandingPage() : super();
-    
-    @override
-    _LandingPageState createState() => new _LandingPageState();
+  LandingPage() : super();
+
+  @override
+  _LandingPageState createState() => _LandingPageState();
 }
 
-class _LandingPageState extends State<LandingPage> with SingleTickerProviderStateMixin {
-    BuildContext _buildContext = null;
-    PageController _controller = new PageController(initialPage: 1);
-    AccountService _accountService = new AccountService();
-    bool isLoading = true;
+class _LandingPageState extends State<LandingPage>
+    with SingleTickerProviderStateMixin {
+  PageController _controller = PageController(initialPage: 1);
 
-    @override
-    void initState() {
-        super.initState();
+  @override
+  void initState() {
+    super.initState();
+  }
 
-        _getAccount().then((val) {
-            setState(() {
-                isLoading = false;
-            });
-        });
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        resizeToAvoidBottomPadding: false,
+        body: Stack(children: <Widget>[
+          Utils.getBackground(),
+          PageView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: this._controller,
+              children: <Widget>[
+                Column(children: <Widget>[
+                  Utils.getSpacer(50.0),
+                  Utils.getBackButton(() { Utils.tabBack(_controller, 1); }),
+                  Utils.getSpacer(100.0),
+                  LoginPage()
+                ]),
+                Column(children: <Widget>[
+                  Utils.getSpacer(50.0),
+                  Utils.getBranding(),
+                  Utils.getSpacer(75.0),
+                  _getBody()
+                ]),
+                Column(children: <Widget>[
+                  Utils.getSpacer(50.0),
+                  Utils.getBackButton(() { Utils.tabBack(_controller, 1); }),
+                  Utils.getSpacer(100.0),
+                  SignupPage()
+                ])
+              ])
+        ]));
+  }
 
-    _getAccount() async {
-        var account = await _accountService.login('don@donboots.com', 'test123');
-    }
+  _getBody() {
+    return Column(children: <Widget>[_getButtons()]);
+  }
 
-    @override
-    Widget build(BuildContext context) {
-        return (this.isLoading) ? new Container() : new Scaffold(
-            resizeToAvoidBottomPadding: false,
-            body: new Stack(
-                children: <Widget>[
-                    Utils.getBackground(),
-                    new PageView(
-                        physics: new NeverScrollableScrollPhysics(),
-                        controller: this._controller,
-                        children: <Widget>[
-                            new Column(
-                                children: <Widget>[
-                                    Utils.getSpacer(50.0),
-                                    new FractionallySizedBox(
-                                        widthFactor: 0.8,
-                                        child: Utils.getBackButton(this._controller)
-                                    ),
-                                    Utils.getSpacer(100.0),
-                                    new LoginPage()
-                                ]
-                            ),
-                            new Column(
-                                children: <Widget>[
-                                    Utils.getSpacer(50.0),
-                                    Utils.getBranding(),
-                                    Utils.getSpacer(75.0),
-                                    _getBody()
-                                ]
-                            ),
-                            new Column(
-                                children: <Widget>[
-                                    Utils.getSpacer(50.0),
-                                    new FractionallySizedBox(
-                                        widthFactor: 0.8,
-                                        child: Utils.getBackButton(this._controller)
-                                    ),
-                                    Utils.getSpacer(100.0),
-                                    new SignupPage()
-                                ]
-                            )
-                        ]
-                    )        
-                ]
-            )
-        );
-    }
-
-    _getBody() {
-        return new Column(
-            children: <Widget>[
-                _getButtons()
-            ]
-        );
-    }
-
-    _getButtons() {
-        return new Column(
-            children: <Widget>[
-                new Container(
-                    margin: const EdgeInsets.only(bottom: 10.0),
-                    child: new FractionallySizedBox(
-                        widthFactor: 0.8,
-                        child: new FlatButton(
-                            onPressed: () {
-                                _controller.animateToPage(1, duration: new Duration(milliseconds: 250), curve: Curves.easeIn);
-                            },
-                            color: new Color(0xFF00A0BE),
-                            textColor: new Color(0xFFFFFFFF),
-                            child: new Text('LOGIN'),
-                        )
-                    )
-                ),
-                new Container(
-                    margin: const EdgeInsets.only(bottom: 10.0),
-                    child: new FractionallySizedBox(
-                        widthFactor: 0.8,
-                        child: new FlatButton(
-                            onPressed: () {
-                                _controller.animateToPage(2, duration: new Duration(milliseconds: 250), curve: Curves.easeIn);
-                            },
-                            color: new Color(0x00000000),
-                            textColor: new Color(0xFF525252),
-                            child: new Text(
-                                'SIGN UP',
-                                style: new TextStyle(
-                                    fontFamily: 'Lato',
-                                    fontSize: 12.0,
-                                    color: new Color(0xFF525252),
-                                    letterSpacing: 2.0
-                                )
-                            )
-                        )
-                    )
-                )
-            ]
-        );
-    }
+  _getButtons() {
+    return Column(children: <Widget>[
+      Container(
+          child: FractionallySizedBox(
+              widthFactor: 0.6,
+              child: FlatButton(
+								materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: EdgeInsets.all(5.0),
+                onPressed: () {
+                  _controller.animateToPage(0,
+                      duration: new Duration(milliseconds: 250),
+                      curve: Curves.easeIn);
+                },
+                color: Color(0xFF00A0BE),
+                textColor: Color(0xFFFFFFFF),
+                child: Text('LOGIN',
+                    style: TextStyle(fontSize: 16.0, letterSpacing: 2.0)),
+              ))),
+      Container(
+          child: FractionallySizedBox(
+              widthFactor: 0.6,
+              child: FlatButton(
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onPressed: () {
+                    _controller.animateToPage(2,
+                        duration: new Duration(milliseconds: 250),
+                        curve: Curves.easeIn);
+                  },
+                  color: Color(0x00000000),
+                  textColor: Color(0xFF525252),
+                  child: Text('SIGN UP',
+                      style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontSize: 12.0,
+                          color: Color(0xFF525252),
+                          letterSpacing: 2.0)))))
+    ]);
+  }
 }

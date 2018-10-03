@@ -1,82 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 class SignupPage extends StatefulWidget {
-    SignupPage() : super();
+  SignupPage() : super();
 
-    @override
-    _SignupPageState createState() => new _SignupPageState();
+  @override
+  _SignupPageState createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
-    PageController _controller;
-    
-    @override
-    Widget build(BuildContext context) {
-        return _getBody();
-    }
+  @override
+  Widget build(BuildContext context) {
+    return _getBody(context);
+  }
 
-    _getBody() {
-        return new FractionallySizedBox(
-            widthFactor: 0.8,
-            child: new Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                    new TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'FULL NAME'
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        style: new TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w100,
-                            color: new Color(0xFF707070)
-                        )
-
-                    ),
-                    new TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'you@example.com',
-                          labelText: 'EMAIL',
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        style: new TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w100,
-                            color: new Color(0xFF707070)
-                        )
-
-                    ),
-                    new Container(
-                        padding: new EdgeInsets.only(bottom: 15.0),
-                        child: new TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'PASSWORD',
-                            ),
-                            obscureText: true,
-                            style: new TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w100,
-                                color: new Color(0xFF707070)
-                            )
-                        )
-                    ),
-                    new FractionallySizedBox(
-                        widthFactor: 1.0,
-                        child: new FlatButton(
-                            onPressed: () {
-                                Navigator.pushNamed(this._buildContext, '/Signup');
-                            },
-                            color: new Color(0xFF00A0BE),
-                            textColor: new Color(0xFFFFFFFF),
-                            child: new Text('SIGNUP')
-                        )
-                    )
-                ]
-            )
-        );
-    }
+  _getBody(context) {
+    return FractionallySizedBox(
+        widthFactor: 0.8,
+        child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
+          TextFormField(
+              decoration: const InputDecoration(labelText: 'FULL NAME'),
+              keyboardType: TextInputType.text,
+              autocorrect: false,
+              style: TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w100,
+                  color: Color(0xFF707070))),
+          TextFormField(
+              autocorrect: false,
+              decoration: const InputDecoration(
+                hintText: 'you@example.com',
+                labelText: 'EMAIL',
+              ),
+              keyboardType: TextInputType.emailAddress,
+              style: TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w100,
+                  color: Color(0xFF707070))),
+          Container(
+              padding: EdgeInsets.only(bottom: 15.0),
+              child: TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'PASSWORD',
+                  ),
+                  obscureText: true,
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w100,
+                      color: Color(0xFF707070)))),
+          FractionallySizedBox(
+              widthFactor: 1.0,
+              child: FlatButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/Signup');
+                  },
+                  color: Color(0xFF00A0BE),
+                  textColor: Color(0xFFFFFFFF),
+                  child: Text('SIGNUP'),
+                  shape: RoundedRectangleBorder(side: BorderSide.none)))
+        ]));
+  }
 }
