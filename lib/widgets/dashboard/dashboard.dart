@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:Social/widgets/common/utils.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DashboardPage extends StatefulWidget {
   DashboardPage() : super();
@@ -29,32 +28,46 @@ class _DashboardPageState extends State<DashboardPage>
             decoration: new BoxDecoration(color: Colors.white),
             child: SafeArea(
                 child: Column(children: <Widget>[
-              Utils.getBackButton(() { Navigator.pushNamed(context, '/'); }),
-              Utils.getSpacer(125.0),
-              Center(child: _getIcons())
+              Expanded(child: _getIcons()),
+              Row(children: <Widget>[
+                Container(
+                    margin: EdgeInsets.all(10.0),
+                    child: Icon(FontAwesomeIcons.cog,
+                        size: 40.0, color: Color(0xFF999999))),
+                Expanded(child: Container()),
+                Container(
+                    margin: EdgeInsets.all(10.0),
+                    child: Icon(FontAwesomeIcons.camera,
+                        size: 40.0, color: Color(0xFF999999)))
+              ])
             ]))));
   }
 
   _getIcons() {
-    return Column(children: <Widget>[
-      _getIcon('images/icon_cliques.png', 'CLIQUES'),
-      _getIcon('images/icon_cliques.png', 'CLIQUES'),
-      _getIcon('images/icon_cliques.png', 'CLIQUES'),
-      _getIcon('images/icon_cliques.png', 'CLIQUES')
-    ]);
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          _getIcon('images/icon_profile.png', 'PROFILE', () {
+						Navigator.pushNamed(context, 'profile');
+					}),
+          _getIcon('images/icon_cliques.png', 'CLIQUES', () {}),
+          _getIcon('images/icon_meetup.png', 'MEETUP', () {}),
+          _getIcon('images/icon_events.png', 'EVENTS', () {})
+        ]);
   }
 
-  _getIcon(String asset, String label) {
-    return Column(children: <Widget>[
-      Image.asset('images/icon_cliques.png'),
-      Utils.getSpacer(10.0),
-      Text('CLIQUES',
-          style: TextStyle(
-              fontFamily: 'Lato',
-              fontSize: 17.0,
-              color: Color(0xFF525252),
-              letterSpacing: 2.0)),
-      Utils.getSpacer(60.0),
-    ]);
+  _getIcon(String asset, String label, Function onTap) {
+    return new GestureDetector(
+        onTap: onTap,
+        child: Column(children: <Widget>[
+          Image.asset(asset, height: 75.0),
+          Text(label,
+              style: TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 17.0,
+                  color: Color(0xFF525252),
+                  letterSpacing: 4.0)),
+        ]));
   }
 }

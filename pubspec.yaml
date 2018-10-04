@@ -29,6 +29,9 @@ flutter:
   assets:
     - images/social-marketing-2.png
     - images/icon_cliques.png
+    - images/icon_events.png
+    - images/icon_meetup.png
+    - images/icon_profile.png
 
   fonts:
     - family: Watermelon
