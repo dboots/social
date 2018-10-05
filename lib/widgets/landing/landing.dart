@@ -41,12 +41,6 @@ class _LandingPageState extends State<LandingPage>
                   Utils.getBranding(),
                   Utils.getSpacer(75.0),
                   _getBody()
-                ]),
-                Column(children: <Widget>[
-                  Utils.getSpacer(50.0),
-                  Utils.getBackButton(() { Utils.tabBack(_controller, 1); }),
-                  Utils.getSpacer(100.0),
-                  SignupPage()
                 ])
               ])
         ]));
@@ -80,9 +74,10 @@ class _LandingPageState extends State<LandingPage>
               child: FlatButton(
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   onPressed: () {
-                    _controller.animateToPage(2,
-                        duration: new Duration(milliseconds: 250),
-                        curve: Curves.easeIn);
+                    // _controller.animateToPage(2,
+                    //     duration: new Duration(milliseconds: 250),
+                    //     curve: Curves.easeIn);
+                    Navigator.pushNamed(context, 'signup');
                   },
                   color: Color(0x00000000),
                   textColor: Color(0xFF525252),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:Social/widgets/common/utils.dart';
+import 'package:Social/widgets/landing/phone-number.dart';
 
 class SignupPage extends StatefulWidget {
   SignupPage() : super();
@@ -7,10 +9,40 @@ class SignupPage extends StatefulWidget {
   _SignupPageState createState() => _SignupPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignupPageState extends State<SignupPage> with SingleTickerProviderStateMixin {
+  PageController _controller = PageController(initialPage: 1);
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _getBody(context);
+    return Scaffold(
+        resizeToAvoidBottomPadding: false,
+        body: Stack(children: <Widget>[
+          Utils.getBackground(),
+          PageView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: this._controller,
+              children: <Widget>[
+                Column(children: <Widget>[
+                  Utils.getSpacer(50.0),
+                  Utils.getBackButton(() { Utils.tabBack(_controller, 1); }),
+                  Utils.getSpacer(100.0),
+                  PhoneNumberPage()
+                ]),
+                Column(children: <Widget>[
+                  Utils.getSpacer(50.0),
+                  Utils.getBackButton(() { Navigator.pushNamed(context, '/'); }),
+                  Utils.getSpacer(75.0),
+                  _getBody(context)
+                ])
+              ])
+        ]));
+
+    // return _getBody(context);
   }
 
   _getBody(context) {
@@ -54,7 +86,10 @@ class _SignupPageState extends State<SignupPage> {
               widthFactor: 1.0,
               child: FlatButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/Signup');
+                    _controller.animateToPage(0,
+                        duration: new Duration(milliseconds: 250),
+                        curve: Curves.easeIn);
+                    // Navigator.pushNamed(context, '/Signup');
                   },
                   color: Color(0xFF00A0BE),
                   textColor: Color(0xFFFFFFFF),

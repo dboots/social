@@ -3,9 +3,10 @@ import 'package:flutter/rendering.dart';
 import 'package:Social/widgets/landing/landing.dart';
 import 'package:Social/widgets/dashboard/dashboard.dart';
 import 'package:Social/widgets/profile/profile.dart';
+import 'package:Social/widgets/landing/signup.dart';
 
 void main() {
-	//debugPaintSizeEnabled=true;
+	// debugPaintSizeEnabled=true;
 	runApp(MyApp());
 }
 
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
         return <String, WidgetBuilder>{
             '/' : (BuildContext context) => LandingPage(),
 						'dashboard': (BuildContext context) => DashboardPage(),
-						'profile': (BuildContext context) => ProfilePage()
+						'profile': (BuildContext context) => ProfilePage(),
+            'signup': (BuildContext context) => SignupPage()
         };
     }
 }
