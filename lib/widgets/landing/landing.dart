@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:Social/widgets/common/utils.dart';
 import 'package:Social/widgets/landing/login.dart';
 import 'package:Social/widgets/landing/signup.dart';
+import 'package:Social/widgets/landing/phone-number.dart';
 
 class LandingPage extends StatefulWidget {
   LandingPage() : super();
@@ -41,6 +42,18 @@ class _LandingPageState extends State<LandingPage>
                   Utils.getBranding(),
                   Utils.getSpacer(75.0),
                   _getBody()
+                ]),
+								Column(children: <Widget>[
+                  Utils.getSpacer(50.0),
+                  Utils.getBackButton(() { Utils.tabBack(_controller, 1); }),
+                  Utils.getSpacer(100.0),
+                  SignupPage(controller: _controller)
+                ]),
+								Column(children: <Widget>[
+                  Utils.getSpacer(50.0),
+                  Utils.getBackButton(() { Utils.tabBack(_controller, 2); }),
+                  Utils.getSpacer(100.0),
+                  PhoneNumberPage()
                 ])
               ])
         ]));
@@ -74,10 +87,9 @@ class _LandingPageState extends State<LandingPage>
               child: FlatButton(
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   onPressed: () {
-                    // _controller.animateToPage(2,
-                    //     duration: new Duration(milliseconds: 250),
-                    //     curve: Curves.easeIn);
-                    Navigator.pushNamed(context, 'signup');
+                    _controller.animateToPage(2,
+                         duration: new Duration(milliseconds: 250),
+                         curve: Curves.easeIn);
                   },
                   color: Color(0x00000000),
                   textColor: Color(0xFF525252),

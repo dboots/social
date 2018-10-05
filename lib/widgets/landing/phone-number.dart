@@ -20,22 +20,23 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           Center(
               child: Container(
                   child: Column(children: <Widget>[
-              Text('ADD YOUR NUMBER',
-                  style: TextStyle(
-                      fontFamily: 'Lato',
-                      fontSize: 20.0,
-                      color: Color(0xFF525252),
-                      letterSpacing: 2.0,
-                      height: 3.0)),
-              Text('Providing your number provides friends with more ways to connect with you.',
-                  style: TextStyle(
-                      fontFamily: 'Lato',
-                      fontSize: 12.0,
-                      fontStyle: FontStyle.italic,
-                      color: Color(0xFF525252),
-                      letterSpacing: 2.0),
-                  textAlign: TextAlign.center)
-              ]))),
+            Text('ADD YOUR NUMBER',
+                style: TextStyle(
+                    fontFamily: 'Lato',
+                    fontSize: 20.0,
+                    color: Color(0xFF525252),
+                    letterSpacing: 2.0,
+                    height: 3.0)),
+            Text(
+                'Providing your number provides friends with more ways to connect with you.',
+                style: TextStyle(
+                    fontFamily: 'Lato',
+                    fontSize: 12.0,
+                    fontStyle: FontStyle.italic,
+                    color: Color(0xFF525252),
+                    letterSpacing: 2.0),
+                textAlign: TextAlign.center)
+          ]))),
           Container(
               padding: EdgeInsets.only(top: 25.0),
               child: TextFormField(
@@ -52,21 +53,21 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           Center(
               child: Container(
                   child: Column(children: <Widget>[
-              Text('Your number will not be displayed publicly.',
-                  style: TextStyle(
-                      fontFamily: 'Lato',
-                      fontSize: 10.0,
-                      fontStyle: FontStyle.italic,
-                      color: Color(0xFF525252),
-                      letterSpacing: 2.0,
-                      height: 3.0),
-                  textAlign: TextAlign.center)
-              ]))),
+            Text('Your number will not be displayed publicly.',
+                style: TextStyle(
+                    fontFamily: 'Lato',
+                    fontSize: 10.0,
+                    fontStyle: FontStyle.italic,
+                    color: Color(0xFF525252),
+                    letterSpacing: 2.0,
+                    height: 3.0),
+                textAlign: TextAlign.center)
+          ]))),
           FractionallySizedBox(
               widthFactor: 1.0,
               child: FlatButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/dashboard');
+                    Navigator.pushNamed(context, 'dashboard');
                   },
                   color: Color(0xFF00A0BE),
                   textColor: Color(0xFFFFFFFF),
@@ -76,7 +77,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
   }
 
   String validateMobile(String value) {
-  // Indian Mobile number are of 10 digit only
+    // Indian Mobile number are of 10 digit only
     if (value.length != 10)
       return 'Mobile Number must be of 10 digit';
     else
