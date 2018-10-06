@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Utils {
-  static Widget getBackButton(Function callback) {
+  static Widget getBackButton(Function action) {
     return Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -12,13 +12,40 @@ class Utils {
               padding: const EdgeInsets.all(0.0),
               icon:
                   Icon(FontAwesomeIcons.timesCircle, color: Color(0xFFCCCCCC)),
-              onPressed: callback)
+              onPressed: action)
         ]);
+  }
+
+  static Widget getIconButton(
+      int hex, IconData data, double size, double margin, Function action) {
+    return Container(
+        margin: EdgeInsets.all(margin),
+        child: IconButton(
+            iconSize: size,
+            icon: Icon(data, size: size, color: Color(hex)),
+            onPressed: action));
   }
 
   static tabBack(PageController controller, num index) {
     controller.animateToPage(index,
         duration: Duration(milliseconds: 250), curve: Curves.easeIn);
+  }
+
+  static Widget getTitle(String title, Function action) {
+    return Container(
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+          GestureDetector(
+              onTap: action,
+              child: Text(title,
+                  style: TextStyle(fontSize: 22.0)))
+        ]));
+  }
+
+  static Widget getButton(String title, Function action) {
+    return FlatButton(child: Text(title), onPressed: action);
   }
 
   static Widget getSpacer(double top) {

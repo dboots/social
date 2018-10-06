@@ -12,8 +12,7 @@ class LandingPage extends StatefulWidget {
   _LandingPageState createState() => _LandingPageState();
 }
 
-class _LandingPageState extends State<LandingPage>
-    with SingleTickerProviderStateMixin {
+class _LandingPageState extends State<LandingPage> {
   PageController _controller = PageController(initialPage: 1);
 
   @override

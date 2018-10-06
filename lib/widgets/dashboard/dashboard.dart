@@ -8,10 +8,7 @@ class DashboardPage extends StatefulWidget {
   _DashboardPageState createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends State<DashboardPage>
-    with SingleTickerProviderStateMixin {
-  PageController _controller = PageController(initialPage: 1);
-
+class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     super.initState();
@@ -51,14 +48,16 @@ class _DashboardPageState extends State<DashboardPage>
           _getIcon('images/icon_profile.png', 'PROFILE', () {
 						Navigator.pushNamed(context, 'profile');
 					}),
-          _getIcon('images/icon_cliques.png', 'CLIQUES', () {}),
+          _getIcon('images/icon_cliques.png', 'CLIQUES', () {
+						Navigator.pushNamed(context, 'cliques');
+					}),
           _getIcon('images/icon_meetup.png', 'MEETUP', () {}),
           _getIcon('images/icon_events.png', 'EVENTS', () {})
         ]);
   }
 
   _getIcon(String asset, String label, Function onTap) {
-    return new GestureDetector(
+    return GestureDetector(
         onTap: onTap,
         child: Column(children: <Widget>[
           Image.asset(asset, height: 75.0),
