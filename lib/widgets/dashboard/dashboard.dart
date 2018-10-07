@@ -29,8 +29,10 @@ class _DashboardPageState extends State<DashboardPage> {
               Row(children: <Widget>[
                 Container(
                     margin: EdgeInsets.all(10.0),
-                    child: Icon(FontAwesomeIcons.cog,
-                        size: 40.0, color: Color(0xFF999999))),
+                    child: IconButton(
+                        onPressed: () { Navigator.pushNamed(context, 'camera'); },
+                        icon: Icon(FontAwesomeIcons.cog,
+                            size: 40.0, color: Color(0xFF999999)))),
                 Expanded(child: Container()),
                 Container(
                     margin: EdgeInsets.all(10.0),
@@ -46,11 +48,11 @@ class _DashboardPageState extends State<DashboardPage> {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           _getIcon('images/icon_profile.png', 'PROFILE', () {
-						Navigator.pushNamed(context, 'profile');
-					}),
+            Navigator.pushNamed(context, 'profile');
+          }),
           _getIcon('images/icon_cliques.png', 'CLIQUES', () {
-						Navigator.pushNamed(context, 'cliques');
-					}),
+            Navigator.pushNamed(context, 'cliques');
+          }),
           _getIcon('images/icon_meetup.png', 'MEETUP', () {}),
           _getIcon('images/icon_events.png', 'EVENTS', () {})
         ]);

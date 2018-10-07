@@ -5,9 +5,11 @@ import 'package:Social/widgets/dashboard/dashboard.dart';
 import 'package:Social/widgets/profile/profile.dart';
 import 'package:Social/widgets/landing/signup.dart';
 import 'package:Social/widgets/cliques/cliques.dart';
+import 'package:Social/widgets/camera/camera.dart';
+
 
 void main() {
-	// debugPaintSizeEnabled=true;
+	//debugPaintSizeEnabled=true;
 	runApp(MyApp());
 }
 
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
 						'profile': (BuildContext context) => ProfilePage(),
             'signup': (BuildContext context) => SignupPage(),
 						'cliques': (BuildContext context) => CliquesPage(),
+						'camera': (BuildContext context) => CameraPage(),
         };
     }
 }

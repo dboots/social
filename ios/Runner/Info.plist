@@ -30,6 +30,10 @@
 	<array>
 		<string>arm64</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow Social to take pictures?</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow Social to record sound?</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
