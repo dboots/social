@@ -17,11 +17,9 @@ class Utils {
   }
 
   static Widget getIconButton(
-      int hex, IconData data, double size, double margin, Function action) {
+      int hex, IconData data, double size, Function action) {
     return Container(
-        margin: EdgeInsets.all(margin),
         child: IconButton(
-            iconSize: size,
             icon: Icon(data, size: size, color: Color(hex)),
             onPressed: action));
   }
@@ -39,8 +37,7 @@ class Utils {
             children: <Widget>[
           GestureDetector(
               onTap: action,
-              child: Text(title,
-                  style: TextStyle(fontSize: 22.0)))
+              child: Text(title, style: TextStyle(fontSize: 22.0)))
         ]));
   }
 

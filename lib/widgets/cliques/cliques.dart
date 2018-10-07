@@ -48,15 +48,17 @@ class _CliquesPageState extends State<CliquesPage> {
         "name": "WOO"
       });
     }
-		
+
     List<Row> cliques = data
         .map((d) => Row(children: <Widget>[
               Container(
-                  margin: EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 5.0),
+                  margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
                   child: CircleAvatar(
+                      radius: 15.0,
                       backgroundColor: Color(0xFFFF0000),
                       child: Text('A', style: TextStyle(color: Colors.white)))),
-              Text(d["name"], style: TextStyle(fontSize: 18.0))
+              Text(d["name"],
+                  style: TextStyle(fontSize: 16.0, color: Color(0xFF666666)))
             ]))
         .toList();
 
@@ -95,26 +97,23 @@ class _CliquesPageState extends State<CliquesPage> {
                     })))
           ])),
       Expanded(
-          child: PageView(controller: _controller, children: <Widget>[
-        Column(children: <Widget>[
-          Expanded(
-              child: SingleChildScrollView(child: Column(children: cliques))),
-          BottomNav(
-                  leftAction: () {
-                    Navigator.pop(context);
-                  },
-                  leftIcon: FontAwesomeIcons.arrowLeft,
-                  middleAction: () {
-                    Navigator.pushNamed(context, 'dashboard');
-                  },
-                  middleLabel: 'CREATE',
-                  rightAction: () {},
-                  rightIcon: FontAwesomeIcons.arrowRight)
-              .build()
+        child: PageView(controller: _controller, children: <Widget>[
+          Column(children: <Widget>[
+            Expanded(
+                child: SingleChildScrollView(child: Column(children: cliques))),
+            BottomNav().build(
+                leftIcon: FontAwesomeIcons.arrowLeft,
+                leftAction: () { Navigator.pop(context); },
+                middleAction: () {},
+                middleLabel: 'CREATE')
+          ]),
+          Column(children: <Widget>[
+            Expanded(
+                child: SingleChildScrollView(child: Column(children: cliques))),
+            BottomNav().build(middleAction: () {}, middleLabel: 'ADD FRIEND')
+          ])
         ]),
-        Container(
-            child: SingleChildScrollView(child: Column(children: cliques)))
-      ])),
+      )
     ]))));
   }
 }
