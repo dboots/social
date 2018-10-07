@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                         await this._accountService.login(
                             this._signupData.email.toString(),
                             this._signupData.password.toString());
-                        Navigator.pushNamed(context, 'dashboard');
+                        Navigator.pushReplacementNamed(context, 'dashboard');
                       },
                       color: Color(0xFF00A0BE),
                       textColor: Color(0xFFFFFFFF),
