@@ -25,16 +25,15 @@ class CliqueService extends API {
   CliqueService._internal() {
 		print('internal');
     _endpoint = this.url;
-    _getClique().then((clique) {
-      print(clique);
-    });
-  }
-
-  Future<Clique> _getClique() async {
-    return _cache.get(1);
+    print(_cliques);
   }
 
   Future<List<Clique>> getCliques() async {
+		print('getCliques');
+		if (_cliques != null) {
+			print('using _clique cache');
+			return _cliques;
+		}
     var resource = '/cliques';
 
     var response =
@@ -45,9 +44,7 @@ class CliqueService extends API {
 
     if (response.statusCode < 300) {
       Iterable i = json.decode(response.body)['cliques'];
-      num index = 0;
       _cliques = i.map((model) {
-        _cache.put(index++, Clique(model, 'clique'));
         return Clique(model, 'clique');
       }).toList();
 
