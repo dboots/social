@@ -3,13 +3,11 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:Social/services/api.dart';
 import 'package:Social/models/clique.dart';
-import 'package:Social/services/cache.dart';
 
 class CliqueService extends API {
   static final CliqueService _instance = new CliqueService._internal();
   String _endpoint;
   static List<Clique> _cliques;
-  MemCache _cache = MemCache<Clique>();
 
   /*{
 		print('cliqueservice');
