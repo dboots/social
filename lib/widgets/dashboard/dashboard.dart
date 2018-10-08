@@ -30,14 +30,20 @@ class _DashboardPageState extends State<DashboardPage> {
                 Container(
                     margin: EdgeInsets.all(10.0),
                     child: IconButton(
-                        onPressed: () { Navigator.pushNamed(context, 'camera'); },
+                        iconSize: 40.0,
+                        onPressed: () {},
                         icon: Icon(FontAwesomeIcons.cog,
                             size: 40.0, color: Color(0xFF999999)))),
                 Expanded(child: Container()),
                 Container(
                     margin: EdgeInsets.all(10.0),
-                    child: Icon(FontAwesomeIcons.camera,
-                        size: 40.0, color: Color(0xFF999999)))
+                    child: IconButton(
+                        iconSize: 40.0,
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'camera');
+                        },
+                        icon: Icon(FontAwesomeIcons.camera,
+                            size: 40.0, color: Color(0xFF999999))))
               ])
             ]))));
   }
