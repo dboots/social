@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:Social/widgets/common/utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Social/widgets/common/bottom-nav.dart';
+import 'package:Social/models/clique.dart';
+import 'package:Social/services/cliques.dart';
 
 class CliquesPage extends StatefulWidget {
   CliquesPage() : super();
@@ -14,33 +16,28 @@ class CliquesPage extends StatefulWidget {
 class _CliquesPageState extends State<CliquesPage> {
   String _selected = 'CLIQUES';
   PageController _controller = PageController();
-  var _data = [];
+  CliqueService _cliqueService = CliqueService();
+  List<Clique> _data = [];
+	bool _isReady = false;
 
   @override
   void initState() {
     super.initState();
+    _getCliques();
+  }
 
-    var data = [];
-
-    for (num i = 0; i < 125; i++) {
-      data.add({
-        "_id": "5a669b9e06bb8c0011119665",
-        "updatedAt": "2018-01-23T02:19:10.274Z",
-        "createdAt": "2018-01-23T02:19:10.274Z",
-        "owner": "5a654cfc29c5ed0010435a4c",
-        "__v": 0,
-        "members": ["5a654cfc29c5ed0010435a4c"],
-        "name": "WOO"
+  Future<List<Clique>> _getCliques() async {
+    return _cliqueService.getCliques().then((data) {
+      setState(() {
+        _data = data;
+				_isReady = true;
       });
-    }
-
-    setState(() {
-      _data = data;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+		if (!_isReady) return Container();
     return _getBody();
   }
 
@@ -109,7 +106,7 @@ class _CliquesPageState extends State<CliquesPage> {
                           backgroundColor: Color(0xFFFF0000),
                           child:
                               Text('A', style: TextStyle(color: Colors.white))),
-                      title: Text(_data[index]['name'],
+                      title: Text(_data[index].name,
                           style: TextStyle(
                               fontSize: 16.0, color: Color(0xFF666666))),
                     );
@@ -134,7 +131,7 @@ class _CliquesPageState extends State<CliquesPage> {
                           backgroundColor: Color(0xFFFF0000),
                           child:
                               Text('A', style: TextStyle(color: Colors.white))),
-                      title: Text(_data[index]['name'],
+                      title: Text(_data[index].name,
                           style: TextStyle(
                               fontSize: 16.0, color: Color(0xFF666666))),
                     );
@@ -143,8 +140,8 @@ class _CliquesPageState extends State<CliquesPage> {
                 BottomNav().build(
                     leftIcon: FontAwesomeIcons.arrowLeft,
                     leftAction: () {
-											Navigator.pop(context);
-										},
+                      Navigator.pop(context);
+                    },
                     middleAction: () {},
                     middleLabel: 'ADD FRIEND')
               ])
