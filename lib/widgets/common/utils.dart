@@ -16,6 +16,17 @@ class Utils {
         ]);
   }
 
+  static Widget getFlatButton(String title, Function action) {
+    return FractionallySizedBox(
+              widthFactor: 0.5,
+              child: FlatButton(
+                  onPressed: action,
+                  color: Color(0xFFFFFFFF),
+                  textColor: Color(0x88000000),
+                  child: Text(title),
+                  shape: RoundedRectangleBorder(side: BorderSide(color: Color(0x88000000), width: 2.0))));
+  }
+
   static Widget getIconButton(
       int hex, IconData data, double size, Function action) {
     return Container(
