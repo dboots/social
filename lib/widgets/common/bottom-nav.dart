@@ -12,8 +12,7 @@ class BottomNav {
     List<Widget> widgets = [];
 
     if (leftAction != null && leftIcon != null) {
-      widgets.add(
-          Utils.getIconButton(0xFF666666, leftIcon, 20.0, leftAction));
+      widgets.add(Utils.getIconButton(0xFF666666, leftIcon, 20.0, leftAction));
     } else {
       widgets.add(Container(
           padding: EdgeInsets.all(11.0), margin: EdgeInsets.all(11.0)));
@@ -30,11 +29,13 @@ class BottomNav {
                   child: Text(middleLabel,
                       style: TextStyle(
                           color: Color(0xFF666666), fontSize: 18.0))))));
+    } else {
+      widgets.add(Expanded(child: Container()));
     }
 
     if (rightAction != null && rightIcon != null) {
-      widgets.add(
-          Utils.getIconButton(0xFF666666, rightIcon, 20.0, rightAction));
+      widgets
+          .add(Utils.getIconButton(0xFF666666, rightIcon, 20.0, rightAction));
     } else {
       widgets.add(Container(
           padding: EdgeInsets.all(11.0), margin: EdgeInsets.all(11.0)));
