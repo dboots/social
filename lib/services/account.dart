@@ -1,15 +1,20 @@
 import 'package:Social/services/api.dart';
 import 'package:Social/models/account.dart';
 import 'dart:async';
-import 'package:Social/cache/Cache.dart';
-import 'package:Social/cache/MemCache.dart';
 
 class AccountService extends API {
-  static final Cache cache = MemCache<Account>();
+  static final AccountService _instance = new AccountService._internal();
   String _endpoint;
-  Account account;
+  Account _account;
 
-  AccountService() {
+	Account get account => _account;
+
+	factory AccountService() {
+		print('account factory');
+		return _instance;
+  }
+
+  AccountService._internal() {
     this._endpoint = this.url;
   }
 
@@ -19,19 +24,15 @@ class AccountService extends API {
     var body = {'username': username, 'password': password};
 
     var response =
-        await this.httpClient.post(this._endpoint + resource, body: body);
+        await httpClient.post(_endpoint + resource, body: body);
 
     if (response.statusCode < 300) {
-      this.account = Account(response.body, 'account');
-      cache.put(0, this.account);
+      _account = Account(response.body, 'account');
+			print('setting account' + _account.toString());
       return true;
     } else {
       print('Error in account services: ' + response.statusCode.toString());
       return false;
     }
-  }
-
-  Future<Account> getAccount() {
-    return cache.get(0);
   }
 }
