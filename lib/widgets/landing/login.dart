@@ -34,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
                 autocorrect: false,
                 decoration: const InputDecoration(labelText: 'EMAIL'),
                 keyboardType: TextInputType.emailAddress,
+								maxLines: 1,
                 style: TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 16.0,
@@ -49,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                     autocorrect: false,
                     decoration: const InputDecoration(labelText: 'PASSWORD'),
                     obscureText: true,
+										maxLines: 1,
                     style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 16.0,
@@ -66,10 +68,21 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () async {
                         final FormState form = _formKey.currentState;
                         form.save();
-                        await this._accountService.login(
+
+                        bool result = await this._accountService.login(
                             this._signupData.email.toString(),
                             this._signupData.password.toString());
-                        Navigator.pushReplacementNamed(context, 'dashboard');
+
+                        if (result) {
+                          Navigator.pushReplacementNamed(context, 'dashboard');
+                        } else {
+                          var alert = new AlertDialog(
+                            title: new Text('Sign in Error'),
+                            content: new Text(
+                                'There was an error signing in. Please try again.'),
+                          );
+                          showDialog(context: context, child: alert);
+                        }
                       },
                       color: Color(0xFF00A0BE),
                       textColor: Color(0xFFFFFFFF),
