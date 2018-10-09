@@ -6,34 +6,23 @@ import 'package:Social/models/clique.dart';
 
 class CliqueService extends API {
   static final CliqueService _instance = new CliqueService._internal();
-  String _endpoint;
+  
+	String _endpoint;
   static List<Clique> _cliques;
 
-  /*{
-		print('cliqueservice');
-    _endpoint = this.url;
-		_getClique().then((clique) {
-			print(clique);
-		});
-  }*/
-
   factory CliqueService() {
-		print('factory');
 		return _instance;
   }
 
   CliqueService._internal() {
-		print('internal');
     _endpoint = this.url;
-    print(_cliques);
   }
 
   Future<List<Clique>> getCliques() async {
-		print('getCliques');
 		if (_cliques != null) {
-			print('using _clique cache');
 			return _cliques;
 		}
+		
     var resource = '/cliques';
 
     var response =

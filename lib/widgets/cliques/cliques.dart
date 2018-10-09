@@ -18,7 +18,7 @@ class _CliquesPageState extends State<CliquesPage> {
   PageController _controller = PageController();
   CliqueService _cliqueService = CliqueService();
   List<Clique> _data = [];
-	bool _isReady = false;
+  bool _isReady = false;
 
   @override
   void initState() {
@@ -30,14 +30,14 @@ class _CliquesPageState extends State<CliquesPage> {
     return _cliqueService.getCliques().then((data) {
       setState(() {
         _data = data;
-				_isReady = true;
+        _isReady = true;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-		if (!_isReady) return Container();
+    if (!_isReady) return Container();
     return _getBody();
   }
 
@@ -62,7 +62,9 @@ class _CliquesPageState extends State<CliquesPage> {
                       setState(() {
                         _selected = 'CLIQUES';
                       });
-                      _controller.jumpToPage(0);
+                      _controller.animateToPage(0,
+                          duration: new Duration(milliseconds: 250),
+                          curve: Curves.easeIn);
                     }))),
             Expanded(
                 child: Container(
@@ -73,11 +75,9 @@ class _CliquesPageState extends State<CliquesPage> {
                       setState(() {
                         _selected = 'FRIENDS';
                       });
-                      _controller.jumpToPage(1);
-                      /*_controller.animateToPage(1,
+                      _controller.animateToPage(1,
                           duration: new Duration(milliseconds: 250),
                           curve: Curves.easeIn);
-													*/
                     })))
           ])),
       Expanded(
