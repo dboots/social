@@ -24,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   _getBody() {
     return Scaffold(
         body: Container(
-            decoration: new BoxDecoration(color: Colors.white),
+            decoration: new BoxDecoration(color: Color(0xFFFFFFFA)),
             child: SafeArea(
                 child: Column(children: <Widget>[
               Container(
@@ -37,11 +37,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
                       child: Column(children: [
                         Container(
-                          padding: EdgeInsets.all(5.0),
+                          padding: EdgeInsets.only(top: 10.0, bottom: 5.0, left: 5.0, right: 5.0),
                           child: Text('ANDREW SMITH',
                               style: TextStyle(
                                   fontFamily: 'Lato',
-                                  fontSize: 25.0,
+                                  fontSize: 23.0,
+                                  letterSpacing: 2.5,
                                   color: Color(0xFFFFFFFF)),
                               textAlign: TextAlign.center)
                         ),
@@ -56,24 +57,26 @@ class _ProfilePageState extends State<ProfilePage> {
                               style: TextStyle(
                                   fontFamily: 'Lato',
                                   fontSize: 15.0,
+                                  letterSpacing: 2.5,
                                   color: Color(0xFFFFFFFF)),
                               textAlign: TextAlign.center)
                         ),
                         Container(
                             padding: EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
                             child: Text(
-                                'Cannot wait to see all my friends on Social!',
+                                "Can't wait to see all my friends on Social!",
                                 style: TextStyle(
                                     fontFamily: 'Lato',
-                                    fontSize: 24.0,
+                                    fontSize: 22.0,
+                                    letterSpacing: 2.5,
                                     fontStyle: FontStyle.italic,
                                     color: Color(0xFFFFFFFF)),
                                 textAlign: TextAlign.center)
                         ),
                         Container( child:  Transform(
                             child: Container(
-                              width: 100.0,
-                              height: 100.0,
+                              width: 110.0,
+                              height: 110.0,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
@@ -84,7 +87,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             alignment: Alignment.center,
                             transform: Matrix4.identity()
-                              ..translate(0.0, 40.0),
+                              ..scale(1.4)
+                              ..translate(0.0, 35.0),
                           )
                         )
                       ]))),
@@ -96,11 +100,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       Utils.getFlatButton('MOMENTS', () {
                         Navigator.pushNamed(context, 'moments');
                       }),
-                      Container(padding: EdgeInsets.all(8.0)),
+                      Container(padding: EdgeInsets.all(4.0)),
                       Utils.getFlatButton('ALBUMS', () {
                         Navigator.pushNamed(context, 'albums');
                       }),
-                      Container(padding: EdgeInsets.all(8.0)),
+                      Container(padding: EdgeInsets.all(4.0)),
                       Utils.getFlatButton('NEW MEETUP', () {
                         Navigator.pushNamed(context, 'newmeetup');
                       })

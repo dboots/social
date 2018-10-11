@@ -48,7 +48,13 @@ class Utils {
             children: <Widget>[
           GestureDetector(
               onTap: action,
-              child: Text(title, style: TextStyle(fontSize: 22.0)))
+              child: Text(title,
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    letterSpacing: 2.5
+                  )
+              )
+          )
         ]));
   }
 
