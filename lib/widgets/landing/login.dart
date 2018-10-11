@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:Social/services/account.dart';
+import 'package:Social/widgets/common/alert-overlay.dart';
 
 class SignUpData {
   String email;
@@ -25,6 +26,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _getBody() {
+    AlertOverlay alertOverlay = AlertOverlay(
+        title: 'ERROR', body: 'Invalid login', buttonLabel: 'TRY AGAIN');
+
     return Form(
         key: _formKey,
         child: FractionallySizedBox(
@@ -34,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                 autocorrect: false,
                 decoration: const InputDecoration(labelText: 'EMAIL'),
                 keyboardType: TextInputType.emailAddress,
-								maxLines: 1,
+                maxLines: 1,
                 style: TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 16.0,
@@ -50,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                     autocorrect: false,
                     decoration: const InputDecoration(labelText: 'PASSWORD'),
                     obscureText: true,
-										maxLines: 1,
+                    maxLines: 1,
                     style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 16.0,
@@ -76,19 +80,14 @@ class _LoginPageState extends State<LoginPage> {
                         if (result) {
                           Navigator.pushReplacementNamed(context, 'dashboard');
                         } else {
-                          var alert = new AlertDialog(
-                            title: new Text('Sign in Error'),
-                            content: new Text(
-                                'There was an error signing in. Please try again.'),
-                          );
-                          showDialog(context: context, child: alert);
+                          alertOverlay.showOverlay(context);
                         }
                       },
                       color: Color(0xFF00A0BE),
                       textColor: Color(0xFFFFFFFF),
                       child: Text('LOGIN',
                           style: TextStyle(fontSize: 16.0, letterSpacing: 4.0)),
-                      shape: RoundedRectangleBorder(side: BorderSide.none)))
+                      shape: RoundedRectangleBorder(side: BorderSide.none))),
             ])));
   }
 }
