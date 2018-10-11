@@ -89,18 +89,21 @@ class _ProfilePageState extends State<ProfilePage> {
                         )
                       ]))),
               Expanded(
-                  child: Column(children: <Widget>[
-                Utils.getFlatButton('MOMENTS', () {
-                  Navigator.pushNamed(context, 'moments');
-                }),
-                Container(padding: EdgeInsets.all(8.0)),
-                Utils.getFlatButton('ALBUMS', () {
-                  Navigator.pushNamed(context, 'albums');
-                }),
-                Container(padding: EdgeInsets.all(8.0)),
-                Utils.getFlatButton('NEW MEETUP', () {
-                  Navigator.pushNamed(context, 'newmeetup');
-                })
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Utils.getFlatButton('MOMENTS', () {
+                        Navigator.pushNamed(context, 'moments');
+                      }),
+                      Container(padding: EdgeInsets.all(8.0)),
+                      Utils.getFlatButton('ALBUMS', () {
+                        Navigator.pushNamed(context, 'albums');
+                      }),
+                      Container(padding: EdgeInsets.all(8.0)),
+                      Utils.getFlatButton('NEW MEETUP', () {
+                        Navigator.pushNamed(context, 'newmeetup');
+                      })
               ])),
               BottomNav().build(
                   leftAction: () {
