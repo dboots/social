@@ -33,24 +33,34 @@ class _ProfilePageState extends State<ProfilePage> {
               Center(
                   child: Container(
                       decoration: new BoxDecoration(color: Colors.black54),
-                      padding: EdgeInsets.all(20.0),
-                      child: Column(children: <Widget>[
-                        Text('ANDREW SMITH',
-                            style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 25.0,
-                                color: Color(0xFFFFFFFF))),
+                      margin: EdgeInsets.only(bottom: 45.0),
+                      padding: EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
+                      child: Column(children: [
+                        Container(
+                          padding: EdgeInsets.all(5.0),
+                          child: Text('ANDREW SMITH',
+                              style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontSize: 25.0,
+                                  color: Color(0xFFFFFFFF)),
+                              textAlign: TextAlign.center)
+                        ),
                         Container(
                             height: 2.0,
-                            margin: EdgeInsets.all(10.0),
-                            color: Colors.white),
-                        Text('AKRON, OH',
-                            style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 15.0,
-                                color: Color(0xFFFFFFFF))),
+                            margin: EdgeInsets.all(5.0),
+                            color: Colors.white
+                        ),
                         Container(
-                            padding: EdgeInsets.all(25.0),
+                          padding: EdgeInsets.all(10.0),
+                          child: Text('AKRON, OH',
+                              style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontSize: 15.0,
+                                  color: Color(0xFFFFFFFF)),
+                              textAlign: TextAlign.center)
+                        ),
+                        Container(
+                            padding: EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
                             child: Text(
                                 'Cannot wait to see all my friends on Social!',
                                 style: TextStyle(
@@ -58,10 +68,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                     fontSize: 24.0,
                                     fontStyle: FontStyle.italic,
                                     color: Color(0xFFFFFFFF)),
-                                textAlign: TextAlign.center)),
-                        Container(
-                            child: Image.asset('images/icon_events.png',
-                                alignment: Alignment(0.0, 2.0), height: 150.0))
+                                textAlign: TextAlign.center)
+                        ),
+                        Container( child:  Transform(
+                            child: Container(
+                              width: 100.0,
+                              height: 100.0,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: AssetImage('images/12.png')
+                                  )
+                              )
+                            ),
+                            alignment: Alignment.center,
+                            transform: Matrix4.identity()
+                              ..translate(0.0, 40.0),
+                          )
+                        )
                       ]))),
               Expanded(
                   child: Column(children: <Widget>[
