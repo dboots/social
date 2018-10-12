@@ -23,8 +23,13 @@ class Utils {
                   onPressed: action,
                   color: Color(0xFFFFFFFF),
                   textColor: Color(0x88000000),
-                  child: Text(title),
-                  shape: RoundedRectangleBorder(side: BorderSide(color: Color(0x88000000), width: 2.0))));
+                  child: Text(title,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      letterSpacing: 2.5
+                    )
+                  ),
+                  shape: RoundedRectangleBorder(side: BorderSide(color: Color(0x88000000), width: 2.5))));
   }
 
   static Widget getIconButton(

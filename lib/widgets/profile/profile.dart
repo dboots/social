@@ -67,7 +67,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 "Can't wait to see all my friends on Social!",
                                 style: TextStyle(
                                     fontFamily: 'Lato',
-                                    fontSize: 22.0,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w300,
                                     letterSpacing: 2.5,
                                     fontStyle: FontStyle.italic,
                                     color: Color(0xFFFFFFFF)),
@@ -100,11 +101,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       Utils.getFlatButton('MOMENTS', () {
                         Navigator.pushNamed(context, 'moments');
                       }),
-                      Container(padding: EdgeInsets.all(4.0)),
+                      Container(padding: EdgeInsets.all(8.0)),
                       Utils.getFlatButton('ALBUMS', () {
                         Navigator.pushNamed(context, 'albums');
                       }),
-                      Container(padding: EdgeInsets.all(4.0)),
+                      Container(padding: EdgeInsets.all(8.0)),
                       Utils.getFlatButton('NEW MEETUP', () {
                         Navigator.pushNamed(context, 'newmeetup');
                       })
