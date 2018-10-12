@@ -4,7 +4,6 @@ import 'package:Social/models/user.dart';
 class Account extends Base {
   String id;
   String email;
-  String fullName;
 	User user;
 
   Account(body, String key) {
@@ -12,7 +11,6 @@ class Account extends Base {
 
     id = data['_id'];
     email = data['email'];
-    fullName = data['full_name'];
 		user = User.fromMap(data['user']);
   }
 }

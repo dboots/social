@@ -2,6 +2,7 @@ import 'package:Social/models/base.dart';
 
 class User extends Base {
   String id;
+	String location;
 	String name;
 	List friends = [];
 
@@ -9,13 +10,15 @@ class User extends Base {
 		Map data = decode(body, 'user');
 
 		id = data['_id'];
-		name = data['name'];
+		name = data['full_name'];
+		location = data['location'];
 		friends = data['friends'];
   }
 
   User.fromMap(Map body) {
 		id = body['_id'];
-		name = body['name'];
+		name = body['full_name'];
+		location = body['location'];
 		friends = List.from(body['friends']);
   }
 }

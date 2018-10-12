@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Social/widgets/common/utils.dart';
 import 'package:Social/widgets/common/bottom-nav.dart';
+import 'package:Social/services/account.dart';
+import 'package:Social/models/user.dart';
+import 'package:Social/models/account.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage() : super();
@@ -11,6 +14,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  AccountService _accountService = AccountService();
+  User _user;
+	Account _account;
+
   @override
   void initState() {
     super.initState();
@@ -18,6 +25,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    _account = _accountService.account;
+		_user = _account.user;
     return _getBody();
   }
 
@@ -34,35 +43,35 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Container(
                       decoration: new BoxDecoration(color: Colors.black54),
                       margin: EdgeInsets.only(bottom: 45.0),
-                      padding: EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
+                      padding:
+                          EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
                       child: Column(children: [
                         Container(
-                          padding: EdgeInsets.only(top: 10.0, bottom: 5.0, left: 5.0, right: 5.0),
-                          child: Text('ANDREW SMITH',
-                              style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  fontSize: 23.0,
-                                  letterSpacing: 2.5,
-                                  color: Color(0xFFFFFFFF)),
-                              textAlign: TextAlign.center)
-                        ),
+                            padding: EdgeInsets.only(
+                                top: 10.0, bottom: 5.0, left: 5.0, right: 5.0),
+                            child: Text(_user.name,
+                                style: TextStyle(
+                                    fontFamily: 'Lato',
+                                    fontSize: 23.0,
+                                    letterSpacing: 2.5,
+                                    color: Color(0xFFFFFFFF)),
+                                textAlign: TextAlign.center)),
                         Container(
                             height: 2.0,
                             margin: EdgeInsets.all(5.0),
-                            color: Colors.white
-                        ),
+                            color: Colors.white),
                         Container(
-                          padding: EdgeInsets.all(10.0),
-                          child: Text('AKRON, OH',
-                              style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  fontSize: 15.0,
-                                  letterSpacing: 2.5,
-                                  color: Color(0xFFFFFFFF)),
-                              textAlign: TextAlign.center)
-                        ),
+                            padding: EdgeInsets.all(10.0),
+                            child: Text(_user.location,
+                                style: TextStyle(
+                                    fontFamily: 'Lato',
+                                    fontSize: 15.0,
+                                    letterSpacing: 2.5,
+                                    color: Color(0xFFFFFFFF)),
+                                textAlign: TextAlign.center)),
                         Container(
-                            padding: EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
+                            padding: EdgeInsets.only(
+                                top: 15.0, left: 15.0, right: 15.0),
                             child: Text(
                                 "Can't wait to see all my friends on Social!",
                                 style: TextStyle(
@@ -72,44 +81,40 @@ class _ProfilePageState extends State<ProfilePage> {
                                     letterSpacing: 2.5,
                                     fontStyle: FontStyle.italic,
                                     color: Color(0xFFFFFFFF)),
-                                textAlign: TextAlign.center)
-                        ),
-                        Container( child:  Transform(
-                            child: Container(
+                                textAlign: TextAlign.center)),
+                        Container(
+                            child: Transform(
+                          child: Container(
                               width: 110.0,
                               height: 110.0,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
                                       fit: BoxFit.fill,
-                                      image: AssetImage('images/12.png')
-                                  )
-                              )
-                            ),
-                            alignment: Alignment.center,
-                            transform: Matrix4.identity()
-                              ..scale(1.4)
-                              ..translate(0.0, 35.0),
-                          )
-                        )
+                                      image: AssetImage('images/12.png')))),
+                          alignment: Alignment.center,
+                          transform: Matrix4.identity()
+                            ..scale(1.4)
+                            ..translate(0.0, 35.0),
+                        ))
                       ]))),
               Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Utils.getFlatButton('MOMENTS', () {
-                        Navigator.pushNamed(context, 'moments');
-                      }),
-                      Container(padding: EdgeInsets.all(8.0)),
-                      Utils.getFlatButton('ALBUMS', () {
-                        Navigator.pushNamed(context, 'albums');
-                      }),
-                      Container(padding: EdgeInsets.all(8.0)),
-                      Utils.getFlatButton('NEW MEETUP', () {
-                        Navigator.pushNamed(context, 'newmeetup');
-                      })
-              ])),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                    Utils.getFlatButton('MOMENTS', () {
+                      Navigator.pushNamed(context, 'moments');
+                    }),
+                    Container(padding: EdgeInsets.all(8.0)),
+                    Utils.getFlatButton('ALBUMS', () {
+                      Navigator.pushNamed(context, 'albums');
+                    }),
+                    Container(padding: EdgeInsets.all(8.0)),
+                    Utils.getFlatButton('NEW MEETUP', () {
+                      Navigator.pushNamed(context, 'newmeetup');
+                    })
+                  ])),
               BottomNav().build(
                   leftAction: () {
                     Navigator.pop(context);
