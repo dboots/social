@@ -1,11 +1,13 @@
 import 'dart:ui';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:Social/widgets/common/utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:Social/widgets/common/utils.dart';
 import 'package:Social/widgets/common/bottom-nav.dart';
-import 'package:Social/models/clique.dart';
 import 'package:Social/services/cliques.dart';
+import 'package:Social/services/account.dart';
+import 'package:Social/models/clique.dart';
+import 'package:Social/models/user.dart';
 
 class CliquesPage extends StatefulWidget {
   CliquesPage() : super();
@@ -18,7 +20,9 @@ class _CliquesPageState extends State<CliquesPage> {
   String _selected = 'CLIQUES';
   PageController _controller = PageController();
   CliqueService _cliqueService = CliqueService();
-  List<Clique> _data = [];
+	AccountService _accountService = AccountService();
+  List<Clique> _cliques = [];
+	List _friends = [];
   bool _isReady = false;
 
   @override
@@ -30,7 +34,7 @@ class _CliquesPageState extends State<CliquesPage> {
   Future<List<Clique>> _getCliques() async {
     return _cliqueService.getCliques().then((data) {
       setState(() {
-        _data = data;
+        _cliques = data;
         _isReady = true;
       });
     });
@@ -43,6 +47,9 @@ class _CliquesPageState extends State<CliquesPage> {
   }
 
   _getBody() {
+		_friends = _accountService.account.user.friends;
+		print(_accountService.account.user.friends);
+
     BoxDecoration decoration = BoxDecoration(
         border:
             Border(bottom: BorderSide(width: 2.0, color: Color(0xFF666666))));
@@ -99,15 +106,15 @@ class _CliquesPageState extends State<CliquesPage> {
               Column(children: <Widget>[
                 Expanded(
                     child: ListView.builder(
-                  itemCount: _data.length,
+                  itemCount: _cliques.length,
                   itemBuilder: (context, index) {
                     return ListTile(
                       leading: CircleAvatar(
                           radius: 15.0,
                           backgroundColor: Color(0xFFFF0000),
                           child:
-                              Text('A', style: TextStyle(color: Colors.white))),
-                      title: Text(_data[index].name,
+                              Text(_cliques[index].name.substring(0, 1), style: TextStyle(color: Colors.white))),
+                      title: Text(_cliques[index].name,
                           style: TextStyle(
                               fontSize: 16.0, color: Color(0xFF666666))),
                     );
@@ -124,15 +131,15 @@ class _CliquesPageState extends State<CliquesPage> {
               Column(children: <Widget>[
                 Expanded(
                     child: ListView.builder(
-                  itemCount: _data.length,
+                  itemCount: _friends.length,
                   itemBuilder: (context, index) {
                     return ListTile(
                       leading: CircleAvatar(
                           radius: 15.0,
                           backgroundColor: Color(0xFFFF0000),
                           child:
-                              Text('A', style: TextStyle(color: Colors.white))),
-                      title: Text(_data[index].name,
+                              Text(_friends[index]['full_name'].toString().substring(0, 1), style: TextStyle(color: Colors.white))),
+                      title: Text(_friends[index]['full_name'].toString().toUpperCase(),
                           style: TextStyle(
                               fontSize: 16.0, color: Color(0xFF666666))),
                     );

@@ -1,10 +1,11 @@
 import 'package:Social/models/base.dart';
+import 'package:Social/models/user.dart';
 
 class Account extends Base {
   String id;
   String email;
   String fullName;
-  List<String> cliques;
+	User user;
 
   Account(body, String key) {
     Map data = decode(body, 'account');
@@ -12,6 +13,6 @@ class Account extends Base {
     id = data['_id'];
     email = data['email'];
     fullName = data['full_name'];
-    cliques = data['cliques'];
+		user = User.fromMap(data['user']);
   }
 }

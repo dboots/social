@@ -11,7 +11,7 @@ class Base {
 		List<Map> result = [];
 
 		for (var item in body) {
-			result.add(decoder.convert(item)[key]);	
+			result.add(item);
 		}
 
     return result;
