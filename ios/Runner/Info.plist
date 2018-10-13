@@ -26,6 +26,8 @@
 	<string>Allow Social to take pictures?</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow Social to record sound?</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Allow Social to access your contacts?</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

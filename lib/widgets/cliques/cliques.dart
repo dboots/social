@@ -7,7 +7,6 @@ import 'package:Social/widgets/common/bottom-nav.dart';
 import 'package:Social/services/cliques.dart';
 import 'package:Social/services/account.dart';
 import 'package:Social/models/clique.dart';
-import 'package:Social/models/user.dart';
 
 class CliquesPage extends StatefulWidget {
   CliquesPage() : super();
@@ -20,9 +19,9 @@ class _CliquesPageState extends State<CliquesPage> {
   String _selected = 'CLIQUES';
   PageController _controller = PageController();
   CliqueService _cliqueService = CliqueService();
-	AccountService _accountService = AccountService();
+  AccountService _accountService = AccountService();
   List<Clique> _cliques = [];
-	List _friends = [];
+  List _friends = [];
   bool _isReady = false;
 
   @override
@@ -36,6 +35,7 @@ class _CliquesPageState extends State<CliquesPage> {
       setState(() {
         _cliques = data;
         _isReady = true;
+        _friends = _accountService.account.user.friends;
       });
     });
   }
@@ -47,9 +47,6 @@ class _CliquesPageState extends State<CliquesPage> {
   }
 
   _getBody() {
-		_friends = _accountService.account.user.friends;
-		print(_accountService.account.user.friends);
-
     BoxDecoration decoration = BoxDecoration(
         border:
             Border(bottom: BorderSide(width: 2.0, color: Color(0xFF666666))));
@@ -112,8 +109,8 @@ class _CliquesPageState extends State<CliquesPage> {
                       leading: CircleAvatar(
                           radius: 15.0,
                           backgroundColor: Color(0xFFFF0000),
-                          child:
-                              Text(_cliques[index].name.substring(0, 1), style: TextStyle(color: Colors.white))),
+                          child: Text(_cliques[index].name.substring(0, 1),
+                              style: TextStyle(color: Colors.white))),
                       title: Text(_cliques[index].name,
                           style: TextStyle(
                               fontSize: 16.0, color: Color(0xFF666666))),
@@ -137,9 +134,13 @@ class _CliquesPageState extends State<CliquesPage> {
                       leading: CircleAvatar(
                           radius: 15.0,
                           backgroundColor: Color(0xFFFF0000),
-                          child:
-                              Text(_friends[index]['full_name'].toString().substring(0, 1), style: TextStyle(color: Colors.white))),
-                      title: Text(_friends[index]['full_name'].toString().toUpperCase(),
+                          child: Text(
+                              _friends[index]['full_name']
+                                  .toString()
+                                  .substring(0, 1),
+                              style: TextStyle(color: Colors.white))),
+                      title: Text(
+                          _friends[index]['full_name'].toString().toUpperCase(),
                           style: TextStyle(
                               fontSize: 16.0, color: Color(0xFF666666))),
                     );
@@ -150,7 +151,9 @@ class _CliquesPageState extends State<CliquesPage> {
                     leftAction: () {
                       Navigator.pop(context);
                     },
-                    middleAction: () {},
+                    middleAction: () {
+                      Navigator.pushNamed(context, 'cliques/friends/add');
+                    },
                     middleLabel: 'ADD FRIEND')
               ])
             ]),

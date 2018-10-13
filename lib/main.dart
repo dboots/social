@@ -6,6 +6,7 @@ import 'package:Social/widgets/profile/profile.dart';
 import 'package:Social/widgets/landing/signup.dart';
 import 'package:Social/widgets/cliques/cliques.dart';
 import 'package:Social/widgets/camera/camera.dart';
+import 'package:Social/widgets/cliques/friends/add-friend.dart';
 
 
 void main() {
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
             'signup': (BuildContext context) => SignupPage(),
 						'cliques': (BuildContext context) => CliquesPage(),
 						'camera': (BuildContext context) => CameraPage(),
+						'cliques/friends/add': (BuildContext context) => AddFriendPage(),
         };
     }
 }
