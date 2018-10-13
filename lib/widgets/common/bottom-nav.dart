@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:Social/widgets/common/utils.dart';
 
-class BottomNav {
-  Widget build(
-      {String middleLabel,
-      Function middleAction,
-      IconData leftIcon,
-      IconData rightIcon,
-      Function leftAction,
-      Function rightAction}) {
+class BottomNav extends StatelessWidget {
+  final IconData leftIcon;
+  final Function leftAction;
+  final String middleLabel;
+  final Function middleAction;
+  final IconData rightIcon;
+  final Function rightAction;
+
+  BottomNav(
+      {this.leftIcon,
+      this.leftAction,
+      this.middleLabel,
+      this.middleAction,
+      this.rightIcon,
+      this.rightAction});
+
+  @override
+  Widget build(BuildContext context) {
     List<Widget> widgets = [];
 
     if (leftAction != null && leftIcon != null) {

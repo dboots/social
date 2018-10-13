@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Social/widgets/common/utils.dart';
 import 'package:Social/widgets/common/bottom-nav.dart';
+import 'package:Social/widgets/common/page-title.dart';
 import 'package:Social/services/account.dart';
 import 'package:Social/models/user.dart';
 import 'package:Social/models/account.dart';
@@ -16,7 +17,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   AccountService _accountService = AccountService();
   User _user;
-	Account _account;
+  Account _account;
 
   @override
   void initState() {
@@ -26,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     _account = _accountService.account;
-		_user = _account.user;
+    _user = _account.user;
     return _getBody();
   }
 
@@ -36,9 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
             decoration: new BoxDecoration(color: Color(0xFFFFFFFA)),
             child: SafeArea(
                 child: Column(children: <Widget>[
-              Container(
-                  padding: EdgeInsets.all(25.0),
-                  child: Utils.getTitle('PROFILE', null)),
+              PageTitle(label: 'PROFILE'),
               Center(
                   child: Container(
                       decoration: new BoxDecoration(color: Colors.black54),
@@ -115,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.pushNamed(context, 'newmeetup');
                     })
                   ])),
-              BottomNav().build(
+              BottomNav(
                   leftAction: () {
                     Navigator.pop(context);
                   },

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:Social/widgets/common/utils.dart';
 import 'package:Social/widgets/common/bottom-nav.dart';
+import 'package:Social/widgets/common/line-item.dart';
+import 'package:Social/widgets/common/page-title.dart';
 
 class AddFriendPage extends StatefulWidget {
   AddFriendPage() : super();
@@ -15,19 +16,24 @@ class _AddFriendPageState extends State<AddFriendPage> {
   Iterable<Contact> _contacts;
   bool _isReady = false;
 
-  _refreshContacts() async {
+  _getContacts() async {
     Iterable<Contact> contacts = await ContactsService.getContacts();
+		List<Contact> contactsList  = contacts.toList();
+
+		contactsList.sort((Contact a, Contact b) {
+			return a.displayName.compareTo(b.displayName);
+		});
 
     setState(() {
       _isReady = true;
-      _contacts = contacts;
+      _contacts = contactsList;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    _refreshContacts();
+    _getContacts();
   }
 
   @override
@@ -42,58 +48,27 @@ class _AddFriendPageState extends State<AddFriendPage> {
             decoration: new BoxDecoration(color: Colors.white),
             child: SafeArea(
                 child: Column(children: <Widget>[
-              Container(
-                  padding: EdgeInsets.all(25.0),
-                  child: Utils.getTitle('ADD FRIEND', null)),
+              PageTitle(label: 'ADD FRIEND'),
               Expanded(
                   child: ListView.builder(
                 itemCount: _contacts.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    padding: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-                    child: Row(children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.only(right: 10.0),
-                          child: CircleAvatar(
-                              radius: 15.0,
-                              backgroundColor: Color(0xFFFF0000),
-                              child: Text(
-                                  _contacts
-                                      .elementAt(index)
-                                      .givenName
-                                      .substring(0, 1),
-                                  style: TextStyle(color: Colors.white)))),
-                      Expanded(
-                        child: Text(
-                            _contacts
-                                .elementAt(index)
-                                .givenName
-                                .toString()
-                                .toUpperCase(),
-                            style: TextStyle(
-                                fontSize: 16.0, color: Color(0xFF666666))),
-                      ),
-                      IconButton(
-                          iconSize: 24.0,
-                          padding: const EdgeInsets.all(0.0),
-                          icon: Icon(FontAwesomeIcons.timesCircle,
-                              color: Color(0xFFCCCCCC)),
-                          onPressed: () {}),
-                      IconButton(
-                          iconSize: 24.0,
-                          padding: const EdgeInsets.all(0.0),
-                          icon: Icon(FontAwesomeIcons.timesCircle,
-                              color: Color(0xFFCCCCCC)),
-                          onPressed: () {})
-                    ]),
-                  );
+                  Contact contact = _contacts.elementAt(index);
+                  return LineItem(
+                      label: contact.displayName, widgets: _getIcons(contact));
                 },
               )),
-              BottomNav().build(
+              BottomNav(
                   leftIcon: FontAwesomeIcons.arrowLeft,
                   leftAction: () {
                     Navigator.pop(context);
                   })
             ]))));
+  }
+
+  List<Widget> _getIcons(Contact contact) {
+    return [
+      Icon(FontAwesomeIcons.envelope, size: 18.0),
+    ];
   }
 }
