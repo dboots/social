@@ -4,6 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Social/widgets/common/bottom-nav.dart';
 import 'package:Social/widgets/common/line-item.dart';
 import 'package:Social/widgets/common/page-title.dart';
+import 'package:Social/services/account.dart';
+import 'package:Social/services/user.dart';
+import 'package:Social/models/account.dart';
+import 'package:Social/widgets/common/alert-overlay.dart';
 
 class AddFriendPage extends StatefulWidget {
   AddFriendPage() : super();
@@ -13,22 +17,11 @@ class AddFriendPage extends StatefulWidget {
 }
 
 class _AddFriendPageState extends State<AddFriendPage> {
-  Iterable<Contact> _contacts;
+  List<Contact> _contacts;
+  List<Account> _socialContacts;
+  AccountService _accountService = AccountService();
+  UserService _userService = UserService();
   bool _isReady = false;
-
-  _getContacts() async {
-    Iterable<Contact> contacts = await ContactsService.getContacts();
-		List<Contact> contactsList  = contacts.toList();
-
-		contactsList.sort((Contact a, Contact b) {
-			return a.displayName.compareTo(b.displayName);
-		});
-
-    setState(() {
-      _isReady = true;
-      _contacts = contactsList;
-    });
-  }
 
   @override
   void initState() {
@@ -67,8 +60,37 @@ class _AddFriendPageState extends State<AddFriendPage> {
   }
 
   List<Widget> _getIcons(Contact contact) {
-    return [
-      Icon(FontAwesomeIcons.envelope, size: 18.0),
-    ];
+    List<Widget> icons = List<Widget>();
+
+    contact.phones.forEach((phone) {
+      String formattedPhone =
+          phone.value.replaceAll(RegExp(r'(\s|\(|\)|\-)+'), '');
+      if (_socialContacts.where((c) => c.phone == formattedPhone).length > 0) {
+        icons.add(GestureDetector(
+            onTap: () {
+              AlertOverlay alertOverlay = AlertOverlay(
+                  title: 'ADD FRIEND',
+                  body: 'Would you like to send a request to ' + contact.displayName + '?',
+                  buttonLabel: 'OK');
+
+              alertOverlay.showOverlay(context);
+            },
+            child: Icon(FontAwesomeIcons.plusCircle, size: 18.0)));
+      }
+    });
+
+    return icons;
+  }
+
+  _getContacts() async {
+    List<Contact> contacts = await _userService.initContacts();
+    List<Account> socialContacts =
+        await _accountService.initSocialContacts(contacts);
+
+    setState(() {
+      _isReady = true;
+      _contacts = contacts;
+      _socialContacts = socialContacts;
+    });
   }
 }

@@ -41,10 +41,11 @@ class AlertOverlay {
                                 child: Text(title,
                                     style: TextStyle(
                                         fontSize: 20.0,
-																				letterSpacing: 3.0,
+                                        letterSpacing: 3.0,
                                         color: Color.fromARGB(
                                             255, 125, 125, 125)))),
                             Text(body,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 18.0,
                                     color: Color.fromARGB(255, 125, 125, 125),
@@ -57,11 +58,12 @@ class AlertOverlay {
                                   onPressed: () {
                                     overlayEntry.remove();
                                   },
-                                  child: Text(buttonLabel, style: TextStyle(
-																		fontSize: 18.0,
-																		letterSpacing: 3.0,
-																		color: Colors.white,
-																	)))),
+                                  child: Text(buttonLabel,
+                                      style: TextStyle(
+                                        fontSize: 18.0,
+                                        letterSpacing: 3.0,
+                                        color: Colors.white,
+                                      )))),
                           decoration: BoxDecoration(
                               color: Colors.grey,
                               borderRadius: BorderRadius.only(
