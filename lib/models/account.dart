@@ -20,5 +20,6 @@ class Account extends Base {
     id = body['_id'];
     email = body['email'];
 		phone = body['phone'];	
+		user = User.fromMap(body['user']);
 	}
 }
