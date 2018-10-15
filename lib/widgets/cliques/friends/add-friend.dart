@@ -7,6 +7,7 @@ import 'package:Social/widgets/common/page-title.dart';
 import 'package:Social/services/account.dart';
 import 'package:Social/services/user.dart';
 import 'package:Social/models/account.dart';
+import 'package:Social/models/user.dart';
 import 'package:Social/widgets/common/alert-overlay.dart';
 
 class AddFriendPage extends StatefulWidget {
@@ -20,6 +21,8 @@ class _AddFriendPageState extends State<AddFriendPage> {
   List<Contact> _contacts;
   List<Account> _socialContacts;
   AccountService _accountService = AccountService();
+  Account _account;
+  User _user;
   UserService _userService = UserService();
   bool _isReady = false;
 
@@ -27,6 +30,13 @@ class _AddFriendPageState extends State<AddFriendPage> {
   void initState() {
     super.initState();
     _getContacts();
+
+    Account account = _accountService.account;
+
+    setState(() {
+      _account = account;
+      _user = account.user;
+    });
   }
 
   @override
@@ -61,21 +71,59 @@ class _AddFriendPageState extends State<AddFriendPage> {
 
   List<Widget> _getIcons(Contact contact) {
     List<Widget> icons = List<Widget>();
+    Icon contactIcon = Icon(FontAwesomeIcons.plusCircle, size: 18.0);
 
+    // if formattedPhone in _user.requests || _user.friends then icon = remove
     contact.phones.forEach((phone) {
       String formattedPhone =
           phone.value.replaceAll(RegExp(r'(\s|\(|\)|\-)+'), '');
-      if (_socialContacts.where((c) => c.phone == formattedPhone).length > 0) {
+      Iterable<Account> socialContact =
+          _socialContacts.where((c) => c.phone == formattedPhone);
+
+      if (socialContact.length > 0) {
+        User socialContactUser = socialContact.elementAt(0).user;
+        AlertOverlay alertOverlay = AlertOverlay(
+            title: 'ADD FRIEND',
+            body: 'Would you like to send a request to ' +
+                contact.displayName +
+                '?',
+            buttonLabel: 'OK',
+            buttonAction: () async {
+              bool success = await _userService.sendFriendRequest(_user.id);
+
+              if (success) {
+                setState(() {
+                  _socialContacts
+                      .firstWhere((x) => x.phone == formattedPhone)
+                      .user
+                      .requests.add(_user.id);
+                });
+              }
+            });
+        if (socialContactUser.requests.contains(_user.id)) {
+          contactIcon = Icon(FontAwesomeIcons.timesCircle, size: 18.0);
+
+          alertOverlay = AlertOverlay(
+              title: 'REMOVE FRIEND',
+              body: 'Would you like to remove ' +
+                  contact.displayName +
+                  ' from your friends?',
+              buttonLabel: 'OK',
+              buttonAction: () async {
+                setState(() {
+                  _socialContacts
+                      .firstWhere((x) => x.phone == formattedPhone)
+                      .user
+                      .requests = [];
+                });
+              });
+        }
+
         icons.add(GestureDetector(
             onTap: () {
-              AlertOverlay alertOverlay = AlertOverlay(
-                  title: 'ADD FRIEND',
-                  body: 'Would you like to send a request to ' + contact.displayName + '?',
-                  buttonLabel: 'OK');
-
               alertOverlay.showOverlay(context);
             },
-            child: Icon(FontAwesomeIcons.plusCircle, size: 18.0)));
+            child: contactIcon));
       }
     });
 
