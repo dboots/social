@@ -4,11 +4,12 @@ class AlertOverlay {
   String title;
   String body;
   String buttonLabel;
+	Function buttonAction;
 
   OverlayState overlayState;
   OverlayEntry overlayEntry;
 
-  AlertOverlay({Key key, this.title, this.body, this.buttonLabel});
+  AlertOverlay({Key key, this.title, this.body, this.buttonLabel, this.buttonAction});
 
   void showOverlay(BuildContext context) {
     overlayState = Overlay.of(context);
@@ -56,6 +57,7 @@ class AlertOverlay {
                               widthFactor: 0.8,
                               child: FlatButton(
                                   onPressed: () {
+																		buttonAction();
                                     overlayEntry.remove();
                                   },
                                   child: Text(buttonLabel,

@@ -14,21 +14,6 @@ class LineItem extends StatelessWidget {
     );
   }
 
-/*
-IconButton(
-	iconSize: 24.0,
-	padding: const EdgeInsets.all(0.0),
-	icon: Icon(FontAwesomeIcons.timesCircle,
-			color: Color(0xFFCCCCCC)),
-	onPressed: () {}),
-IconButton(
-	iconSize: 24.0,
-	padding: const EdgeInsets.all(0.0),
-	icon: Icon(FontAwesomeIcons.timesCircle,
-			color: Color(0xFFCCCCCC)),
-	onPressed: () {})
-	*/
-
   List<Widget> _itemBody() {
     List<Widget> bodyWidgets = [
       Container(

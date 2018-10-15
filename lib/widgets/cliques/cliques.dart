@@ -146,26 +146,23 @@ class _CliquesPageState extends State<CliquesPage> {
                         Navigator.pop(context);
                       },
                       middleAction: () {
-												Navigator.pushNamed(context, 'cliques/friends/add');
-											},
+                        Navigator.pushNamed(context, 'cliques/friends/add');
+                      },
                       middleLabel: 'ADD FRIEND')
                 ])
           ]))
     ])));
   }
 
-/*
-	BottomNav(
-                  leftIcon: FontAwesomeIcons.arrowLeft,
-                  leftAction: () {
-                    Navigator.pop(context);
-                  },
-                  middleAction: () {},
-                  middleLabel: 'CREATE')
-            ]*/
-
-  List<Widget> _getFriendWidgets() {
-    return [Icon(FontAwesomeIcons.minusCircle, size: 18.0)];
+  List<Widget> _getFriendRequestWidgets() {
+    return [
+      Container(
+          padding: EdgeInsets.all(5.0),
+          child: Icon(FontAwesomeIcons.timesCircle, size: 18.0)),
+      Container(
+          padding: EdgeInsets.all(5.0),
+          child: Icon(FontAwesomeIcons.checkCircle, size: 18.0))
+    ];
   }
 
   List<Widget> _getCliquesWidgets() {
@@ -173,8 +170,9 @@ class _CliquesPageState extends State<CliquesPage> {
   }
 
   List<Widget> _getFriendRequests() {
-    List<Widget> rows = _friends.map((friend) {
-      return LineItem(label: friend['full_name']);
+    List<Widget> rows = _accountService.account.user.requests.map((request) {
+      return LineItem(
+          label: request['full_name'], widgets: _getFriendRequestWidgets());
     }).toList();
 
     return rows;
