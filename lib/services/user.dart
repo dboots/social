@@ -38,7 +38,29 @@ class UserService extends API {
 
     Response response = await httpClient.post(url + '/user/request', body: body, headers: {
       HttpHeaders.authorizationHeader:
-          'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5MDA1NzI2LCJleHAiOjE1Mzk2MTA1MjZ9.XfRbjHThiqLOVhlbc4517vLLAq_mdFBj7diwH9WlLSk'
+          'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5NjE1MTgyLCJleHAiOjE1NDAyMTk5ODJ9.aQZUSetVokKxcWgT5-ityWqM3oA87fznMEADxTkGa_0'
+    });
+
+		return json.decode(response.body)['success'];
+  }
+
+  Future<bool> cancelFriendRequest(String friendId) async {
+    var body = {'friend': friendId};
+
+    Response response = await httpClient.post(url + '/user/request/cancel', body: body, headers: {
+      HttpHeaders.authorizationHeader:
+          'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5NjE1MTgyLCJleHAiOjE1NDAyMTk5ODJ9.aQZUSetVokKxcWgT5-ityWqM3oA87fznMEADxTkGa_0'
+    });
+
+		return json.decode(response.body)['success'];
+  }
+
+  Future<bool> denyFriendRequest(String friendId) async {
+    var body = {'friend': friendId};
+
+    Response response = await httpClient.post(url + '/user/request/deny', body: body, headers: {
+      HttpHeaders.authorizationHeader:
+          'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5NjE1MTgyLCJleHAiOjE1NDAyMTk5ODJ9.aQZUSetVokKxcWgT5-ityWqM3oA87fznMEADxTkGa_0'
     });
 
 		return json.decode(response.body)['success'];

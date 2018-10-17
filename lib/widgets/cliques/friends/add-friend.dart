@@ -89,14 +89,17 @@ class _AddFriendPageState extends State<AddFriendPage> {
                 '?',
             buttonLabel: 'OK',
             buttonAction: () async {
-              bool success = await _userService.sendFriendRequest(_user.id);
+              bool success =
+                  await _userService.sendFriendRequest(socialContactUser.id);
 
+							print('TODO populate _socialContacts via User()');
               if (success) {
                 setState(() {
                   _socialContacts
                       .firstWhere((x) => x.phone == formattedPhone)
                       .user
-                      .requests.add(_user.id);
+                      .requests
+                      .add(_user.id);
                 });
               }
             });
@@ -110,12 +113,17 @@ class _AddFriendPageState extends State<AddFriendPage> {
                   ' from your friends?',
               buttonLabel: 'OK',
               buttonAction: () async {
-                setState(() {
-                  _socialContacts
-                      .firstWhere((x) => x.phone == formattedPhone)
-                      .user
-                      .requests = [];
-                });
+                bool success = await _userService
+                    .cancelFriendRequest(socialContactUser.id);
+
+                if (success) {
+                  setState(() {
+                    _socialContacts
+                        .firstWhere((x) => x.phone == formattedPhone)
+                        .user
+                        .requests = [];
+                  });
+                }
               });
         }
 

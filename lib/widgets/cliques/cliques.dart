@@ -7,7 +7,9 @@ import 'package:Social/widgets/common/bottom-nav.dart';
 import 'package:Social/widgets/common/line-item.dart';
 import 'package:Social/services/cliques.dart';
 import 'package:Social/services/account.dart';
+import 'package:Social/services/user.dart';
 import 'package:Social/models/clique.dart';
+import 'package:Social/models/user.dart';
 
 class CliquesPage extends StatefulWidget {
   CliquesPage() : super();
@@ -21,6 +23,7 @@ class _CliquesPageState extends State<CliquesPage> {
   PageController _controller = PageController();
   CliqueService _cliqueService = CliqueService();
   AccountService _accountService = AccountService();
+  UserService _userService = UserService();
   List<Clique> _cliques = [];
   List _friends = [];
   bool _isReady = false;
@@ -127,18 +130,7 @@ class _CliquesPageState extends State<CliquesPage> {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: Text('REQUESTS',
-                                  style: TextStyle(fontSize: 16.0))),
-                          Column(children: _getFriendRequests()),
-                          Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: Text('ADDED',
-                                  style: TextStyle(fontSize: 16.0))),
-                          Column(children: _getFriends()),
-                        ]),
+                        children: _getFriendContainers()),
                   )),
                   BottomNav(
                       leftIcon: FontAwesomeIcons.arrowLeft,
@@ -154,25 +146,41 @@ class _CliquesPageState extends State<CliquesPage> {
     ])));
   }
 
-  List<Widget> _getFriendRequestWidgets() {
+  List<Widget> _getCliquesWidgets() {
+    return [Icon(FontAwesomeIcons.edit, size: 18.0)];
+  }
+
+  List<Widget> _getFriendWidgets(String friendId) {
+    return [Icon(FontAwesomeIcons.timesCircle, size: 18.0)];
+  }
+
+  List<Widget> _getFriendRequestWidgets(String requestId) {
     return [
       Container(
           padding: EdgeInsets.all(5.0),
-          child: Icon(FontAwesomeIcons.timesCircle, size: 18.0)),
+          child: GestureDetector(
+              child: Icon(FontAwesomeIcons.timesCircle, size: 18.0),
+              onTap: () async {
+                bool success = await _userService.denyFriendRequest(requestId);
+
+                if (success) {
+                  setState(() {
+                    _accountService.account.user.requests
+                        .removeWhere((x) => x['_id'] == requestId);
+                  });
+                }
+              })),
       Container(
           padding: EdgeInsets.all(5.0),
           child: Icon(FontAwesomeIcons.checkCircle, size: 18.0))
     ];
   }
 
-  List<Widget> _getCliquesWidgets() {
-    return [Icon(FontAwesomeIcons.edit, size: 18.0)];
-  }
-
   List<Widget> _getFriendRequests() {
     List<Widget> rows = _accountService.account.user.requests.map((request) {
       return LineItem(
-          label: request['full_name'], widgets: _getFriendRequestWidgets());
+          label: request['full_name'],
+          widgets: _getFriendRequestWidgets(request['_id']));
     }).toList();
 
     return rows;
@@ -180,9 +188,31 @@ class _CliquesPageState extends State<CliquesPage> {
 
   List<Widget> _getFriends() {
     List<Widget> rows = _friends.map((friend) {
-      return LineItem(label: friend['full_name']);
+      return LineItem(
+          label: friend['full_name'],
+          widgets: _getFriendWidgets(friend['_id']));
     }).toList();
 
     return rows;
+  }
+
+  List<Widget> _getFriendContainers() {
+    List<Widget> containers = [];
+
+    if (_accountService.account.user.requests.length > 0) {
+      containers.add(Container(
+          padding: EdgeInsets.all(10.0),
+          child: Text('REQUESTS', style: TextStyle(fontSize: 16.0))));
+      containers.add(Column(children: _getFriendRequests()));
+    }
+
+    if (_accountService.account.user.friends.length > 0) {
+      containers.add(Container(
+          padding: EdgeInsets.all(10.0),
+          child: Text('ADDED', style: TextStyle(fontSize: 16.0))));
+      containers.add(Column(children: _getFriends()));
+    }
+
+		return containers;
   }
 }
