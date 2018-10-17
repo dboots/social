@@ -4,6 +4,8 @@ import 'package:Social/widgets/common/utils.dart';
 import 'package:Social/widgets/landing/login.dart';
 import 'package:Social/widgets/landing/signup.dart';
 import 'package:Social/widgets/landing/phone-number.dart';
+import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LandingPage extends StatefulWidget {
   LandingPage() : super();
@@ -13,11 +15,39 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  String _homeScreenText = "Waiting for token...";
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   PageController _controller = PageController(initialPage: 1);
 
   @override
   void initState() {
     super.initState();
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      setState(() {
+        _homeScreenText = "Push Messaging token: $token";
+      });
+      print(_homeScreenText);
+    });
   }
 
   @override
