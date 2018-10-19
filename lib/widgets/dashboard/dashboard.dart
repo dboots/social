@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:Social/services/shared-prefs.dart';
 
 class DashboardPage extends StatefulWidget {
   DashboardPage() : super();
@@ -31,7 +32,10 @@ class _DashboardPageState extends State<DashboardPage> {
                     margin: EdgeInsets.all(10.0),
                     child: IconButton(
                         iconSize: 40.0,
-                        onPressed: () {},
+                        onPressed: () {
+													SharedPrefs().instance.remove('token');
+													Navigator.popAndPushNamed(context, '/');
+												},
                         icon: Icon(FontAwesomeIcons.cog,
                             size: 40.0, color: Color(0xFF999999)))),
                 Expanded(child: Container()),

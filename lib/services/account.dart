@@ -5,9 +5,10 @@ import 'package:http/http.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:Social/services/api.dart';
 import 'package:Social/models/account.dart';
+import 'package:Social/services/shared-prefs.dart';
 
 class AccountService extends API {
-  static final AccountService _instance = new AccountService._internal();
+  static final AccountService _instance = AccountService._internal();
   Account _account;
   List<Account> _contactAccounts;
 
@@ -26,8 +27,16 @@ class AccountService extends API {
     var response = await httpClient.post(url + resource, body: body);
 
     if (response.statusCode < 300) {
+			
       _account = Account(response.body, 'account');
-      return true;
+
+			//-- TODO: refactor decoder to a service
+			//-- TODO: refactor setting token to accountService.getToken()
+			JsonDecoder decoder = const JsonDecoder();
+			String token = decoder.convert(response.body)['token'];
+			SharedPrefs().instance.setString('token', token);
+      
+			return true;
     } else {
       print('Error in account services: ' + response.statusCode.toString());
       return false;
@@ -40,7 +49,7 @@ class AccountService extends API {
     Response response =
         await httpClient.post(url + '/contacts', body: body, headers: {
       HttpHeaders.authorizationHeader:
-          'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5NjE1MTgyLCJleHAiOjE1NDAyMTk5ODJ9.aQZUSetVokKxcWgT5-ityWqM3oA87fznMEADxTkGa_0'
+          'JWT ' + token
     });
 
     Iterable i = json.decode(response.body)['contacts'];

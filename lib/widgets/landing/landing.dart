@@ -4,8 +4,9 @@ import 'package:Social/widgets/common/utils.dart';
 import 'package:Social/widgets/landing/login.dart';
 import 'package:Social/widgets/landing/signup.dart';
 import 'package:Social/widgets/landing/phone-number.dart';
-import 'dart:async';
+import 'package:Social/widgets/dashboard/dashboard.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:Social/services/shared-prefs.dart';
 
 class LandingPage extends StatefulWidget {
   LandingPage() : super();
@@ -16,6 +17,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   String _homeScreenText = "Waiting for token...";
+  bool _isReady = false;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   PageController _controller = PageController(initialPage: 1);
@@ -23,6 +25,12 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
+
+    SharedPrefs().initSharedPrefs().then((result) {
+      setState(() {
+        _isReady = true;
+      });
+    });
 
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -52,40 +60,54 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomPadding: false,
-        body: Stack(children: <Widget>[
-          Utils.getBackground(),
-          PageView(
-              physics: NeverScrollableScrollPhysics(),
-              controller: this._controller,
-              children: <Widget>[
-                Column(children: <Widget>[
-                  Utils.getSpacer(50.0),
-                  Utils.getBackButton(() { Utils.tabBack(_controller, 1); }),
-                  Utils.getSpacer(100.0),
-                  LoginPage()
-                ]),
-                Column(children: <Widget>[
-                  Utils.getSpacer(50.0),
-                  Utils.getBranding(),
-                  Utils.getSpacer(75.0),
-                  _getBody()
-                ]),
-								Column(children: <Widget>[
-                  Utils.getSpacer(50.0),
-                  Utils.getBackButton(() { Utils.tabBack(_controller, 1); }),
-                  Utils.getSpacer(100.0),
-                  SignupPage(controller: _controller)
-                ]),
-								Column(children: <Widget>[
-                  Utils.getSpacer(50.0),
-                  Utils.getBackButton(() { Utils.tabBack(_controller, 2); }),
-                  Utils.getSpacer(100.0),
-                  PhoneNumberPage()
-                ])
-              ])
-        ]));
+    if (!_isReady) {
+      return Container();
+    } else {
+      if (SharedPrefs().instance.getString('token') != null) {
+        return DashboardPage();
+      } else {
+        return Scaffold(
+            resizeToAvoidBottomPadding: false,
+            body: Stack(children: <Widget>[
+              Utils.getBackground(),
+              PageView(
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: this._controller,
+                  children: <Widget>[
+                    Column(children: <Widget>[
+                      Utils.getSpacer(50.0),
+                      Utils.getBackButton(() {
+                        Utils.tabBack(_controller, 1);
+                      }),
+                      Utils.getSpacer(100.0),
+                      LoginPage()
+                    ]),
+                    Column(children: <Widget>[
+                      Utils.getSpacer(50.0),
+                      Utils.getBranding(),
+                      Utils.getSpacer(75.0),
+                      _getBody()
+                    ]),
+                    Column(children: <Widget>[
+                      Utils.getSpacer(50.0),
+                      Utils.getBackButton(() {
+                        Utils.tabBack(_controller, 1);
+                      }),
+                      Utils.getSpacer(100.0),
+                      SignupPage(controller: _controller)
+                    ]),
+                    Column(children: <Widget>[
+                      Utils.getSpacer(50.0),
+                      Utils.getBackButton(() {
+                        Utils.tabBack(_controller, 2);
+                      }),
+                      Utils.getSpacer(100.0),
+                      PhoneNumberPage()
+                    ])
+                  ])
+            ]));
+      }
+    }
   }
 
   _getBody() {
@@ -98,7 +120,7 @@ class _LandingPageState extends State<LandingPage> {
           child: FractionallySizedBox(
               widthFactor: 0.6,
               child: FlatButton(
-								materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 padding: EdgeInsets.all(5.0),
                 onPressed: () {
                   _controller.animateToPage(0,
@@ -117,8 +139,8 @@ class _LandingPageState extends State<LandingPage> {
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   onPressed: () {
                     _controller.animateToPage(2,
-                         duration: new Duration(milliseconds: 250),
-                         curve: Curves.easeIn);
+                        duration: new Duration(milliseconds: 250),
+                        curve: Curves.easeIn);
                   },
                   color: Color(0x00000000),
                   textColor: Color(0xFF525252),

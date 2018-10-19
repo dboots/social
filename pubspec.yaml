@@ -8,6 +8,7 @@ dependencies:
   font_awesome_flutter: 8.0.1
   contacts_service: 0.0.9
   firebase_messaging: 2.0.1
+  shared_preferences: 0.4.3
 
 dev_dependencies:
   flutter_test:

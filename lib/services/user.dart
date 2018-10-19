@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
-
 import 'package:Social/services/api.dart';
 import 'package:contacts_service/contacts_service.dart';
 
@@ -38,7 +37,7 @@ class UserService extends API {
 
     Response response = await httpClient.post(url + '/user/request', body: body, headers: {
       HttpHeaders.authorizationHeader:
-          'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5NjE1MTgyLCJleHAiOjE1NDAyMTk5ODJ9.aQZUSetVokKxcWgT5-ityWqM3oA87fznMEADxTkGa_0'
+          'JWT ' + token
     });
 
 		return json.decode(response.body)['success'];
@@ -49,7 +48,7 @@ class UserService extends API {
 
     Response response = await httpClient.post(url + '/user/request/cancel', body: body, headers: {
       HttpHeaders.authorizationHeader:
-          'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5NjE1MTgyLCJleHAiOjE1NDAyMTk5ODJ9.aQZUSetVokKxcWgT5-ityWqM3oA87fznMEADxTkGa_0'
+          'JWT ' + token
     });
 
 		return json.decode(response.body)['success'];
@@ -60,7 +59,7 @@ class UserService extends API {
 
     Response response = await httpClient.post(url + '/user/request/deny', body: body, headers: {
       HttpHeaders.authorizationHeader:
-          'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5NjE1MTgyLCJleHAiOjE1NDAyMTk5ODJ9.aQZUSetVokKxcWgT5-ityWqM3oA87fznMEADxTkGa_0'
+          'JWT ' + token
     });
 
 		return json.decode(response.body)['success'];

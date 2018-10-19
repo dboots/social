@@ -9,23 +9,20 @@ class CliqueService extends API {
   static List<Clique> _cliques;
 
   factory CliqueService() {
-		return _instance;
+    return _instance;
   }
 
-  CliqueService._internal() {
-  }
+  CliqueService._internal() {}
 
   Future<List<Clique>> getCliques() async {
-		if (_cliques != null) {
-			return _cliques;
-		}
-		
-    var resource = '/cliques';
+    if (_cliques != null) {
+      return _cliques;
+    }
 
-    var response =
-        await this.httpClient.get(url + resource, headers: {
+    var resource = '/cliques';
+    var response = await this.httpClient.get(url + resource, headers: {
       HttpHeaders.authorizationHeader:
-          'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5NjE1MTgyLCJleHAiOjE1NDAyMTk5ODJ9.aQZUSetVokKxcWgT5-ityWqM3oA87fznMEADxTkGa_0'
+          'JWT ' + token
     });
 
     if (response.statusCode < 300) {
