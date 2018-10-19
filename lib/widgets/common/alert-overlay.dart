@@ -57,7 +57,9 @@ class AlertOverlay {
                               widthFactor: 0.8,
                               child: FlatButton(
                                   onPressed: () {
-																		buttonAction();
+																		if (buttonAction != null) {
+																			buttonAction();
+																		}
                                     overlayEntry.remove();
                                   },
                                   child: Text(buttonLabel,
