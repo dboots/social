@@ -10,7 +10,16 @@ buildscript {
 }
 
 allprojects {
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'com.google.firebase') {
+                details.useVersion "15.+"
+            }
+        }
+    }
     repositories {
+        google()
         jcenter()
     }
 }
