@@ -9,7 +9,7 @@ import 'package:Social/services/cliques.dart';
 import 'package:Social/services/account.dart';
 import 'package:Social/services/user.dart';
 import 'package:Social/models/clique.dart';
-import 'package:Social/models/user.dart';
+import 'package:Social/widgets/common/alert-overlay.dart';
 
 class CliquesPage extends StatefulWidget {
   CliquesPage() : super();
@@ -150,29 +150,81 @@ class _CliquesPageState extends State<CliquesPage> {
     return [Icon(FontAwesomeIcons.edit, size: 18.0)];
   }
 
-  List<Widget> _getFriendWidgets(String friendId) {
-    return [Icon(FontAwesomeIcons.timesCircle, size: 18.0)];
+  List<Widget> _getFriendWidgets(dynamic friend) {
+		String friendId = friend['_id'];
+    return [
+      GestureDetector(
+          child: Icon(FontAwesomeIcons.timesCircle, size: 18.0),
+          onTap: () async {
+            AlertOverlay alertOverlay = AlertOverlay(
+                title: 'REMOVE FRIEND',
+                body: 'Would you like to deny ' + friend['full_name'] + '?',
+                buttonLabel: 'OK',
+                buttonAction: () async {
+                  bool result = await _userService.denyFriendRequest(friendId);
+                  if (result) {
+                    setState(() {
+                      _accountService.account.user.friends
+                          .removeWhere((x) => x['_id'] == friendId);
+                    });
+                  }
+                });
+
+            alertOverlay.showOverlay(context);
+          })
+    ];
   }
 
-  List<Widget> _getFriendRequestWidgets(String requestId) {
+  List<Widget> _getFriendRequestWidgets(dynamic request) {
+		String requestId = request['_id'];
     return [
       Container(
           padding: EdgeInsets.all(5.0),
           child: GestureDetector(
               child: Icon(FontAwesomeIcons.timesCircle, size: 18.0),
               onTap: () async {
-                bool success = await _userService.denyFriendRequest(requestId);
+                AlertOverlay alertOverlay = AlertOverlay(
+                    title: 'DENY FRIEND',
+                    body: 'Would you like to deny ' + request['full_name'] + '?',
+                    buttonLabel: 'OK',
+                    buttonAction: () async {
+                      bool success =
+                          await _userService.denyFriendRequest(requestId);
 
-                if (success) {
-                  setState(() {
-                    _accountService.account.user.requests
-                        .removeWhere((x) => x['_id'] == requestId);
-                  });
-                }
+                      if (success) {
+                        setState(() {
+                          _accountService.account.user.requests
+                              .removeWhere((x) => x['_id'] == requestId);
+                        });
+                      }
+                    });
+
+                alertOverlay.showOverlay(context);
               })),
       Container(
           padding: EdgeInsets.all(5.0),
-          child: Icon(FontAwesomeIcons.checkCircle, size: 18.0))
+          child: GestureDetector(
+              child: Icon(FontAwesomeIcons.checkCircle, size: 18.0),
+              onTap: () async {
+                AlertOverlay alertOverlay = AlertOverlay(
+                    title: 'APPROVE FRIEND',
+                    body: 'Would you like to approve ' + request['full_name'] + '?',
+                    buttonLabel: 'OK',
+                    buttonAction: () async {
+                      bool success =
+                          await _userService.approveFriendRequest(requestId);
+
+                      if (success) {
+                        setState(() {
+                          _accountService.account.user.requests
+                              .removeWhere((x) => x['_id'] == requestId);
+													_accountService.account.user.friends.add(request);
+                        });
+                      }
+                    });
+
+                alertOverlay.showOverlay(context);
+              }))
     ];
   }
 
@@ -180,7 +232,7 @@ class _CliquesPageState extends State<CliquesPage> {
     List<Widget> rows = _accountService.account.user.requests.map((request) {
       return LineItem(
           label: request['full_name'],
-          widgets: _getFriendRequestWidgets(request['_id']));
+          widgets: _getFriendRequestWidgets(request));
     }).toList();
 
     return rows;
@@ -190,7 +242,7 @@ class _CliquesPageState extends State<CliquesPage> {
     List<Widget> rows = _friends.map((friend) {
       return LineItem(
           label: friend['full_name'],
-          widgets: _getFriendWidgets(friend['_id']));
+          widgets: _getFriendWidgets(friend));
     }).toList();
 
     return rows;
@@ -213,6 +265,6 @@ class _CliquesPageState extends State<CliquesPage> {
       containers.add(Column(children: _getFriends()));
     }
 
-		return containers;
+    return containers;
   }
 }

@@ -34,7 +34,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         iconSize: 40.0,
                         onPressed: () {
 													SharedPrefs().instance.remove('token');
-													Navigator.popAndPushNamed(context, '/');
+													Navigator.pushReplacementNamed(context, '/');
 												},
                         icon: Icon(FontAwesomeIcons.cog,
                             size: 40.0, color: Color(0xFF999999)))),

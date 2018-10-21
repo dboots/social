@@ -18,10 +18,9 @@ class AddFriendPage extends StatefulWidget {
 }
 
 class _AddFriendPageState extends State<AddFriendPage> {
-  List<Contact> _contacts;
-  List<Account> _socialContacts;
+  List<Contact> _contacts = [];
+  List<Account> _socialContacts = [];
   AccountService _accountService = AccountService();
-  Account _account;
   User _user;
   UserService _userService = UserService();
   bool _isReady = false;
@@ -34,7 +33,6 @@ class _AddFriendPageState extends State<AddFriendPage> {
     Account account = _accountService.account;
 
     setState(() {
-      _account = account;
       _user = account.user;
     });
   }
@@ -92,7 +90,6 @@ class _AddFriendPageState extends State<AddFriendPage> {
               bool success =
                   await _userService.sendFriendRequest(socialContactUser.id);
 
-							print('TODO populate _socialContacts via User()');
               if (success) {
                 setState(() {
                   _socialContacts
@@ -144,9 +141,9 @@ class _AddFriendPageState extends State<AddFriendPage> {
         await _accountService.initSocialContacts(contacts);
 
     setState(() {
-      _isReady = true;
       _contacts = contacts;
       _socialContacts = socialContacts;
+      _isReady = true;
     });
   }
 }

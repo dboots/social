@@ -6,6 +6,7 @@ import 'package:Social/widgets/landing/signup.dart';
 import 'package:Social/widgets/landing/phone-number.dart';
 import 'package:Social/widgets/dashboard/dashboard.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:Social/services/account.dart';
 import 'package:Social/services/shared-prefs.dart';
 
 class LandingPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _LandingPageState extends State<LandingPage> {
   String _homeScreenText = "Waiting for token...";
   bool _isReady = false;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  AccountService _accountService = AccountService();
 
   PageController _controller = PageController(initialPage: 1);
 
@@ -60,54 +62,38 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_isReady) {
-      return Container();
-    } else {
-      if (SharedPrefs().instance.getString('token') != null) {
-        return DashboardPage();
-      } else {
-        return Scaffold(
-            resizeToAvoidBottomPadding: false,
-            body: Stack(children: <Widget>[
-              Utils.getBackground(),
-              PageView(
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: this._controller,
-                  children: <Widget>[
-                    Column(children: <Widget>[
-                      Utils.getSpacer(50.0),
-                      Utils.getBackButton(() {
-                        Utils.tabBack(_controller, 1);
-                      }),
-                      Utils.getSpacer(100.0),
-                      LoginPage()
-                    ]),
-                    Column(children: <Widget>[
-                      Utils.getSpacer(50.0),
-                      Utils.getBranding(),
-                      Utils.getSpacer(75.0),
-                      _getBody()
-                    ]),
-                    Column(children: <Widget>[
-                      Utils.getSpacer(50.0),
-                      Utils.getBackButton(() {
-                        Utils.tabBack(_controller, 1);
-                      }),
-                      Utils.getSpacer(100.0),
-                      SignupPage(controller: _controller)
-                    ]),
-                    Column(children: <Widget>[
-                      Utils.getSpacer(50.0),
-                      Utils.getBackButton(() {
-                        Utils.tabBack(_controller, 2);
-                      }),
-                      Utils.getSpacer(100.0),
-                      PhoneNumberPage()
-                    ])
-                  ])
-            ]));
-      }
-    }
+    return Scaffold(
+        resizeToAvoidBottomPadding: false,
+        body: Stack(children: <Widget>[
+          Utils.getBackground(),
+          PageView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: this._controller,
+              children: <Widget>[
+                Column(children: <Widget>[
+                  Utils.getBackButton(() {
+                    Utils.tabBack(_controller, 1);
+                  }),
+                  LoginPage()
+                ]),
+                Column(children: <Widget>[
+                  Utils.getBranding(),
+                  _getBody()
+                ]),
+                Column(children: <Widget>[
+                  Utils.getBackButton(() {
+                    Utils.tabBack(_controller, 1);
+                  }),
+                  SignupPage(controller: _controller)
+                ]),
+                Column(children: <Widget>[
+                  Utils.getBackButton(() {
+                    Utils.tabBack(_controller, 2);
+                  }),
+                  PhoneNumberPage()
+                ])
+              ])
+        ]));
   }
 
   _getBody() {

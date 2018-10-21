@@ -7,29 +7,27 @@ class Utils {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          IconButton(
-              iconSize: 48.0,
-              padding: const EdgeInsets.all(0.0),
-              icon:
-                  Icon(FontAwesomeIcons.timesCircle, color: Color(0xFFCCCCCC)),
-              onPressed: action)
+          Container(
+              padding: EdgeInsets.only(top: 50.0, right: 25.0, bottom: 100.0),
+              child: IconButton(
+                  iconSize: 48.0,
+                  icon: Icon(FontAwesomeIcons.timesCircle,
+                      color: Color(0xFFCCCCCC)),
+                  onPressed: action))
         ]);
   }
 
   static Widget getFlatButton(String title, Function action) {
     return FractionallySizedBox(
-              widthFactor: 0.5,
-              child: FlatButton(
-                  onPressed: action,
-                  color: Color(0xFFFFFFFF),
-                  textColor: Color(0x88000000),
-                  child: Text(title,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      letterSpacing: 2.5
-                    )
-                  ),
-                  shape: RoundedRectangleBorder(side: BorderSide(color: Color(0x88000000), width: 2.5))));
+        widthFactor: 0.5,
+        child: FlatButton(
+            onPressed: action,
+            color: Color(0xFFFFFFFF),
+            textColor: Color(0x88000000),
+            child: Text(title,
+                style: TextStyle(fontSize: 18.0, letterSpacing: 2.5)),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(color: Color(0x88000000), width: 2.5))));
   }
 
   static Widget getIconButton(
@@ -54,12 +52,7 @@ class Utils {
           GestureDetector(
               onTap: action,
               child: Text(title,
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    letterSpacing: 2.5
-                  )
-              )
-          )
+                  style: TextStyle(fontSize: 22.0, letterSpacing: 2.5)))
         ]));
   }
 
@@ -74,19 +67,20 @@ class Utils {
   static Widget getBranding() {
     return Center(
         child: Container(
+            padding: EdgeInsets.only(top: 50.0, bottom: 75.0),
             child: Column(children: <Widget>[
-      Text('Social',
-          style: TextStyle(
-              fontFamily: 'Watermelon',
-              fontSize: 80.0,
-              color: Color(0xFF00A0BE))),
-      Text('LIFE IS BETTER TOGETHER',
-          style: TextStyle(
-              fontFamily: 'Lato',
-              fontSize: 12.0,
-              color: Color(0xFF525252),
-              letterSpacing: 2.0))
-    ])));
+              Text('Social',
+                  style: TextStyle(
+                      fontFamily: 'Watermelon',
+                      fontSize: 80.0,
+                      color: Color(0xFF00A0BE))),
+              Text('LIFE IS BETTER TOGETHER',
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontSize: 12.0,
+                      color: Color(0xFF525252),
+                      letterSpacing: 2.0))
+            ])));
   }
 
   static Widget getBackground() {

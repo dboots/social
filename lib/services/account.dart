@@ -11,6 +11,7 @@ class AccountService extends API {
   static final AccountService _instance = AccountService._internal();
   Account _account;
   List<Account> _contactAccounts;
+  SharedPrefs _sharedPrefs = SharedPrefs();
 
   Account get account => _account;
   List<Account> get contactAccounts => _contactAccounts;
@@ -27,30 +28,50 @@ class AccountService extends API {
     var response = await httpClient.post(url + resource, body: body);
 
     if (response.statusCode < 300) {
-			
-      _account = Account(response.body, 'account');
+      _account = Account.fromJson(response.body, 'account');
 
-			//-- TODO: refactor decoder to a service
-			//-- TODO: refactor setting token to accountService.getToken()
-			JsonDecoder decoder = const JsonDecoder();
-			String token = decoder.convert(response.body)['token'];
-			SharedPrefs().instance.setString('token', token);
-      
-			return true;
+      //-- TODO: refactor decoder to a service
+      //-- TODO: refactor setting token to accountService.getToken()
+      JsonDecoder decoder = const JsonDecoder();
+      String token = decoder.convert(response.body)['token'];
+      _sharedPrefs.instance.setString('token', token);
+
+      return true;
     } else {
       print('Error in account services: ' + response.statusCode.toString());
       return false;
     }
   }
 
-  Future<List<Account>> getSocialContacts(List<String> contacts) async {
-    var body = {'contacts': json.encode(contacts)};
+  Future<dynamic> signup(dynamic body) async {
+    String resource = '/accounts';
+    Response response = await httpClient.post(url + resource, body: body);
+    if (response.statusCode < 300) {
+      _account = Account.fromJson(response.body, 'account');
 
-    Response response =
-        await httpClient.post(url + '/contacts', body: body, headers: {
-      HttpHeaders.authorizationHeader:
-          'JWT ' + token
-    });
+      JsonDecoder decoder = const JsonDecoder();
+      String token = decoder.convert(response.body)['token'];
+      _sharedPrefs.instance.setString('token', token);
+
+      return {'success': true, 'body': _account};
+    } else {
+      return {'success': false, 'body': response.body};
+    }
+  }
+
+  Future<bool> ping(String token) async {
+    var resource = '/ping';
+    await httpClient.get(url + resource,
+        headers: {HttpHeaders.authorizationHeader: 'JWT ' + token});
+
+    return true;
+  }
+
+  Future<List<Account>> getSocialContacts(List<String> contacts) async {
+    var body = {'contacts': contacts.toString()};
+
+    Response response = await httpClient.post(url + '/contacts',
+        body: body, headers: {HttpHeaders.authorizationHeader: 'JWT ' + token});
 
     Iterable i = json.decode(response.body)['contacts'];
 
