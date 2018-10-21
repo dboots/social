@@ -61,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Colors.white),
                         Container(
                             padding: EdgeInsets.all(10.0),
-                            child: Text(_user.location,
+                            child: Text(_user.location ?? '',
                                 style: TextStyle(
                                     fontFamily: 'Lato',
                                     fontSize: 15.0,
