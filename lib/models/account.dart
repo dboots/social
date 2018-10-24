@@ -7,9 +7,6 @@ class Account extends Base {
 	String phone;
 	User user;
 
-	Account() {
-
-	}
 
 	Account.fromJson(String body, String key) {
     Map data = decode(body, 'account');

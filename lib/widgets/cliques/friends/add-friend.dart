@@ -39,7 +39,6 @@ class _AddFriendPageState extends State<AddFriendPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_isReady) return Container();
     return _getBody();
   }
 
@@ -74,7 +73,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
     // if formattedPhone in _user.requests || _user.friends then icon = remove
     contact.phones.forEach((phone) {
       String formattedPhone =
-          phone.value.replaceAll(RegExp(r'(\s|\(|\)|\-)+'), '');
+          phone.value.replaceAll(RegExp(r'\D+'), '');
       Iterable<Account> socialContact =
           _socialContacts.where((c) => c.phone == formattedPhone);
 

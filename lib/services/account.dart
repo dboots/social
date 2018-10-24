@@ -83,16 +83,11 @@ class AccountService extends API {
   }
 
   Future<List<Account>> initSocialContacts(List<Contact> contacts) async {
-    if (_contactAccounts != null) {
-      return _contactAccounts;
-    }
-
     List<String> contactPhones = List<String>();
 
     contacts.forEach((contact) {
       contact.phones.forEach((phone) {
-        contactPhones
-            .add(phone.value.replaceAll(RegExp(r'(\s|\(|\)|\-)+'), ''));
+        contactPhones.add(phone.value.replaceAll(RegExp(r'\D+'), ''));
       });
     });
 
