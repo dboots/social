@@ -7,6 +7,7 @@ import 'package:Social/widgets/landing/phone-number.dart';
 import 'package:Social/widgets/dashboard/dashboard.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:Social/services/account.dart';
+import 'package:Social/services/jwt-decode.dart';
 import 'package:Social/services/shared-prefs.dart';
 
 class LandingPage extends StatefulWidget {
@@ -18,11 +19,11 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   String _homeScreenText = "Waiting for token...";
-  bool _isReady = false;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   AccountService _accountService = AccountService();
-
+	JwtDecodeService _jwtDecodeService = JwtDecodeService();
   PageController _controller = PageController(initialPage: 1);
+	String _token;
 
   @override
   void initState() {
@@ -30,7 +31,7 @@ class _LandingPageState extends State<LandingPage> {
 
     SharedPrefs().initSharedPrefs().then((result) {
       setState(() {
-        _isReady = true;
+				_token = SharedPrefs().instance.getString('token');
       });
     });
 
@@ -62,6 +63,10 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
+		if (_token != null && _token.isNotEmpty) {
+			return DashboardPage();
+		}
+
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: Stack(children: <Widget>[
