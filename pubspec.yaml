@@ -35,6 +35,8 @@ flutter:
     - images/icon_profile.png
     - images/12.png
     - images/man.png
+    - images/dinner-test.jpg
+    - images/concert-test.jpg
 
   fonts:
     - family: Watermelon

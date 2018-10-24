@@ -96,4 +96,18 @@ class Utils {
                             image: AssetImage('images/social-marketing-2.png'),
                             fit: BoxFit.cover))))));
   }
+
+  static Widget getImageBackground(String url) {
+    return Container(
+        alignment: Alignment.topLeft,
+        child: AspectRatio(
+            aspectRatio: (3 / 2),
+            child: Opacity(
+                opacity: 0.6,
+                child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(url),
+                            fit: BoxFit.cover))))));
+  }
 }

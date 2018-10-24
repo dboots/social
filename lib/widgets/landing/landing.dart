@@ -4,6 +4,7 @@ import 'package:Social/widgets/common/utils.dart';
 import 'package:Social/widgets/landing/login.dart';
 import 'package:Social/widgets/landing/signup.dart';
 import 'package:Social/widgets/landing/phone-number.dart';
+import 'package:Social/widgets/landing/phone-verify.dart';
 import 'package:Social/widgets/dashboard/dashboard.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:Social/services/account.dart';
@@ -95,7 +96,13 @@ class _LandingPageState extends State<LandingPage> {
                   Utils.getBackButton(() {
                     Utils.tabBack(_controller, 2);
                   }),
-                  PhoneNumberPage()
+                  PhoneNumberPage(controller: _controller)
+                ]),
+                Column(children: <Widget>[
+                  Utils.getBackButton(() {
+                    Utils.tabBack(_controller, 3);
+                  }),
+                  PhoneVerifyPage()
                 ])
               ])
         ]));

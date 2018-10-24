@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PhoneNumberPage extends StatefulWidget {
-  PhoneNumberPage() : super();
+  PhoneNumberPage({Key key, this.controller}) : super();
+
+  final PageController controller;
 
   @override
   _PhoneNumberPageState createState() => _PhoneNumberPageState();
@@ -67,7 +69,9 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
               widthFactor: 1.0,
               child: FlatButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, 'dashboard');
+                    widget.controller.animateToPage(4,
+                        duration: Duration(milliseconds: 250),
+                        curve: Curves.easeIn);
                   },
                   color: Color(0xFF00A0BE),
                   textColor: Color(0xFFFFFFFF),

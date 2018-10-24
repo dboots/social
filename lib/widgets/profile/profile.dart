@@ -103,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                     Utils.getFlatButton('MOMENTS', () {
-                      Navigator.pushNamed(context, 'moments');
+                      Navigator.pushNamed(context, 'profile/moments');
                     }),
                     Container(padding: EdgeInsets.all(8.0)),
                     Utils.getFlatButton('ALBUMS', () {

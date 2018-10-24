@@ -7,7 +7,7 @@ import 'package:Social/widgets/landing/signup.dart';
 import 'package:Social/widgets/cliques/cliques.dart';
 import 'package:Social/widgets/camera/camera.dart';
 import 'package:Social/widgets/cliques/friends/add-friend.dart';
-
+import 'package:Social/widgets/profile/moments/moments.dart';
 
 void main() {
 	//debugPaintSizeEnabled=true;
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
             '/' : (BuildContext context) => LandingPage(),
 						'dashboard': (BuildContext context) => DashboardPage(),
 						'profile': (BuildContext context) => ProfilePage(),
+                        'profile/moments': (BuildContext context) => MomentsPage(),
             'signup': (BuildContext context) => SignupPage(),
 						'cliques': (BuildContext context) => CliquesPage(),
 						'camera': (BuildContext context) => CameraPage(),
