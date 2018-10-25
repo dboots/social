@@ -42,15 +42,24 @@ class _MomentsPageState extends State<MomentsPage> {
         child: SafeArea(
           child: Column(children: <Widget>[
             PageTitle(label: 'MOMENTS'),
-            Center(
+            Expanded(
               child: Container(
-                decoration: new BoxDecoration(color: Colors.black54),
-                child: Column(children: [
+                decoration: new BoxDecoration(color: Color(0xFFFFFFFA)),
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  children: [
                     ImageOverlay(label: 'DINNER', url: 'images/dinner-test.jpg'),
                     ReviewCard(
                       avatarUrl: 'images/12.png',
                       userName: 'Flutter Test',
                       reviewDate: 'JAN 15 5:45 PM',
+                      labelContent: _dinnerTestlabel
+                    ),
+                    ImageOverlay(label: 'CONCERT', url: 'images/concert-test.jpg'),
+                    ReviewCard(
+                      avatarUrl: 'images/12.png',
+                      userName: 'Flutter Test',
+                      reviewDate: 'JAN 12 5:45 PM',
                       labelContent: _dinnerTestlabel
                     )
                   ]

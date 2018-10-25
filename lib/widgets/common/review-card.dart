@@ -20,7 +20,18 @@ class ReviewCard extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 150.0,
-      decoration: new BoxDecoration(color: Color(0xFFFFFFFF)),
+      margin: EdgeInsets.only(top: 4.0, bottom: 2.0),
+      decoration: BoxDecoration(
+        color: Color(0xFFFFFFFF),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Color(0x80000000),
+            offset: Offset(0.0, 2.0),
+            blurRadius: 4.0
+          )
+        ],
+        borderRadius: BorderRadius.all(const Radius.circular(12.0))
+      ),
       padding: EdgeInsets.all(16.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
