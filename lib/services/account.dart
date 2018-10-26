@@ -10,9 +10,9 @@ import 'package:Social/services/shared-prefs.dart';
 
 class AccountService extends API {
   static final AccountService _instance = AccountService._internal();
-	JwtDecodeService _jwtDecodeService = JwtDecodeService();
+  JwtDecodeService _jwtDecodeService = JwtDecodeService();
   Account _account;
-	String token;
+  String token;
   List<Account> _contactAccounts;
   SharedPrefs _sharedPrefs = SharedPrefs();
 
@@ -25,11 +25,11 @@ class AccountService extends API {
 
   AccountService._internal();
 
-	void resume(String token) {
-		this.token = token;
-		dynamic object = _jwtDecodeService.parseJwt(token);
-		_account = Account.fromMap(object['account']);
-	}
+  void resume(String token) {
+    this.token = token;
+    dynamic object = _jwtDecodeService.parseJwt(token);
+    _account = Account.fromMap(object['account']);
+  }
 
   Future<bool> login(String username, String password) async {
     var resource = '/mobile/auth';
@@ -44,7 +44,7 @@ class AccountService extends API {
       JsonDecoder decoder = const JsonDecoder();
       String token = decoder.convert(response.body)['token'];
       _sharedPrefs.instance.setString('token', token);
-			this.token = token;
+      this.token = token;
 
       return true;
     } else {
@@ -61,6 +61,7 @@ class AccountService extends API {
 
       JsonDecoder decoder = const JsonDecoder();
       String token = decoder.convert(response.body)['token'];
+      this.token = token;
       _sharedPrefs.instance.setString('token', token);
 
       return {'success': true, 'body': _account};

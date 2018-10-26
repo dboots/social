@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Social/services/shared-prefs.dart';
 import 'package:Social/services/cliques.dart';
+import 'package:Social/services/account.dart';
 
 class DashboardPage extends StatefulWidget {
   DashboardPage() : super();
@@ -11,7 +12,8 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-	CliqueService _cliqueService = CliqueService();
+  CliqueService _cliqueService = CliqueService();
+  AccountService _accountService = AccountService();
 
   @override
   void initState() {
@@ -36,10 +38,11 @@ class _DashboardPageState extends State<DashboardPage> {
                     child: IconButton(
                         iconSize: 40.0,
                         onPressed: () {
-													SharedPrefs().instance.remove('token');
-													_cliqueService.cliques = [];
-													Navigator.pushReplacementNamed(context, '/');
-												},
+                          SharedPrefs().instance.remove('token');
+                          _cliqueService.cliques = [];
+                          _accountService = null;
+                          Navigator.pushReplacementNamed(context, '/');
+                        },
                         icon: Icon(FontAwesomeIcons.cog,
                             size: 40.0, color: Color(0xFF999999)))),
                 Expanded(child: Container()),
