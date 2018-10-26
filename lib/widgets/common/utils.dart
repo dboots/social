@@ -100,12 +100,23 @@ class Utils {
   static Widget getImageBackground(String url) {
     return Container(
         alignment: Alignment.topLeft,
+        decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Color(0xCC000000),
+                offset: Offset(0.0, 2.0),
+                blurRadius: 4.0
+            )
+            ],
+            borderRadius: BorderRadius.all(const Radius.circular(12.0))
+        ),
         child: AspectRatio(
             aspectRatio: (3 / 2),
             child: Opacity(
                 opacity: 0.6,
                 child: Container(
                     decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(const Radius.circular(12.0)),
                         image: DecorationImage(
                             image: AssetImage(url),
                             fit: BoxFit.cover))))));
