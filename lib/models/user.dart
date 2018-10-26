@@ -22,4 +22,12 @@ class User extends Base {
     friends = List.from(body['friends']);
 		requests = List.from(body['requests']);
   }
+
+  Map<String, dynamic> toJson() =>
+    {
+      'id': id,
+      'location': location,
+			'friends': friends,
+			'requests': requests
+    };
 }

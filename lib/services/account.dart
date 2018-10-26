@@ -4,12 +4,15 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:Social/services/api.dart';
+import 'package:Social/services/jwt-decode.dart';
 import 'package:Social/models/account.dart';
 import 'package:Social/services/shared-prefs.dart';
 
 class AccountService extends API {
   static final AccountService _instance = AccountService._internal();
+	JwtDecodeService _jwtDecodeService = JwtDecodeService();
   Account _account;
+	String token;
   List<Account> _contactAccounts;
   SharedPrefs _sharedPrefs = SharedPrefs();
 
@@ -21,6 +24,12 @@ class AccountService extends API {
   }
 
   AccountService._internal();
+
+	void resume(String token) {
+		this.token = token;
+		dynamic object = _jwtDecodeService.parseJwt(token);
+		_account = Account.fromMap(object['account']);
+	}
 
   Future<bool> login(String username, String password) async {
     var resource = '/mobile/auth';
@@ -35,6 +44,7 @@ class AccountService extends API {
       JsonDecoder decoder = const JsonDecoder();
       String token = decoder.convert(response.body)['token'];
       _sharedPrefs.instance.setString('token', token);
+			this.token = token;
 
       return true;
     } else {

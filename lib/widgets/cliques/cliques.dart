@@ -119,7 +119,9 @@ class _CliquesPageState extends State<CliquesPage> {
                       leftAction: () {
                         Navigator.pop(context);
                       },
-                      middleAction: () {},
+                      middleAction: () {
+												Navigator.pushNamed(context, 'cliques/create');
+											},
                       middleLabel: 'CREATE')
                 ]),
             Column(

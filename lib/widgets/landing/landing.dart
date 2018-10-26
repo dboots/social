@@ -8,7 +8,6 @@ import 'package:Social/widgets/landing/phone-verify.dart';
 import 'package:Social/widgets/dashboard/dashboard.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:Social/services/account.dart';
-import 'package:Social/services/jwt-decode.dart';
 import 'package:Social/services/shared-prefs.dart';
 
 class LandingPage extends StatefulWidget {
@@ -21,8 +20,7 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   String _homeScreenText = "Waiting for token...";
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  AccountService _accountService = AccountService();
-	JwtDecodeService _jwtDecodeService = JwtDecodeService();
+	AccountService _accountService = AccountService();
   PageController _controller = PageController(initialPage: 1);
 	String _token;
 
@@ -31,8 +29,11 @@ class _LandingPageState extends State<LandingPage> {
     super.initState();
 
     SharedPrefs().initSharedPrefs().then((result) {
+			String token = SharedPrefs().instance.getString('token');
+			_accountService.resume(token);
+
       setState(() {
-				_token = SharedPrefs().instance.getString('token');
+				_token = token;
       });
     });
 

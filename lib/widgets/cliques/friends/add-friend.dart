@@ -4,11 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Social/widgets/common/bottom-nav.dart';
 import 'package:Social/widgets/common/line-item.dart';
 import 'package:Social/widgets/common/page-title.dart';
+import 'package:Social/widgets/common/alert-overlay.dart';
 import 'package:Social/services/account.dart';
 import 'package:Social/services/user.dart';
 import 'package:Social/models/account.dart';
 import 'package:Social/models/user.dart';
-import 'package:Social/widgets/common/alert-overlay.dart';
 
 class AddFriendPage extends StatefulWidget {
   AddFriendPage() : super();
@@ -23,7 +23,6 @@ class _AddFriendPageState extends State<AddFriendPage> {
   AccountService _accountService = AccountService();
   User _user;
   UserService _userService = UserService();
-  bool _isReady = false;
 
   @override
   void initState() {
@@ -48,7 +47,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
             decoration: new BoxDecoration(color: Colors.white),
             child: SafeArea(
                 child: Column(children: <Widget>[
-              PageTitle(label: 'ADD FRIEND'),
+              PageTitle(label: 'ADD FRIENDS'),
               Expanded(
                   child: ListView.builder(
                 itemCount: _contacts.length,
@@ -142,7 +141,6 @@ class _AddFriendPageState extends State<AddFriendPage> {
     setState(() {
       _contacts = contacts;
       _socialContacts = socialContacts;
-      _isReady = true;
     });
   }
 }

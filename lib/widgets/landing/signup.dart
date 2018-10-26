@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:Social/services/account.dart';
-import 'package:Social/models/account.dart';
 import 'package:Social/widgets/common/alert-overlay.dart';
 
 class SignUpData {
