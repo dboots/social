@@ -15,6 +15,7 @@ class AccountService extends API {
   String token;
   List<Account> _contactAccounts;
   SharedPrefs _sharedPrefs = SharedPrefs();
+  Map<String, String> headers;
 
   Account get account => _account;
   List<Account> get contactAccounts => _contactAccounts;
@@ -29,6 +30,9 @@ class AccountService extends API {
     this.token = token;
     dynamic object = _jwtDecodeService.parseJwt(token);
     _account = Account.fromMap(object['account']);
+    headers = {
+      HttpHeaders.authorizationHeader: 'JWT ' + token
+    };
   }
 
   Future<bool> login(String username, String password) async {
@@ -70,12 +74,11 @@ class AccountService extends API {
     }
   }
 
-  Future<bool> ping(String token) async {
-    var resource = '/ping';
-    await httpClient.get(url + resource,
-        headers: {HttpHeaders.authorizationHeader: 'JWT ' + token});
+  Future<bool> update(dynamic body) async {
+    Response response =
+        await httpClient.put(url + '/account/' + _account.id, body: body, headers: headers);
 
-    return true;
+    return (response.statusCode < 300) ? true : false;
   }
 
   Future<List<Account>> getSocialContacts(List<String> contacts) async {

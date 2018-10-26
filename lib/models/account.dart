@@ -23,4 +23,11 @@ class Account extends Base {
 		phone = body['phone'];	
 		user = User.fromMap(body['user']);
 	}
+
+  Map<String, dynamic> toJson() =>
+    {
+      'id': id,
+      'email': email,
+			'phone': phone
+    };
 }

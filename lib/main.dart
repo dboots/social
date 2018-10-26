@@ -11,7 +11,7 @@ import 'package:Social/widgets/cliques/friends/add-friend.dart';
 import 'package:Social/widgets/profile/moments/moments.dart';
 
 void main() {
-  debugPaintSizeEnabled=true;
+  //debugPaintSizeEnabled=true;
   runApp(MyApp());
 }
 

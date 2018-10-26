@@ -20,20 +20,23 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   String _homeScreenText = "Waiting for token...";
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-	AccountService _accountService = AccountService();
+  AccountService _accountService = AccountService();
   PageController _controller = PageController(initialPage: 1);
-	String _token;
+  String _token;
 
   @override
   void initState() {
     super.initState();
 
     SharedPrefs().initSharedPrefs().then((result) {
-			String token = SharedPrefs().instance.getString('token');
-			_accountService.resume(token);
+      String token = SharedPrefs().instance.getString('token');
+      
+			if (token != null) {
+        _accountService.resume(token);
+      }
 
       setState(() {
-				_token = token;
+        _token = token;
       });
     });
 
@@ -65,9 +68,9 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-		if (_token != null && _token.isNotEmpty) {
-			return DashboardPage();
-		}
+    if (_token != null && _token.isNotEmpty) {
+      return DashboardPage();
+    }
 
     return Scaffold(
         resizeToAvoidBottomPadding: false,
@@ -83,10 +86,7 @@ class _LandingPageState extends State<LandingPage> {
                   }),
                   LoginPage()
                 ]),
-                Column(children: <Widget>[
-                  Utils.getBranding(),
-                  _getBody()
-                ]),
+                Column(children: <Widget>[Utils.getBranding(), _getBody()]),
                 Column(children: <Widget>[
                   Utils.getBackButton(() {
                     Utils.tabBack(_controller, 1);

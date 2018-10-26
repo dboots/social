@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:Social/services/account.dart';
 
 class PhoneNumberPage extends StatefulWidget {
   PhoneNumberPage({Key key, this.controller}) : super();
@@ -10,6 +11,8 @@ class PhoneNumberPage extends StatefulWidget {
 }
 
 class _PhoneNumberPageState extends State<PhoneNumberPage> {
+  AccountService _accountService = AccountService();
+
   @override
   Widget build(BuildContext context) {
     return _getBody(context);
@@ -41,12 +44,14 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           ]))),
           Container(
               padding: EdgeInsets.only(top: 25.0),
-              child: TextFormField(
+              child: TextField(
+                  onChanged: (val) {
+                    _accountService.account.phone = val;
+                  },
                   decoration: const InputDecoration(
                     labelText: 'PHONE #',
                   ),
                   keyboardType: TextInputType.phone,
-                  validator: validateMobile,
                   style: TextStyle(
                       fontFamily: 'Lato',
                       fontSize: 16.0,
@@ -68,10 +73,16 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           FractionallySizedBox(
               widthFactor: 1.0,
               child: FlatButton(
-                  onPressed: () {
-                    widget.controller.animateToPage(4,
-                        duration: Duration(milliseconds: 250),
-                        curve: Curves.easeIn);
+                  onPressed: () async {
+                    bool result = await _accountService
+                        .update({'phone': _accountService.account.phone});
+                    if (result) {
+                      widget.controller.animateToPage(4,
+                          duration: Duration(milliseconds: 250),
+                          curve: Curves.easeIn);
+                    } else {
+                      print('error updating account');
+                    }
                   },
                   color: Color(0xFF00A0BE),
                   textColor: Color(0xFFFFFFFF),
