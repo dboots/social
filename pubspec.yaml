@@ -7,7 +7,7 @@ dependencies:
   camera: 0.2.4
   font_awesome_flutter: 8.0.1
   contacts_service: 0.0.9
-  firebase_messaging: 2.0.1
+  firebase_messaging: 2.0.2
   shared_preferences: 0.4.3
 
 dev_dependencies:

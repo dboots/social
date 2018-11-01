@@ -1,4 +1,4 @@
-package com.yourcompany.social;
+package com.socialtechnologiesinc.social;
 
 import android.os.Bundle;
 
