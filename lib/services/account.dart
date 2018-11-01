@@ -75,8 +75,9 @@ class AccountService extends API {
   }
 
   Future<bool> update(dynamic body) async {
+		String resourceUrl = url + '/account/' + _account.id;
     Response response =
-        await httpClient.put(url + '/account/' + _account.id, body: body, headers: headers);
+        await httpClient.put(resourceUrl, body: body, headers: headers);
 
     return (response.statusCode < 300) ? true : false;
   }

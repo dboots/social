@@ -51,7 +51,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                   decoration: const InputDecoration(
                     labelText: 'PHONE #',
                   ),
-                  keyboardType: TextInputType.phone,
                   style: TextStyle(
                       fontFamily: 'Lato',
                       fontSize: 16.0,

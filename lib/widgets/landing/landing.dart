@@ -28,10 +28,30 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     super.initState();
 
+    _firebaseMessaging.getToken().then((String token) {
+      setState(() {
+        _homeScreenText = "token: $token";
+      });
+    });
+
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      setState(() {
+        _homeScreenText = "Settings registered: $settings";
+      });
+    });
+
+    Stream<String> fcmStream = _firebaseMessaging.onTokenRefresh;
+    fcmStream.listen((token) {
+      setState(() {
+        _homeScreenText = "fcm token is: $token";
+      });
+    });
+
     SharedPrefs().initSharedPrefs().then((result) {
       String token = SharedPrefs().instance.getString('token');
-      
-			if (token != null) {
+
+      if (token != null) {
         _accountService.resume(token);
       }
 
@@ -42,28 +62,23 @@ class _LandingPageState extends State<LandingPage> {
 
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
+        setState(() {
+          _homeScreenText = "onMessage: $message";
+        });
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
+        setState(() {
+          _homeScreenText = "onLaunche: $message";
+        });
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
+        setState(() {
+          _homeScreenText = "onResume: $message";
+        });
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-    _firebaseMessaging.getToken().then((String token) {
-      assert(token != null);
-      setState(() {
-        _homeScreenText = "Push Messaging token: $token";
-      });
-      print(_homeScreenText);
-    });
   }
 
   @override

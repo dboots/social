@@ -20,7 +20,7 @@ class LineItem extends StatelessWidget {
           padding: EdgeInsets.only(right: 10.0),
           child: CircleAvatar(
               radius: 15.0,
-              backgroundColor: Color(0xFFFF0000),
+              backgroundColor: Color(0xFF003300),
               child: Text(label.substring(0, 1),
                   style: TextStyle(color: Colors.white)))),
       Expanded(
