@@ -18,7 +18,6 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  String _homeScreenText = "Waiting for token...";
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   AccountService _accountService = AccountService();
   PageController _controller = PageController(initialPage: 1);
@@ -30,21 +29,21 @@ class _LandingPageState extends State<LandingPage> {
 
     _firebaseMessaging.getToken().then((String token) {
       setState(() {
-        _homeScreenText = "token: $token";
+        print("token: $token");
       });
     });
 
     _firebaseMessaging.onIosSettingsRegistered
         .listen((IosNotificationSettings settings) {
       setState(() {
-        _homeScreenText = "Settings registered: $settings";
+        print("Settings registered: $settings");
       });
     });
 
     Stream<String> fcmStream = _firebaseMessaging.onTokenRefresh;
     fcmStream.listen((token) {
       setState(() {
-        _homeScreenText = "fcm token is: $token";
+        print("fcm token is: $token");
       });
     });
 
@@ -63,17 +62,17 @@ class _LandingPageState extends State<LandingPage> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         setState(() {
-          _homeScreenText = "onMessage: $message";
+          print("onMessage: $message");
         });
       },
       onLaunch: (Map<String, dynamic> message) async {
         setState(() {
-          _homeScreenText = "onLaunche: $message";
+          print("onLaunche: $message");
         });
       },
       onResume: (Map<String, dynamic> message) async {
         setState(() {
-          _homeScreenText = "onResume: $message";
+          print("onResume: $message");
         });
       },
     );

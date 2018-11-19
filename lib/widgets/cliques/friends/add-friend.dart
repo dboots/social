@@ -98,6 +98,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
                 });
               }
             });
+
         if (socialContactUser.requests.contains(_user.id)) {
           contactIcon = Icon(FontAwesomeIcons.timesCircle, size: 18.0);
 

@@ -160,7 +160,7 @@ class _CliquesPageState extends State<CliquesPage> {
           onTap: () async {
             AlertOverlay alertOverlay = AlertOverlay(
                 title: 'REMOVE FRIEND',
-                body: 'Would you like to deny ' + friend['full_name'] + '?',
+                body: 'Would you like to remove ' + friend['full_name'] + '?',
                 buttonLabel: 'OK',
                 buttonAction: () async {
                   bool result = await _userService.denyFriendRequest(friendId);

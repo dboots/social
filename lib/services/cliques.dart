@@ -5,7 +5,6 @@ import 'package:http/http.dart';
 import 'package:Social/services/api.dart';
 import 'package:Social/services/account.dart';
 import 'package:Social/models/clique.dart';
-import 'package:Social/models/user.dart';
 
 class CliqueService extends API {
   static final CliqueService _instance = new CliqueService._internal();
@@ -25,17 +24,17 @@ class CliqueService extends API {
     return _instance;
   }
 
-  CliqueService._internal() {
-    headers = {
-      HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token,
-      HttpHeaders.contentTypeHeader: 'application/json'
-    };
-  }
+  CliqueService._internal() {}
 
   Future<List<Clique>> getCliques() async {
     if (_cliques != null && _cliques.length > 0) {
       return _cliques;
     }
+
+    headers = {
+      HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token,
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
 
     var resource = '/cliques';
     var response = await this.httpClient.get(url + resource, headers: headers);
@@ -59,6 +58,11 @@ class CliqueService extends API {
     var members = clique.members.map((user) {
       return user.id;
     }).toList();
+
+    headers = {
+      HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token,
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
 
     var params = json.encode({'name': clique.name, 'members': members});
 

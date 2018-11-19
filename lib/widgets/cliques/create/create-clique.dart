@@ -99,17 +99,34 @@ class _CreateCliquePageState extends State<CreateCliquePage> {
   }
 
   List<Widget> _getIcons(dynamic friend) {
-    return [
-      GestureDetector(
-          child: Icon(FontAwesomeIcons.plusCircle, size: 18.0),
-          onTap: () {
-            if (_clique.members.where((f) {
-                  return f == friend['_id'];
-                }).length ==
-                0) {
-              _clique.members.add(User.fromMap(friend));
-            }
-          })
-    ];
+    if (_clique.members.where((c) {
+          return c.id == friend['_id'];
+        }).length >
+        0) {
+      return [
+        GestureDetector(
+            child: Icon(FontAwesomeIcons.timesCircle, size: 18.0),
+            onTap: () {
+              setState(() {
+                _clique.members.removeWhere((c) => c.id == friend['_id']);
+              });
+            })
+      ];
+    } else {
+      return [
+        GestureDetector(
+            child: Icon(FontAwesomeIcons.plusCircle, size: 18.0),
+            onTap: () {
+              if (_clique.members.where((f) {
+                    return f.id == friend['_id'];
+                  }).length ==
+                  0) {
+                setState(() {
+                  _clique.members.add(User.fromMap(friend));
+                });
+              }
+            })
+      ];
+    }
   }
 }

@@ -19,9 +19,37 @@ class _ProfilePageState extends State<ProfilePage> {
   User _user;
   Account _account;
 
+  List<int> _themeColors = [
+    0xFFDEDEDE,
+    0xFF00FF00,
+    0xFF00FFFF,
+    0xFFFFFF00,
+    0xFF000000
+  ];
+
+  Color _themeColor;
+
   @override
   void initState() {
     super.initState();
+
+    _account = _accountService.account;
+    _user = _account.user;
+
+    if (_user.theme == null) {
+      _themeColor = Color(_themeColors.elementAt(0));
+    } else {
+      List<int> themeCheck = _themeColors
+          .where((c) => c.toRadixString(16) == _user.theme)
+          .toList();
+      int theme = 0xFFDEDEDE;
+
+      if (themeCheck.length > 0) {
+        theme = themeCheck[0];
+      }
+
+      _themeColor = Color(theme);
+    }
   }
 
   @override
@@ -34,95 +62,92 @@ class _ProfilePageState extends State<ProfilePage> {
   _getBody() {
     return Scaffold(
         body: Container(
-            decoration: new BoxDecoration(color: Color(0xFFFFFFFA)),
             child: SafeArea(
                 child: Column(children: <Widget>[
-              PageTitle(label: 'PROFILE'),
-              Center(
+      PageTitle(label: 'PROFILE'),
+      Center(
+          child: Container(
+              decoration: new BoxDecoration(color: _themeColor),
+              margin: EdgeInsets.only(bottom: 45.0),
+              padding: EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
+              child: Column(children: [
+                Container(
+                    padding: EdgeInsets.only(
+                        top: 10.0, bottom: 5.0, left: 5.0, right: 5.0),
+                    child: Text(_user.name,
+                        style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 23.0,
+                            letterSpacing: 2.5,
+                            color: Color(0xFFFFFFFF)),
+                        textAlign: TextAlign.center)),
+                Container(
+                    height: 2.0,
+                    margin: EdgeInsets.all(5.0),
+                    color: Colors.white),
+                Container(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(_user.location ?? '',
+                        style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 15.0,
+                            letterSpacing: 2.5,
+                            color: Color(0xFFFFFFFF)),
+                        textAlign: TextAlign.center)),
+                Container(
+                    padding:
+                        EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
+                    child: Text("Can't wait to see all my friends on Social!",
+                        style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w300,
+                            letterSpacing: 2.5,
+                            fontStyle: FontStyle.italic,
+                            color: Color(0xFFFFFFFF)),
+                        textAlign: TextAlign.center)),
+                Container(
+                    child: Transform(
                   child: Container(
-                      decoration: new BoxDecoration(color: Colors.black54),
-                      margin: EdgeInsets.only(bottom: 45.0),
-                      padding:
-                          EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
-                      child: Column(children: [
-                        Container(
-                            padding: EdgeInsets.only(
-                                top: 10.0, bottom: 5.0, left: 5.0, right: 5.0),
-                            child: Text(_user.name,
-                                style: TextStyle(
-                                    fontFamily: 'Lato',
-                                    fontSize: 23.0,
-                                    letterSpacing: 2.5,
-                                    color: Color(0xFFFFFFFF)),
-                                textAlign: TextAlign.center)),
-                        Container(
-                            height: 2.0,
-                            margin: EdgeInsets.all(5.0),
-                            color: Colors.white),
-                        Container(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text(_user.location ?? '',
-                                style: TextStyle(
-                                    fontFamily: 'Lato',
-                                    fontSize: 15.0,
-                                    letterSpacing: 2.5,
-                                    color: Color(0xFFFFFFFF)),
-                                textAlign: TextAlign.center)),
-                        Container(
-                            padding: EdgeInsets.only(
-                                top: 15.0, left: 15.0, right: 15.0),
-                            child: Text(
-                                "Can't wait to see all my friends on Social!",
-                                style: TextStyle(
-                                    fontFamily: 'Lato',
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w300,
-                                    letterSpacing: 2.5,
-                                    fontStyle: FontStyle.italic,
-                                    color: Color(0xFFFFFFFF)),
-                                textAlign: TextAlign.center)),
-                        Container(
-                            child: Transform(
-                          child: Container(
-                              width: 110.0,
-                              height: 110.0,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: AssetImage('images/12.png')))),
-                          alignment: Alignment.center,
-                          transform: Matrix4.identity()
-                            ..scale(1.4)
-                            ..translate(0.0, 35.0),
-                        ))
-                      ]))),
-              Expanded(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                    Utils.getFlatButton('MOMENTS', () {
-                      Navigator.pushNamed(context, 'profile/moments');
-                    }),
-                    Container(padding: EdgeInsets.all(8.0)),
-                    Utils.getFlatButton('ALBUMS', () {
-                      Navigator.pushNamed(context, 'albums');
-                    }),
-                    Container(padding: EdgeInsets.all(8.0)),
-                    Utils.getFlatButton('NEW MEETUP', () {
-                      Navigator.pushNamed(context, 'newmeetup');
-                    })
-                  ])),
-              BottomNav(
-                  leftAction: () {
-                    Navigator.pop(context);
-                  },
-                  leftIcon: FontAwesomeIcons.arrowLeft,
-                  rightAction: () {
-                    Navigator.pop(context);
-                  },
-                  rightIcon: FontAwesomeIcons.cog)
-            ]))));
+                      width: 110.0,
+                      height: 110.0,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: AssetImage('images/12.png')))),
+                  alignment: Alignment.center,
+                  transform: Matrix4.identity()
+                    ..scale(1.4)
+                    ..translate(0.0, 35.0),
+                ))
+              ]))),
+      Expanded(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+            Utils.getFlatButton('MOMENTS', () {
+              Navigator.pushNamed(context, 'profile/moments');
+            }),
+            Container(padding: EdgeInsets.all(8.0)),
+            Utils.getFlatButton('ALBUMS', () {
+              Navigator.pushNamed(context, 'albums');
+            }),
+            Container(padding: EdgeInsets.all(8.0)),
+            Utils.getFlatButton('NEW MEETUP', () {
+              Navigator.pushNamed(context, 'newmeetup');
+            })
+          ])),
+      BottomNav(
+          leftAction: () {
+            Navigator.pop(context);
+          },
+          leftIcon: FontAwesomeIcons.arrowLeft,
+          rightAction: () {
+            Navigator.pushNamed(context, 'settings');
+          },
+          rightIcon: FontAwesomeIcons.cog)
+    ]))));
   }
 }

@@ -19,15 +19,16 @@ class UserService extends API {
     return _instance;
   }
 
-  UserService._internal() {
-    headers = {HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token};
-  }
+  UserService._internal() {}
 
   Future<User> update(dynamic body) async {
+    headers = {HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token};
     Response response =
         await httpClient.put(url + '/user', body: body, headers: headers);
 
-		return User(response.body, 'user');
+    print(json.decode(response.body));
+
+    return User(json.decode(response.body), 'user');
   }
 
   Future<List<Contact>> initContacts() async {
@@ -42,7 +43,7 @@ class UserService extends API {
 
   Future<bool> sendFriendRequest(String friendId) async {
     var body = {'friend': friendId};
-
+    headers = {HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token};
     Response response = await httpClient.post(url + '/user/request',
         body: body, headers: headers);
 
@@ -51,7 +52,7 @@ class UserService extends API {
 
   Future<bool> approveFriendRequest(String friendId) async {
     var body = {'friend': friendId};
-
+    headers = {HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token};
     Response response = await httpClient.post(url + '/user/request/approve',
         body: body, headers: headers);
 
@@ -60,7 +61,7 @@ class UserService extends API {
 
   Future<bool> cancelFriendRequest(String friendId) async {
     var body = {'friend': friendId};
-
+    headers = {HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token};
     Response response = await httpClient.post(url + '/user/request/cancel',
         body: body, headers: headers);
 
@@ -69,7 +70,7 @@ class UserService extends API {
 
   Future<bool> denyFriendRequest(String friendId) async {
     var body = {'friend': friendId};
-
+    headers = {HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token};
     Response response = await httpClient.post(url + '/user/request/deny',
         body: body, headers: headers);
 

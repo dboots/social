@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1074418411918",
+    "firebase_url": "https://social-b7ade.firebaseio.com",
+    "project_id": "social-b7ade",
+    "storage_bucket": "social-b7ade.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074418411918:android:32876e81b54f792f",
+        "android_client_info": {
+          "package_name": "com.socialtechnologiesinc.social"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1074418411918-p1p9pktjvb9mturj1j9bh30fgvaic35m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjiT9Ro5VPvsGVKuCVrCSy-ZYaDDc4Szo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
