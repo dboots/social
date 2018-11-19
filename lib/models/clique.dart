@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:Social/models/base.dart';
 import 'package:Social/models/user.dart';
 
@@ -13,10 +12,9 @@ class Clique extends Base {
       name = body['name'];
 
       Iterable i = body['members'];
-      i.map((model) {
-        return model;
+      members = i.map((model) {
+        return User.fromMap(model);
       }).toList();
-      members = members;
     }
   }
 
