@@ -121,6 +121,7 @@ class _PhoneVerifyPageState extends State<PhoneVerifyPage> {
                         child: Container(
                             padding: EdgeInsets.all(5.0),
                             child: TextField(
+                                textAlign: TextAlign.center,
                                 maxLength: 1,
                                 decoration: const InputDecoration(
                                     labelText: '',
@@ -147,6 +148,7 @@ class _PhoneVerifyPageState extends State<PhoneVerifyPage> {
                         child: Container(
                             padding: EdgeInsets.all(5.0),
                             child: TextField(
+                                textAlign: TextAlign.center,
                                 maxLength: 1,
                                 decoration: const InputDecoration(
                                     labelText: '',
@@ -173,6 +175,7 @@ class _PhoneVerifyPageState extends State<PhoneVerifyPage> {
                         child: Container(
                             padding: EdgeInsets.all(5.0),
                             child: TextField(
+                                textAlign: TextAlign.center,
                                 maxLength: 1,
                                 decoration: const InputDecoration(
                                     labelText: '',

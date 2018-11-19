@@ -10,6 +10,7 @@ import 'package:Social/services/account.dart';
 import 'package:Social/services/user.dart';
 import 'package:Social/models/clique.dart';
 import 'package:Social/widgets/common/alert-overlay.dart';
+import 'package:Social/widgets/cliques/create/create-clique.dart';
 
 class CliquesPage extends StatefulWidget {
   CliquesPage() : super();
@@ -109,9 +110,17 @@ class _CliquesPageState extends State<CliquesPage> {
                       child: ListView.builder(
                     itemCount: _cliques.length,
                     itemBuilder: (context, index) {
-                      return LineItem(
-                          label: _cliques[index].name,
-                          widgets: _getCliquesWidgets());
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CreateCliquePage(
+                                        clique: _cliques[index])));
+                          },
+                          child: LineItem(
+                              label: _cliques[index].name,
+                              widgets: _getCliquesWidgets()));
                     },
                   )),
                   BottomNav(
@@ -120,8 +129,8 @@ class _CliquesPageState extends State<CliquesPage> {
                         Navigator.pop(context);
                       },
                       middleAction: () {
-												Navigator.pushNamed(context, 'cliques/create');
-											},
+                        Navigator.pushNamed(context, 'cliques/create');
+                      },
                       middleLabel: 'CREATE')
                 ]),
             Column(
@@ -153,7 +162,7 @@ class _CliquesPageState extends State<CliquesPage> {
   }
 
   List<Widget> _getFriendWidgets(dynamic friend) {
-		String friendId = friend['_id'];
+    String friendId = friend['_id'];
     return [
       GestureDetector(
           child: Icon(FontAwesomeIcons.timesCircle, size: 18.0),
@@ -163,7 +172,8 @@ class _CliquesPageState extends State<CliquesPage> {
                 body: 'Would you like to remove ' + friend['full_name'] + '?',
                 buttonLabel: 'OK',
                 buttonAction: () async {
-                  bool result = await _userService.denyFriendRequest(friendId);
+                  bool result =
+                      await _userService.cancelFriendRequest(friendId);
                   if (result) {
                     setState(() {
                       _accountService.account.user.friends
@@ -178,7 +188,7 @@ class _CliquesPageState extends State<CliquesPage> {
   }
 
   List<Widget> _getFriendRequestWidgets(dynamic request) {
-		String requestId = request['_id'];
+    String requestId = request['_id'];
     return [
       Container(
           padding: EdgeInsets.all(5.0),
@@ -187,7 +197,8 @@ class _CliquesPageState extends State<CliquesPage> {
               onTap: () async {
                 AlertOverlay alertOverlay = AlertOverlay(
                     title: 'DENY FRIEND',
-                    body: 'Would you like to deny ' + request['full_name'] + '?',
+                    body:
+                        'Would you like to deny ' + request['full_name'] + '?',
                     buttonLabel: 'OK',
                     buttonAction: () async {
                       bool success =
@@ -210,7 +221,9 @@ class _CliquesPageState extends State<CliquesPage> {
               onTap: () async {
                 AlertOverlay alertOverlay = AlertOverlay(
                     title: 'APPROVE FRIEND',
-                    body: 'Would you like to approve ' + request['full_name'] + '?',
+                    body: 'Would you like to approve ' +
+                        request['full_name'] +
+                        '?',
                     buttonLabel: 'OK',
                     buttonAction: () async {
                       bool success =
@@ -220,7 +233,7 @@ class _CliquesPageState extends State<CliquesPage> {
                         setState(() {
                           _accountService.account.user.requests
                               .removeWhere((x) => x['_id'] == requestId);
-													_accountService.account.user.friends.add(request);
+                          _accountService.account.user.friends.add(request);
                         });
                       }
                     });
@@ -232,8 +245,10 @@ class _CliquesPageState extends State<CliquesPage> {
 
   List<Widget> _getFriendRequests() {
     List<Widget> rows = _accountService.account.user.requests.map((request) {
+      int hex = int.parse('0x' + request['theme']);
       return LineItem(
           label: request['full_name'],
+          color: Color(hex),
           widgets: _getFriendRequestWidgets(request));
     }).toList();
 
@@ -242,8 +257,10 @@ class _CliquesPageState extends State<CliquesPage> {
 
   List<Widget> _getFriends() {
     List<Widget> rows = _friends.map((friend) {
+      int hex = int.parse('0x' + friend['theme']);
       return LineItem(
           label: friend['full_name'],
+          color: Color(hex),
           widgets: _getFriendWidgets(friend));
     }).toList();
 

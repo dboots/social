@@ -114,12 +114,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 decoration:
                                     InputDecoration(labelText: 'LOCATION'),
                                 onSaved: (String value) {
-                                  print('saving location ' +
-                                      _user.location.toString() +
-                                      ' - ' +
-                                      value);
                                   _user.location = value;
-                                  print('new location ' + _user.location);
                                 },
                                 initialValue: _user.location,
                               )),
@@ -175,14 +170,12 @@ class _SettingsPageState extends State<SettingsPage> {
                     middleAction: () async {
                       final FormState form = _formKey.currentState;
                       form.save();
-                      print('saving user');
                       _user.theme = _themeColors[_themeIndex].toRadixString(16);
                       await _userService.update({
                         'full_name': _user.name,
                         'location': _user.location,
                         'theme': _user.theme
                       });
-                      print('user saved');
                     },
                     middleLabel: 'SAVE'),
               ]))

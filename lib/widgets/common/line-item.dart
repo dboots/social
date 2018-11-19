@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class LineItem extends StatelessWidget {
   final String label;
   final List<Widget> widgets;
+	final Color color;
 
-  LineItem({this.label, this.widgets});
+  LineItem({this.label, this.color: const Color(0xFFFF9999), this.widgets});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class LineItem extends StatelessWidget {
           padding: EdgeInsets.only(right: 10.0),
           child: CircleAvatar(
               radius: 15.0,
-              backgroundColor: Color(0xFF003300),
+              backgroundColor: color,
               child: Text(label.substring(0, 1),
                   style: TextStyle(color: Colors.white)))),
       Expanded(

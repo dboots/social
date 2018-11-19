@@ -69,6 +69,9 @@ class AccountService extends API {
   }
 
   Future<bool> update(dynamic body) async {
+    headers = {
+			HttpHeaders.authorizationHeader: 'JWT ' + token
+		};
     String resourceUrl = url + '/account/' + account.id;
     Response response =
         await httpClient.put(resourceUrl, body: body, headers: headers);

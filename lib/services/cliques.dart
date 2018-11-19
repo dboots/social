@@ -9,14 +9,7 @@ import 'package:Social/models/clique.dart';
 class CliqueService extends API {
   static final CliqueService _instance = new CliqueService._internal();
   AccountService _accountService = AccountService();
-  List<Clique> _cliques;
-  List<Clique> get cliques {
-    return _cliques;
-  }
-
-  void set cliques(List<Clique> data) {
-    _cliques = data;
-  }
+  List<Clique> cliques;
 
   var headers;
 
@@ -27,10 +20,6 @@ class CliqueService extends API {
   CliqueService._internal() {}
 
   Future<List<Clique>> getCliques() async {
-    if (_cliques != null && _cliques.length > 0) {
-      return _cliques;
-    }
-
     headers = {
       HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token,
       HttpHeaders.contentTypeHeader: 'application/json'
@@ -41,18 +30,44 @@ class CliqueService extends API {
 
     if (response.statusCode < 300) {
       Iterable i = json.decode(response.body)['cliques'];
-      _cliques = i.map((model) {
+      cliques = i.map((model) {
         return Clique(model, 'clique');
       }).toList();
 
-      return _cliques;
+      return cliques;
     } else {
       print('Error in getting cliques: ' + response.statusCode.toString());
       return [];
     }
   }
 
-  Future<bool> createClique(Clique clique) async {
+  Future<bool> update(Clique clique) async {
+    String resource = '/cliques/' + clique.id;
+
+    var members = clique.members.map((user) {
+      return user.id;
+    }).toList();
+
+    headers = {
+      HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token,
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
+
+    var params = json.encode({'name': clique.name, 'members': members});
+
+    Response response = await this
+        .httpClient
+        .put(url + resource, body: params, headers: headers);
+
+    if (response.statusCode < 300) {
+      //cliques.add(Clique.fromMap(json.decode(response.body)['clique']));
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> create(Clique clique) async {
     String resource = '/cliques';
 
     var members = clique.members.map((user) {
@@ -71,7 +86,7 @@ class CliqueService extends API {
         .post(url + resource, body: params, headers: headers);
 
     if (response.statusCode < 300) {
-      _cliques.add(Clique.fromMap(json.decode(response.body)['clique']));
+      cliques.add(Clique.fromMap(json.decode(response.body)['clique']));
       return true;
     } else {
       return false;

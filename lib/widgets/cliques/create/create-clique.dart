@@ -10,7 +10,8 @@ import 'package:Social/models/user.dart';
 import 'package:Social/models/clique.dart';
 
 class CreateCliquePage extends StatefulWidget {
-  CreateCliquePage() : super();
+  final Clique clique;
+  CreateCliquePage({Key key, this.clique}) : super(key: key);
 
   @override
   _CreateCliquePageState createState() => _CreateCliquePageState();
@@ -24,17 +25,30 @@ class _CreateCliquePageState extends State<CreateCliquePage> {
   List<dynamic> _friends;
   Clique _clique = Clique();
   bool _isReady = false;
+  bool _isUpdating = false;
+
+  TextEditingController _cliqueNameController;
 
   @override
   void initState() {
     super.initState();
+
+    if (widget.clique != null) {
+      _isUpdating = true;
+      _cliqueNameController =
+          new TextEditingController(text: widget.clique.name);
+    }
 
     setState(() {
       _account = _accountService.account;
       _user = _account.user;
       _friends = _user.friends;
       _isReady = true;
-      _clique.members = [];
+      _clique = (_isUpdating) ? widget.clique : Clique();
+
+      _clique.members = (_isUpdating && widget.clique.members != null)
+          ? widget.clique.members
+          : [];
     });
   }
 
@@ -57,6 +71,7 @@ class _CreateCliquePageState extends State<CreateCliquePage> {
                       margin: EdgeInsets.only(bottom: 10.0),
                       decoration: BoxDecoration(color: Colors.grey),
                       child: TextField(
+                          controller: _cliqueNameController,
                           onChanged: (val) {
                             _clique.name = val;
                           },
@@ -85,7 +100,12 @@ class _CreateCliquePageState extends State<CreateCliquePage> {
                   Navigator.pop(context);
                 },
                 middleAction: () async {
-                  bool result = await _cliqueService.createClique(_clique);
+                  bool result = false;
+                  if (_isUpdating) {
+                    result = await _cliqueService.update(_clique);
+                  } else {
+                    result = await _cliqueService.create(_clique);
+                  }
 
                   if (result) {
                     Navigator.pop(context);
@@ -93,7 +113,7 @@ class _CreateCliquePageState extends State<CreateCliquePage> {
                     // alert overlay error
                   }
                 },
-                middleLabel: 'SAVE',
+                middleLabel: (_isUpdating) ? 'UPDATE' : 'SAVE',
               )
             ]))));
   }

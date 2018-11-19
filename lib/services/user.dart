@@ -26,8 +26,6 @@ class UserService extends API {
     Response response =
         await httpClient.put(url + '/user', body: body, headers: headers);
 
-    print(json.decode(response.body));
-
     return User(json.decode(response.body), 'user');
   }
 
