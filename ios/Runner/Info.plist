@@ -45,5 +45,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSContactsUsageDescription</key>
+	<string>Allow Social to use your contacts list?</string>
 </dict>
 </plist>

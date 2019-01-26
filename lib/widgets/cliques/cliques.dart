@@ -8,7 +8,9 @@ import 'package:Social/widgets/common/line-item.dart';
 import 'package:Social/services/cliques.dart';
 import 'package:Social/services/account.dart';
 import 'package:Social/services/user.dart';
+import 'package:Social/services/moments.dart';
 import 'package:Social/models/clique.dart';
+import 'package:Social/models/moment.dart';
 import 'package:Social/widgets/common/alert-overlay.dart';
 import 'package:Social/widgets/cliques/create/create-clique.dart';
 
@@ -24,6 +26,7 @@ class _CliquesPageState extends State<CliquesPage> {
   PageController _controller = PageController();
   CliqueService _cliqueService = CliqueService();
   AccountService _accountService = AccountService();
+	MomentsService _momentsService = MomentsService();
   UserService _userService = UserService();
   List<Clique> _cliques = [];
   List _friends = [];
@@ -183,6 +186,13 @@ class _CliquesPageState extends State<CliquesPage> {
                 });
 
             alertOverlay.showOverlay(context);
+          }),
+      GestureDetector(
+          child: Icon(FontAwesomeIcons.user, size: 18.0),
+          onTap: () async {
+						String requestedId = friend['_id'];
+            List<Moment> moments = await _momentsService.get(requestedId);
+						print(moments);
           })
     ];
   }
@@ -245,7 +255,12 @@ class _CliquesPageState extends State<CliquesPage> {
 
   List<Widget> _getFriendRequests() {
     List<Widget> rows = _accountService.account.user.requests.map((request) {
+      if (request['theme'] == null) {
+        request['theme'] = '000000';
+      }
+
       int hex = int.parse('0x' + request['theme']);
+			print(hex);
       return LineItem(
           label: request['full_name'],
           color: Color(hex),
@@ -257,7 +272,8 @@ class _CliquesPageState extends State<CliquesPage> {
 
   List<Widget> _getFriends() {
     List<Widget> rows = _friends.map((friend) {
-      int hex = int.parse('0x' + friend['theme']);
+			String theme = (friend['theme'] != null ? friend['theme'] : 'DEDEDEDE');
+      int hex = int.parse('0x' + theme);
       return LineItem(
           label: friend['full_name'],
           color: Color(hex),

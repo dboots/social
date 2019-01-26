@@ -19,7 +19,7 @@ class UserService extends API {
     return _instance;
   }
 
-  UserService._internal() {}
+  UserService._internal();
 
   Future<User> update(dynamic body) async {
     headers = {HttpHeaders.authorizationHeader: 'JWT ' + _accountService.token};
@@ -32,10 +32,13 @@ class UserService extends API {
   Future<List<Contact>> initContacts() async {
     Iterable<Contact> contacts = await ContactsService.getContacts();
     _contacts = contacts.toList();
-    _contacts.sort((Contact a, Contact b) {
-      return a.displayName.compareTo(b.displayName);
+    /*_contacts.sort((Contact a, Contact b) {
+			//print(a.displayName);
+			if (a.displayName != null && b.displayName != null) {
+      	return a.displayName.compareTo(b.displayName);
+			}
     });
-
+*/
     return _contacts;
   }
 

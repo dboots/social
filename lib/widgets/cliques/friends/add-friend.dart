@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:simple_permissions/simple_permissions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:Social/widgets/common/bottom-nav.dart';
 import 'package:Social/widgets/common/line-item.dart';
@@ -23,10 +25,32 @@ class _AddFriendPageState extends State<AddFriendPage> {
   AccountService _accountService = AccountService();
   User _user;
   UserService _userService = UserService();
+  Permission permission;
+  String _platformVersion = 'Unknown';
+
+  initPlatformState() async {
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      platformVersion = await SimplePermissions.platformVersion;
+    } on PlatformException {
+      platformVersion = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _platformVersion = platformVersion;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+
     _getContacts();
 
     Account account = _accountService.account;
@@ -34,6 +58,11 @@ class _AddFriendPageState extends State<AddFriendPage> {
     setState(() {
       _user = account.user;
     });
+  }
+
+  requestPermission(Permission permission) async {
+    final res = await SimplePermissions.requestPermission(permission);
+    print("permission request result is " + res.toString());
   }
 
   @override
@@ -71,8 +100,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
 
     // if formattedPhone in _user.requests || _user.friends then icon = remove
     contact.phones.forEach((phone) {
-      String formattedPhone =
-          phone.value.replaceAll(RegExp(r'\D+'), '');
+      String formattedPhone = phone.value.replaceAll(RegExp(r'\D+'), '');
       Iterable<Account> socialContact =
           _socialContacts.where((c) => c.phone == formattedPhone);
 
@@ -135,6 +163,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
   }
 
   _getContacts() async {
+		await requestPermission(Permission.ReadContacts);
     List<Contact> contacts = await _userService.initContacts();
     List<Account> socialContacts =
         await _accountService.initSocialContacts(contacts);

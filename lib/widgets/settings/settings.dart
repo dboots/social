@@ -63,7 +63,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Column(children: <Widget>[
               PageTitle(label: 'SETTINGS'),
               Expanded(
-                  child: Column(children: <Widget>[
+                  child: SingleChildScrollView(
+                      child: Column(children: <Widget>[
                 Container(
                     decoration:
                         BoxDecoration(color: Color(_themeColors[_themeIndex])),
@@ -95,90 +96,75 @@ class _SettingsPageState extends State<SettingsPage> {
                               color: Color(0xFF666666),
                               letterSpacing: 2.0))
                     ])),
-                Expanded(
-                    child: Container(
-                        padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                        child: Form(
-                            key: _formKey,
-                            child: Column(children: <Widget>[
-                              Container(
-                                  child: TextFormField(
-                                decoration: InputDecoration(labelText: 'NAME'),
-                                onSaved: (String value) {
-                                  _user.name = value;
-                                },
-                                initialValue: _user.name,
-                              )),
-                              Container(
-                                  child: TextFormField(
-                                decoration:
-                                    InputDecoration(labelText: 'LOCATION'),
-                                onSaved: (String value) {
-                                  _user.location = value;
-                                },
-                                initialValue: _user.location,
-                              )),
-                              Expanded(
-                                  child: Container(
-                                      padding: EdgeInsets.only(bottom: 25.0),
-                                      child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: <Widget>[
-                                            Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: 25.0),
-                                                child: FractionallySizedBox(
-                                                    widthFactor: 0.6,
-                                                    child: FlatButton(
-                                                        materialTapTargetSize:
-                                                            MaterialTapTargetSize
-                                                                .shrinkWrap,
-                                                        color:
-                                                            Color(0xFF999999),
-                                                        textColor:
-                                                            Color(0xFFFFFFFF),
-                                                        child: Text('LOGOUT'),
-                                                        onPressed: () {
-                                                          SharedPrefs()
-                                                              .instance
-                                                              .remove('token');
-                                                          _cliqueService
-                                                              .headers = null;
-                                                          _cliqueService
-                                                              .cliques = [];
-                                                          _accountService
-                                                              .token = null;
-                                                          _accountService
-                                                              .account = null;
-                                                          Navigator
-                                                              .pushReplacementNamed(
-                                                                  context, '/');
-                                                        }))),
-                                            Text('Social',
-                                                style: TextStyle(
-                                                    fontFamily: 'Watermelon',
-                                                    fontSize: 60.0,
-                                                    color: Color(0xFF999999)))
-                                          ])))
-                            ])))),
-                BottomNav(
-                    leftIcon: FontAwesomeIcons.arrowLeft,
-                    leftAction: () {
-                      Navigator.pop(context);
-                    },
-                    middleAction: () async {
-                      final FormState form = _formKey.currentState;
-                      form.save();
-                      _user.theme = _themeColors[_themeIndex].toRadixString(16);
-                      await _userService.update({
-                        'full_name': _user.name,
-                        'location': _user.location,
-                        'theme': _user.theme
-                      });
-                    },
-                    middleLabel: 'SAVE'),
-              ]))
+                Container(
+                    padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                    child: Form(
+                        key: _formKey,
+                        child: Column(children: <Widget>[
+                          Container(
+                              child: TextFormField(
+                            decoration: InputDecoration(labelText: 'NAME'),
+                            onSaved: (String value) {
+                              _user.name = value;
+                            },
+                            initialValue: _user.name,
+                          )),
+                          Container(
+                              child: TextFormField(
+                            decoration: InputDecoration(labelText: 'LOCATION'),
+                            onSaved: (String value) {
+                              _user.location = value;
+                            },
+                            initialValue: _user.location,
+                          )),
+                        ]))),
+                Container(
+                    padding: EdgeInsets.only(top: 25.0, bottom: 25.0),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                              margin: EdgeInsets.only(bottom: 25.0),
+                              child: FractionallySizedBox(
+                                  widthFactor: 0.6,
+                                  child: FlatButton(
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                      color: Color(0xFF999999),
+                                      textColor: Color(0xFFFFFFFF),
+                                      child: Text('LOGOUT'),
+                                      onPressed: () {
+                                        SharedPrefs().instance.remove('token');
+                                        _cliqueService.headers = null;
+                                        _cliqueService.cliques = [];
+                                        _accountService.token = null;
+                                        _accountService.account = null;
+                                        Navigator.pushReplacementNamed(
+                                            context, '/');
+                                      }))),
+                          Text('Social',
+                              style: TextStyle(
+                                  fontFamily: 'Watermelon',
+                                  fontSize: 60.0,
+                                  color: Color(0xFF999999)))
+                        ]))
+              ]))),
+              BottomNav(
+                  leftIcon: FontAwesomeIcons.arrowLeft,
+                  leftAction: () {
+                    Navigator.pop(context);
+                  },
+                  middleAction: () async {
+                    final FormState form = _formKey.currentState;
+                    form.save();
+                    _user.theme = _themeColors[_themeIndex].toRadixString(16);
+                    await _userService.update({
+                      'full_name': _user.name,
+                      'location': _user.location,
+                      'theme': _user.theme
+                    });
+                  },
+                  middleLabel: 'SAVE')
             ]))));
   }
 }

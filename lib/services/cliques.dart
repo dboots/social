@@ -6,7 +6,7 @@ import 'package:Social/services/api.dart';
 import 'package:Social/services/account.dart';
 import 'package:Social/models/clique.dart';
 
-class CliqueService extends API {
+	class CliqueService extends API {
   static final CliqueService _instance = new CliqueService._internal();
   AccountService _accountService = AccountService();
   List<Clique> cliques;
@@ -17,7 +17,7 @@ class CliqueService extends API {
     return _instance;
   }
 
-  CliqueService._internal() {}
+  CliqueService._internal();
 
   Future<List<Clique>> getCliques() async {
     headers = {

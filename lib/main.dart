@@ -7,8 +7,9 @@ import 'package:Social/widgets/landing/signup.dart';
 import 'package:Social/widgets/cliques/cliques.dart';
 import 'package:Social/widgets/cliques/create/create-clique.dart';
 import 'package:Social/widgets/camera/camera.dart';
+import 'package:Social/widgets/camera/share.dart';
 import 'package:Social/widgets/cliques/friends/add-friend.dart';
-import 'package:Social/widgets/profile/moments/moments.dart';
+import 'package:Social/widgets/moments/moments.dart';
 import 'package:Social/widgets/settings/settings.dart';
 
 void main() {
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
       'cliques/create': (BuildContext context) => CreateCliquePage(),
       'cliques/friends/add': (BuildContext context) => AddFriendPage(),
 			'camera': (BuildContext context) => CameraPage(),
+			'share': (BuildContext context) => SharePage(),
 			'settings': (BuildContext context) => SettingsPage()
     };
   }
