@@ -16,8 +16,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   AccountService _accountService = AccountService();
-  User _user;
-  Account _account;
+  late User _user;
+  late Account _account;
 
   @override
   void initState() {
@@ -26,8 +26,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    _account = _accountService.account;
-    _user = _account.user;
+    _account = _accountService.account!;
+    _user = _account.user!;
     return _getBody();
   }
 
@@ -48,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                             padding: EdgeInsets.only(
                                 top: 10.0, bottom: 5.0, left: 5.0, right: 5.0),
-                            child: Text(_user.name,
+                            child: Text(_user.name!,
                                 style: TextStyle(
                                     fontFamily: 'Lato',
                                     fontSize: 23.0,
@@ -61,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Colors.white),
                         Container(
                             padding: EdgeInsets.all(10.0),
-                            child: Text(_user.location,
+                            child: Text(_user.location!,
                                 style: TextStyle(
                                     fontFamily: 'Lato',
                                     fontSize: 15.0,

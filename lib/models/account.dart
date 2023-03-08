@@ -2,10 +2,10 @@ import 'package:Social/models/base.dart';
 import 'package:Social/models/user.dart';
 
 class Account extends Base {
-  String id;
-  String email;
-	String phone;
-	User user;
+  String? id;
+  String? email;
+	String? phone;
+	User? user;
 
   Account(String body, String key) {
     Map data = decode(body, 'account');

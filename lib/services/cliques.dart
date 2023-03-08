@@ -6,27 +6,28 @@ import 'package:Social/models/clique.dart';
 
 class CliqueService extends API {
   static final CliqueService _instance = new CliqueService._internal();
-  
-	String _endpoint;
-  static List<Clique> _cliques;
+
+  String? _endpoint;
+  static List<Clique>? _cliques;
 
   factory CliqueService() {
-		return _instance;
+    return _instance;
   }
 
   CliqueService._internal() {
     _endpoint = this.url;
   }
 
-  Future<List<Clique>> getCliques() async {
-		if (_cliques != null) {
-			return _cliques;
-		}
-		
+  Future<List<Clique>?> getCliques() async {
+    if (_cliques != null) {
+      return _cliques;
+    }
+
     var resource = '/cliques';
 
-    var response =
-        await this.httpClient.get(this._endpoint + resource, headers: {
+    var response = await this
+        .httpClient
+        .get(Uri(path: '${this._endpoint}$resource'), headers: {
       HttpHeaders.authorizationHeader:
           'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5MDA1NzI2LCJleHAiOjE1Mzk2MTA1MjZ9.XfRbjHThiqLOVhlbc4517vLLAq_mdFBj7diwH9WlLSk'
     });

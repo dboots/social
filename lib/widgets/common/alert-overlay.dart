@@ -4,12 +4,17 @@ class AlertOverlay {
   String title;
   String body;
   String buttonLabel;
-	Function buttonAction;
+  Function()? buttonAction;
 
-  OverlayState overlayState;
-  OverlayEntry overlayEntry;
+  late OverlayState overlayState;
+  late OverlayEntry overlayEntry;
 
-  AlertOverlay({Key key, this.title, this.body, this.buttonLabel, this.buttonAction});
+  AlertOverlay(
+      {Key? key,
+      required this.title,
+      required this.body,
+      required this.buttonLabel,
+      this.buttonAction});
 
   void showOverlay(BuildContext context) {
     overlayState = Overlay.of(context);
@@ -55,9 +60,9 @@ class AlertOverlay {
                       Container(
                           child: FractionallySizedBox(
                               widthFactor: 0.8,
-                              child: FlatButton(
+                              child: TextButton(
                                   onPressed: () {
-																		buttonAction();
+                                    buttonAction!();
                                     overlayEntry.remove();
                                   },
                                   child: Text(buttonLabel,

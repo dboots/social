@@ -64,7 +64,7 @@ class _DashboardPageState extends State<DashboardPage> {
         ]);
   }
 
-  _getIcon(String asset, String label, Function onTap) {
+  _getIcon(String asset, String label, Function()? onTap) {
     return GestureDetector(
         onTap: onTap,
         child: Column(children: <Widget>[

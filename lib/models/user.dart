@@ -1,9 +1,9 @@
 import 'package:Social/models/base.dart';
 
 class User extends Base {
-  String id;
-  String location;
-  String name;
+  String? id;
+  String? location;
+  String? name;
   List friends = [];
 	List requests = [];
 

@@ -8,12 +8,12 @@ import 'package:Social/models/account.dart';
 
 class AccountService extends API {
   static final AccountService _instance = new AccountService._internal();
-  String _endpoint;
-  Account _account;
-	List<Account> _contactAccounts;
+  String? _endpoint;
+  Account? _account;
+  List<Account>? _contactAccounts;
 
-  Account get account => _account;
-	List<Account> get contactAccounts => _contactAccounts;
+  Account? get account => _account;
+  List<Account>? get contactAccounts => _contactAccounts;
 
   factory AccountService() {
     return _instance;
@@ -28,7 +28,8 @@ class AccountService extends API {
 
     var body = {'username': username, 'password': password};
 
-    var response = await httpClient.post(_endpoint + resource, body: body);
+    var response =
+        await httpClient.post(Uri(path: '$_endpoint$resource'), body: body);
 
     if (response.statusCode < 300) {
       _account = Account(response.body, 'account');
@@ -39,11 +40,11 @@ class AccountService extends API {
     }
   }
 
-  Future<List<Account>> getSocialContacts(List<String> contacts) async {
+  Future<List<Account>?> getSocialContacts(List<String> contacts) async {
     var body = {'contacts': json.encode(contacts)};
 
     Response response =
-        await httpClient.post(url + '/contacts', body: body, headers: {
+        await httpClient.post(Uri(path: '$url/contacts'), body: body, headers: {
       HttpHeaders.authorizationHeader:
           'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5MDA1NzI2LCJleHAiOjE1Mzk2MTA1MjZ9.XfRbjHThiqLOVhlbc4517vLLAq_mdFBj7diwH9WlLSk'
     });
@@ -57,17 +58,17 @@ class AccountService extends API {
     return _contactAccounts;
   }
 
-  Future<List<Account>> initSocialContacts(List<Contact> contacts) async {
+  Future<List<Account>?> initSocialContacts(List<Contact> contacts) async {
     if (_contactAccounts != null) {
       return _contactAccounts;
     }
 
-    List<String> contactPhones = List<String>();
+    List<String> contactPhones = [];
 
     contacts.forEach((contact) {
-      contact.phones.forEach((phone) {
+      contact.phones?.forEach((phone) {
         contactPhones
-            .add(phone.value.replaceAll(RegExp(r'(\s|\(|\)|\-)+'), ''));
+            .add(phone.value!.replaceAll(RegExp(r'(\s|\(|\)|\-)+'), ''));
       });
     });
 

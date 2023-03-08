@@ -8,9 +8,9 @@ import 'package:contacts_service/contacts_service.dart';
 
 class UserService extends API {
   static final UserService _instance = new UserService._internal();
-  List<Contact> _contacts;
+  List<Contact>? _contacts;
 
-  List<Contact> get contacts => _contacts;
+  List<Contact>? get contacts => _contacts;
 
   factory UserService() {
     return _instance;
@@ -18,7 +18,7 @@ class UserService extends API {
 
   UserService._internal();
 
-  Future<List<Contact>> initContacts() async {
+  Future<List<Contact>?> initContacts() async {
     if (_contacts != null) {
       return _contacts;
     }
@@ -26,8 +26,8 @@ class UserService extends API {
     Iterable<Contact> contacts = await ContactsService.getContacts();
     _contacts = contacts.toList();
 
-    _contacts.sort((Contact a, Contact b) {
-      return a.displayName.compareTo(b.displayName);
+    _contacts?.sort((Contact a, Contact b) {
+      return a.displayName!.compareTo(b.displayName!);
     });
 
     return _contacts;
@@ -36,11 +36,13 @@ class UserService extends API {
   Future<bool> sendFriendRequest(String friendId) async {
     var body = {'friend': friendId};
 
-    Response response = await httpClient.post(url + '/user/request', body: body, headers: {
+    // TODO: Test converstion from string to Uri()
+    Response response = await httpClient
+        .post(Uri(host: url + '/user/request'), body: body, headers: {
       HttpHeaders.authorizationHeader:
           'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWE2NTRjZmMyOWM1ZWQwMDEwNDM1YTRjIiwiaWF0IjoxNTM5MDA1NzI2LCJleHAiOjE1Mzk2MTA1MjZ9.XfRbjHThiqLOVhlbc4517vLLAq_mdFBj7diwH9WlLSk'
     });
 
-		return json.decode(response.body)['success'];
+    return json.decode(response.body)['success'];
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:Social/widgets/landing/landing.dart';
 import 'package:Social/widgets/dashboard/dashboard.dart';
 import 'package:Social/widgets/profile/profile.dart';

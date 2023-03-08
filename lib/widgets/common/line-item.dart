@@ -4,7 +4,7 @@ class LineItem extends StatelessWidget {
   final String label;
   final List<Widget> widgets;
 
-  LineItem({this.label, this.widgets});
+  LineItem({required this.label, required this.widgets});
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,8 @@ class LineItem extends StatelessWidget {
       )
     ];
 
-		if (this.widgets != null) {
-			bodyWidgets.addAll(this.widgets);
-		}
+    bodyWidgets.addAll(this.widgets);
 
-		return bodyWidgets;
+    return bodyWidgets;
   }
 }

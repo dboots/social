@@ -65,22 +65,25 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           ]))),
           FractionallySizedBox(
               widthFactor: 1.0,
-              child: FlatButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'dashboard');
-                  },
-                  color: Color(0xFF00A0BE),
-                  textColor: Color(0xFFFFFFFF),
-                  child: Text('NEXT'),
-                  shape: RoundedRectangleBorder(side: BorderSide.none)))
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, 'dashboard');
+                },
+                child: Text(
+                  'NEXT',
+                  style: TextStyle(
+                      backgroundColor: Color(0xFF00A0BE),
+                      color: Color(0xFFFFFFFF)),
+                ),
+              ))
         ]));
   }
 
-  String validateMobile(String value) {
+  String validateMobile(String? value) {
     // Indian Mobile number are of 10 digit only
-    if (value.length != 10)
+    if (value?.length != 10)
       return 'Mobile Number must be of 10 digit';
     else
-      return null;
+      return 'null';
   }
 }

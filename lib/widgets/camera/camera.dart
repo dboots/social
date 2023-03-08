@@ -10,8 +10,8 @@ class CameraPage extends StatefulWidget {
 
 class _CameraPageState extends State<CameraPage> {
   bool _isReady = false;
-  List<CameraDescription> cameras;
-  CameraController controller;
+  late List<CameraDescription> cameras;
+  late CameraController controller;
 
   Future<List<CameraDescription>> getCameras() async {
     return await availableCameras();

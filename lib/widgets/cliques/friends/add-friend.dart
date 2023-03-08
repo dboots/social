@@ -18,11 +18,11 @@ class AddFriendPage extends StatefulWidget {
 }
 
 class _AddFriendPageState extends State<AddFriendPage> {
-  List<Contact> _contacts;
-  List<Account> _socialContacts;
+  List<Contact> _contacts = [];
+  List<Account> _socialContacts = [];
   AccountService _accountService = AccountService();
-  Account _account;
-  User _user;
+  late Account _account;
+  late User _user;
   UserService _userService = UserService();
   bool _isReady = false;
 
@@ -31,11 +31,11 @@ class _AddFriendPageState extends State<AddFriendPage> {
     super.initState();
     _getContacts();
 
-    Account account = _accountService.account;
+    Account? account = _accountService.account;
 
     setState(() {
-      _account = account;
-      _user = account.user;
+      _account = account!;
+      _user = account.user!;
     });
   }
 
@@ -58,7 +58,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
                 itemBuilder: (context, index) {
                   Contact contact = _contacts.elementAt(index);
                   return LineItem(
-                      label: contact.displayName, widgets: _getIcons(contact));
+                      label: contact.displayName!, widgets: _getIcons(contact));
                 },
               )),
               BottomNav(
@@ -70,50 +70,51 @@ class _AddFriendPageState extends State<AddFriendPage> {
   }
 
   List<Widget> _getIcons(Contact contact) {
-    List<Widget> icons = List<Widget>();
+    List<Widget> icons = [];
     Icon contactIcon = Icon(FontAwesomeIcons.plusCircle, size: 18.0);
 
     // if formattedPhone in _user.requests || _user.friends then icon = remove
-    contact.phones.forEach((phone) {
+    contact.phones?.forEach((phone) {
       String formattedPhone =
-          phone.value.replaceAll(RegExp(r'(\s|\(|\)|\-)+'), '');
+          phone.value!.replaceAll(RegExp(r'(\s|\(|\)|\-)+'), '');
       Iterable<Account> socialContact =
           _socialContacts.where((c) => c.phone == formattedPhone);
 
       if (socialContact.length > 0) {
-        User socialContactUser = socialContact.elementAt(0).user;
+        User? socialContactUser = socialContact.elementAt(0).user;
         AlertOverlay alertOverlay = AlertOverlay(
             title: 'ADD FRIEND',
             body: 'Would you like to send a request to ' +
-                contact.displayName +
+                contact.displayName! +
                 '?',
             buttonLabel: 'OK',
             buttonAction: () async {
-              bool success = await _userService.sendFriendRequest(_user.id);
+              bool success = await _userService.sendFriendRequest(_user.id!);
 
               if (success) {
                 setState(() {
                   _socialContacts
                       .firstWhere((x) => x.phone == formattedPhone)
-                      .user
-                      .requests.add(_user.id);
+                      .user!
+                      .requests
+                      .add(_user.id);
                 });
               }
             });
-        if (socialContactUser.requests.contains(_user.id)) {
+        if (socialContactUser!.requests.contains(_user.id)) {
           contactIcon = Icon(FontAwesomeIcons.timesCircle, size: 18.0);
 
           alertOverlay = AlertOverlay(
               title: 'REMOVE FRIEND',
               body: 'Would you like to remove ' +
-                  contact.displayName +
+                  contact.displayName! +
                   ' from your friends?',
               buttonLabel: 'OK',
               buttonAction: () async {
                 setState(() {
                   _socialContacts
                       .firstWhere((x) => x.phone == formattedPhone)
-                      .user
+                      .user!
                       .requests = [];
                 });
               });
@@ -131,14 +132,14 @@ class _AddFriendPageState extends State<AddFriendPage> {
   }
 
   _getContacts() async {
-    List<Contact> contacts = await _userService.initContacts();
-    List<Account> socialContacts =
-        await _accountService.initSocialContacts(contacts);
+    List<Contact>? contacts = await _userService.initContacts();
+    List<Account>? socialContacts =
+        await _accountService.initSocialContacts(contacts!);
 
     setState(() {
       _isReady = true;
       _contacts = contacts;
-      _socialContacts = socialContacts;
+      _socialContacts = socialContacts!;
     });
   }
 }

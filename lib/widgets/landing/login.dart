@@ -3,8 +3,8 @@ import 'package:Social/services/account.dart';
 import 'package:Social/widgets/common/alert-overlay.dart';
 
 class SignUpData {
-  String email;
-  String password;
+  String? email;
+  String? password;
 }
 
 class LoginPage extends StatefulWidget {
@@ -44,8 +44,8 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 16.0,
                     fontWeight: FontWeight.w100,
                     color: Color(0xFF707070)),
-                onSaved: (String value) {
-                  this._signupData.email = value;
+                onChanged: (String value) {
+                  _signupData.email = value;
                 },
               ),
               Container(
@@ -60,34 +60,34 @@ class _LoginPageState extends State<LoginPage> {
                         fontSize: 16.0,
                         fontWeight: FontWeight.w100,
                         color: Color(0xFF707070)),
-                    onSaved: (String value) {
+                    onChanged: (String value) {
                       this._signupData.password = value;
                     },
                   )),
               FractionallySizedBox(
                   widthFactor: 0.8,
-                  child: FlatButton(
-                      padding: EdgeInsets.all(13.0),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: () async {
-                        final FormState form = _formKey.currentState;
-                        form.save();
+                  child: TextButton(
+                    onPressed: () async {
+                      final FormState? form = _formKey.currentState;
+                      form?.save();
 
-                        bool result = await this._accountService.login(
-                            this._signupData.email.toString(),
-                            this._signupData.password.toString());
+                      bool result = await this._accountService.login(
+                          this._signupData.email.toString(),
+                          this._signupData.password.toString());
 
-                        if (result) {
-                          Navigator.pushReplacementNamed(context, 'dashboard');
-                        } else {
-                          alertOverlay.showOverlay(context);
-                        }
-                      },
-                      color: Color(0xFF00A0BE),
-                      textColor: Color(0xFFFFFFFF),
-                      child: Text('LOGIN',
-                          style: TextStyle(fontSize: 16.0, letterSpacing: 4.0)),
-                      shape: RoundedRectangleBorder(side: BorderSide.none))),
+                      if (result) {
+                        Navigator.pushReplacementNamed(context, 'dashboard');
+                      } else {
+                        alertOverlay.showOverlay(context);
+                      }
+                    },
+                    child: Text('LOGIN',
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            letterSpacing: 4.0,
+                            color: Color(0xFFFFFFFF),
+                            backgroundColor: Color(0xFF00A0BE))),
+                  )),
             ])));
   }
 }

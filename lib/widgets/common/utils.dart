@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Utils {
-  static Widget getBackButton(Function action) {
+  static Widget getBackButton(Function() action) {
     return Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -16,36 +16,34 @@ class Utils {
         ]);
   }
 
-  static Widget getFlatButton(String title, Function action) {
+  static Widget getFlatButton(String title, Function() action) {
     return FractionallySizedBox(
-              widthFactor: 0.5,
-              child: FlatButton(
-                  onPressed: action,
-                  color: Color(0xFFFFFFFF),
-                  textColor: Color(0x88000000),
-                  child: Text(title,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      letterSpacing: 2.5
-                    )
-                  ),
-                  shape: RoundedRectangleBorder(side: BorderSide(color: Color(0x88000000), width: 2.5))));
+        widthFactor: 0.5,
+        child: TextButton(
+            onPressed: action,
+            child: Text(title,
+                style: TextStyle(
+                    fontSize: 18.0,
+                    letterSpacing: 2.5,
+                    backgroundColor: Color(0xFFFFFFFF),
+                    color: Color(0x88000000)))));
+    // shape: RoundedRectangleBorder(side: BorderSide(color: Color(0x88000000), width: 2.5))));
   }
 
   static Widget getIconButton(
-      int hex, IconData data, double size, Function action) {
+      int hex, IconData data, double size, Function() action) {
     return Container(
         child: IconButton(
             icon: Icon(data, size: size, color: Color(hex)),
             onPressed: action));
   }
 
-  static tabBack(PageController controller, num index) {
+  static tabBack(PageController controller, int index) {
     controller.animateToPage(index,
         duration: Duration(milliseconds: 250), curve: Curves.easeIn);
   }
 
-  static Widget getTitle(String title, Function action) {
+  static Widget getTitle(String title, Function() action) {
     return Container(
         child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -54,17 +52,12 @@ class Utils {
           GestureDetector(
               onTap: action,
               child: Text(title,
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    letterSpacing: 2.5
-                  )
-              )
-          )
+                  style: TextStyle(fontSize: 22.0, letterSpacing: 2.5)))
         ]));
   }
 
-  static Widget getButton(String title, Function action) {
-    return FlatButton(child: Text(title), onPressed: action);
+  static Widget getButton(String title, Function() action) {
+    return TextButton(child: Text(title), onPressed: action);
   }
 
   static Widget getSpacer(double top) {

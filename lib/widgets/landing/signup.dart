@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
-  SignupPage({
-		Key key,
-		this.controller
-	}) : super();
-
-	final PageController controller;
+  final PageController? controller;
+  SignupPage({Key? key, this.controller}) : super();
 
   @override
   _SignupPageState createState() => _SignupPageState();
@@ -65,17 +61,18 @@ class _SignupPageState extends State<SignupPage>
                       color: Color(0xFF707070)))),
           FractionallySizedBox(
               widthFactor: 1.0,
-              child: FlatButton(
-                  onPressed: () {
-                    widget.controller.animateToPage(3,
-                        duration: new Duration(milliseconds: 250),
-                        curve: Curves.easeIn);
-                    // Navigator.pushNamed(context, '/Signup');
-                  },
-                  color: Color(0xFF00A0BE),
-                  textColor: Color(0xFFFFFFFF),
-                  child: Text('SIGNUP'),
-                  shape: RoundedRectangleBorder(side: BorderSide.none)))
+              child: TextButton(
+                onPressed: () {
+                  widget.controller!.animateToPage(3,
+                      duration: new Duration(milliseconds: 250),
+                      curve: Curves.easeIn);
+                  // Navigator.pushNamed(context, '/Signup');
+                },
+                child: Text('SIGNUP',
+                    style: TextStyle(
+                        color: Color(0xFFFFFFFF),
+                        backgroundColor: Color(0xFF00A0BE))),
+              ))
         ]));
   }
 }

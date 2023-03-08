@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PageTitle extends StatelessWidget {
   final String label;
 
-  PageTitle({this.label});
+  PageTitle({required this.label});
 
   @override
   Widget build(BuildContext context) {

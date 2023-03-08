@@ -1,24 +1,26 @@
 name: Social
 description: A new Flutter project.
 
+environment:
+  sdk: '>=2.18.4 <3.0.0'
+
 dependencies:
   flutter:
     sdk: flutter
-  camera: 0.2.4
-  font_awesome_flutter: 8.0.1
-  contacts_service: 0.0.9
+  camera:
+  font_awesome_flutter:
+  contacts_service:
+  http:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

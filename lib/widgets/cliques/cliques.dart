@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -34,10 +33,13 @@ class _CliquesPageState extends State<CliquesPage> {
   Future<List<Clique>> _getCliques() async {
     return _cliqueService.getCliques().then((data) {
       setState(() {
-        _cliques = data;
+        _cliques = data!;
         _isReady = true;
-        _friends = _accountService.account.user.friends;
+        _friends = _accountService.account?.user?.friends ?? [];
       });
+
+      // TODO: temporary fix to resolve body_might_complete_normally error
+      return data!;
     });
   }
 
@@ -107,7 +109,7 @@ class _CliquesPageState extends State<CliquesPage> {
                     itemCount: _cliques.length,
                     itemBuilder: (context, index) {
                       return LineItem(
-                          label: _cliques[index].name,
+                          label: _cliques[index].name!,
                           widgets: _getCliquesWidgets());
                     },
                   )),
@@ -132,7 +134,7 @@ class _CliquesPageState extends State<CliquesPage> {
                               padding: EdgeInsets.all(10.0),
                               child: Text('REQUESTS',
                                   style: TextStyle(fontSize: 16.0))),
-                          Column(children: _getFriendRequests()),
+                          Column(children: _getFriendRequests() ?? []),
                           Container(
                               padding: EdgeInsets.all(10.0),
                               child: Text('ADDED',
@@ -166,21 +168,27 @@ class _CliquesPageState extends State<CliquesPage> {
   }
 
   List<Widget> _getCliquesWidgets() {
-    return [Icon(FontAwesomeIcons.edit, size: 18.0)];
+    return [Icon(FontAwesomeIcons.penToSquare, size: 18.0)];
   }
 
-  List<Widget> _getFriendRequests() {
-    List<Widget> rows = _accountService.account.user.requests.map((request) {
-      return LineItem(
-          label: request['full_name'], widgets: _getFriendRequestWidgets());
-    }).toList();
+  List<Widget>? _getFriendRequests() {
+    List<Widget>? rows = _accountService.account?.user!.requests
+        .map((request) {
+          return LineItem(
+              label: request['full_name'], widgets: _getFriendRequestWidgets());
+        })
+        .cast<Widget>()
+        .toList();
 
     return rows;
   }
 
   List<Widget> _getFriends() {
     List<Widget> rows = _friends.map((friend) {
-      return LineItem(label: friend['full_name']);
+      return LineItem(
+        label: friend['full_name'],
+        widgets: [],
+      );
     }).toList();
 
     return rows;

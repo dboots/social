@@ -23,39 +23,44 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
         body: Stack(children: <Widget>[
-          Utils.getBackground(),
-          PageView(
-              physics: NeverScrollableScrollPhysics(),
-              controller: this._controller,
-              children: <Widget>[
-                Column(children: <Widget>[
-                  Utils.getSpacer(50.0),
-                  Utils.getBackButton(() { Utils.tabBack(_controller, 1); }),
-                  Utils.getSpacer(100.0),
-                  LoginPage()
-                ]),
-                Column(children: <Widget>[
-                  Utils.getSpacer(50.0),
-                  Utils.getBranding(),
-                  Utils.getSpacer(75.0),
-                  _getBody()
-                ]),
-								Column(children: <Widget>[
-                  Utils.getSpacer(50.0),
-                  Utils.getBackButton(() { Utils.tabBack(_controller, 1); }),
-                  Utils.getSpacer(100.0),
-                  SignupPage(controller: _controller)
-                ]),
-								Column(children: <Widget>[
-                  Utils.getSpacer(50.0),
-                  Utils.getBackButton(() { Utils.tabBack(_controller, 2); }),
-                  Utils.getSpacer(100.0),
-                  PhoneNumberPage()
-                ])
-              ])
-        ]));
+      Utils.getBackground(),
+      PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: this._controller,
+          children: <Widget>[
+            Column(children: <Widget>[
+              Utils.getSpacer(50.0),
+              Utils.getBackButton(() {
+                Utils.tabBack(_controller, 1);
+              }),
+              Utils.getSpacer(100.0),
+              LoginPage()
+            ]),
+            Column(children: <Widget>[
+              Utils.getSpacer(50.0),
+              Utils.getBranding(),
+              Utils.getSpacer(75.0),
+              _getBody()
+            ]),
+            Column(children: <Widget>[
+              Utils.getSpacer(50.0),
+              Utils.getBackButton(() {
+                Utils.tabBack(_controller, 1);
+              }),
+              Utils.getSpacer(100.0),
+              SignupPage(controller: _controller)
+            ]),
+            Column(children: <Widget>[
+              Utils.getSpacer(50.0),
+              Utils.getBackButton(() {
+                Utils.tabBack(_controller, 2);
+              }),
+              Utils.getSpacer(100.0),
+              PhoneNumberPage()
+            ])
+          ])
+    ]));
   }
 
   _getBody() {
@@ -67,34 +72,32 @@ class _LandingPageState extends State<LandingPage> {
       Container(
           child: FractionallySizedBox(
               widthFactor: 0.6,
-              child: FlatButton(
-								materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                padding: EdgeInsets.all(5.0),
+              child: TextButton(
                 onPressed: () {
                   _controller.animateToPage(0,
                       duration: new Duration(milliseconds: 250),
                       curve: Curves.easeIn);
                 },
-                color: Color(0xFF00A0BE),
-                textColor: Color(0xFFFFFFFF),
                 child: Text('LOGIN',
-                    style: TextStyle(fontSize: 16.0, letterSpacing: 2.0)),
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        letterSpacing: 2.0,
+                        backgroundColor: Color(0xFF00A0BE),
+                        color: Color(0xFFFFFFFF))),
               ))),
       Container(
           child: FractionallySizedBox(
               widthFactor: 0.6,
-              child: FlatButton(
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              child: TextButton(
                   onPressed: () {
                     _controller.animateToPage(2,
-                         duration: new Duration(milliseconds: 250),
-                         curve: Curves.easeIn);
+                        duration: new Duration(milliseconds: 250),
+                        curve: Curves.easeIn);
                   },
-                  color: Color(0x00000000),
-                  textColor: Color(0xFF525252),
                   child: Text('SIGN UP',
                       style: TextStyle(
                           fontFamily: 'Lato',
+                          backgroundColor: Color(0x00000000),
                           fontSize: 12.0,
                           color: Color(0xFF525252),
                           letterSpacing: 2.0)))))
